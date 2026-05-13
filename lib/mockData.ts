@@ -1,0 +1,175 @@
+import { DashboardData } from './types';
+
+export const mockData: DashboardData = {
+  kpis: {
+    ventaMes: {
+      label: 'Venta del mes',
+      value: 18450000000,
+      previousValue: 16420000000,
+      unit: 'currency',
+      format: 'compact',
+    },
+    margenBruto: {
+      label: 'Margen bruto',
+      value: 28.6,
+      previousValue: 26.5,
+      unit: 'percentage',
+      format: 'full',
+    },
+    otif: {
+      label: 'OTIF',
+      value: 92.4,
+      previousValue: 89.0,
+      unit: 'percentage',
+      format: 'full',
+    },
+    clientesSinMovimiento: {
+      label: 'Clientes sin movimiento (+30 días)',
+      value: 128,
+      previousValue: 118,
+      unit: 'number',
+      format: 'full',
+    },
+    clientesNuevos: {
+      label: 'Clientes nuevos',
+      value: 36,
+      previousValue: 31,
+      unit: 'number',
+      format: 'full',
+    },
+    quejas: {
+      label: 'Quejas',
+      value: 14,
+      previousValue: 15,
+      unit: 'number',
+      format: 'full',
+    },
+    notasCredito: {
+      label: 'Notas crédito',
+      value: 45678000,
+      previousValue: 42300000,
+      unit: 'currency',
+      format: 'compact',
+    },
+    alertasInventario: {
+      label: 'Alertas inventario',
+      value: 27,
+      previousValue: 22,
+      unit: 'number',
+      format: 'full',
+    },
+  },
+  ventasPorZona: [
+    { zona: 'Norte de Antioquia', venta: 3250000000, presupuesto: 3100000000, cumplimiento: 104.8, margen: 29.2, clientsCount: 45 },
+    { zona: 'Medellín', venta: 3000000000, presupuesto: 2900000000, cumplimiento: 103.4, margen: 28.5, clientsCount: 52 },
+    { zona: 'Bogotá', venta: 2600000000, presupuesto: 2700000000, cumplimiento: 96.3, margen: 27.8, clientsCount: 68 },
+    { zona: 'Bucaramanga', venta: 2050000000, presupuesto: 2000000000, cumplimiento: 102.5, margen: 26.4, clientsCount: 38 },
+    { zona: 'Barranquilla', venta: 1900000000, presupuesto: 1800000000, cumplimiento: 105.6, margen: 25.9, clientsCount: 32 },
+    { zona: 'Cali', venta: 1700000000, presupuesto: 1750000000, cumplimiento: 97.1, margen: 27.2, clientsCount: 41 },
+    { zona: 'Armenia', venta: 1150000000, presupuesto: 1200000000, cumplimiento: 95.8, margen: 30.1, clientsCount: 28 },
+    { zona: 'Pereira', venta: 900000000, presupuesto: 950000000, cumplimiento: 94.7, margen: 28.8, clientsCount: 22 },
+    { zona: 'Manizales', venta: 700000000, presupuesto: 750000000, cumplimiento: 93.3, margen: 31.2, clientsCount: 18 },
+  ],
+  ventasPorProducto: [
+    { producto: 'Soluble Electrolitos', presentacion: 'Paquete 1 kg', venta: 4200000000, presupuesto: 3800000000, cumplimiento: 110.5, margen: 36.5, categoria: 'A' },
+    { producto: 'Soluble Vitamínico', presentacion: 'Paquete 5 kg', venta: 3800000000, presupuesto: 3500000000, cumplimiento: 108.6, margen: 33.7, categoria: 'A' },
+    { producto: 'Soluble Antiestrés', presentacion: 'Paquete 10 kg', venta: 2800000000, presupuesto: 2600000000, cumplimiento: 107.7, margen: 32.1, categoria: 'A' },
+    { producto: 'Premix Avicultura', presentacion: 'Saco 25 kg', venta: 2450000000, presupuesto: 2400000000, cumplimiento: 102.1, margen: 29.8, categoria: 'B' },
+    { producto: 'Núcleo Engorde', presentacion: 'Saco 20 kg', venta: 1800000000, presupuesto: 1900000000, cumplimiento: 94.7, margen: 26.4, categoria: 'B' },
+    { producto: 'Premix Porcicultura', presentacion: 'Saco 25 kg', venta: 1200000000, presupuesto: 1300000000, cumplimiento: 92.3, margen: 24.0, categoria: 'C' },
+    { producto: 'Suplemento Mineral', presentacion: 'Saco 10 kg', venta: 850000000, presupuesto: 900000000, cumplimiento: 94.4, margen: 22.5, categoria: 'C' },
+    { producto: 'Antibiótico Terapéutico', presentacion: 'Frasco 100 ml', venta: 650000000, presupuesto: 700000000, cumplimiento: 92.9, margen: 18.2, categoria: 'D' },
+  ],
+  clientesPareto: [
+    { nombre: 'Integrador Medellín', zona: 'Medellín', venta: 1250000000, porcentaje: 6.78, diasSinCompra: 0 },
+    { nombre: 'Granja Santander', zona: 'Bucaramanga', venta: 980000000, porcentaje: 5.31, diasSinCompra: 0 },
+    { nombre: 'Distribuidor Bogotá', zona: 'Bogotá', venta: 850000000, porcentaje: 4.61, diasSinCompra: 0 },
+    { nombre: ' Agroindustrias Valle', zona: 'Cali', venta: 720000000, porcentaje: 3.90, diasSinCompra: 0 },
+    { nombre: 'Fincas Norte', zona: 'Norte de Antioquia', venta: 680000000, porcentaje: 3.69, diasSinCompra: 0 },
+    { nombre: 'Cooperativa Eje Cafetero', zona: 'Armenia', venta: 550000000, porcentaje: 2.98, diasSinCompra: 0 },
+    { nombre: 'Ganadería Costa', zona: 'Barranquilla', venta: 480000000, porcentaje: 2.60, diasSinCompra: 0 },
+    { nombre: 'Hacienda Andina', zona: 'Manizales', venta: 420000000, porcentaje: 2.28, diasSinCompra: 0 },
+  ],
+  clientesSinMovimiento: [
+    { id: '1', nombre: 'Finca La Esperanza', zona: 'Norte de Antioquia', diasSinCompra: 45, ultimaCompra: '2026-03-28', potencial: 85000000 },
+    { id: '2', nombre: 'Granja San José', zona: 'Bogotá', diasSinCompra: 38, ultimaCompra: '2026-04-04', potencial: 62000000 },
+    { id: '3', nombre: 'Ganadería El Rodeo', zona: 'Cali', diasSinCompra: 32, ultimaCompra: '2026-04-10', potencial: 45000000 },
+    { id: '4', nombre: 'Agropecuaria Delta', zona: 'Medellín', diasSinCompra: 35, ultimaCompra: '2026-04-07', potencial: 78000000 },
+    { id: '5', nombre: 'Fincas del Valle', zona: 'Barranquilla', diasSinCompra: 41, ultimaCompra: '2026-04-01', potencial: 38000000 },
+    { id: '6', nombre: 'Hacienda Las Palomas', zona: 'Bucaramanga', diasSinCompra: 33, ultimaCompra: '2026-04-09', potencial: 55000000 },
+    { id: '7', nombre: 'Ganadería La María', zona: 'Armenia', diasSinCompra: 37, ultimaCompra: '2026-04-05', potencial: 42000000 },
+    { id: '8', nombre: 'Finca El Paraiso', zona: 'Manizales', diasSinCompra: 30, ultimaCompra: '2026-04-12', potencial: 28000000 },
+  ],
+  clientesNuevos: [
+    { id: '1', nombre: 'Fincas Modernas SAS', zona: 'Medellín', fechaCreacion: '2026-05-02', primeraCompra: 35000000 },
+    { id: '2', nombre: 'Ganadería La Nueva Era', zona: 'Norte de Antioquia', fechaCreacion: '2026-05-05', primeraCompra: 28000000 },
+    { id: '3', nombre: 'Agroindustrias del Norte', zona: 'Bogotá', fechaCreacion: '2026-05-08', primeraCompra: 45000000 },
+    { id: '4', nombre: 'Fincas Integrales LTDA', zona: 'Cali', fechaCreacion: '2026-05-10', primeraCompra: 22000000 },
+    { id: '5', nombre: 'Granja Valle Verde', zona: 'Armenia', fechaCreacion: '2026-05-11', primeraCompra: 18000000 },
+  ],
+  quejas: [
+    { id: '1', cliente: 'Distribuidor Bogotá', zona: 'Bogotá', tipo: 'Entrega incompleta', estado: 'abierta', fecha: '2026-05-10', descripcion: 'Faltan 5 bultos del pedido' },
+    { id: '2', cliente: 'Granja Santander', zona: 'Bucaramanga', tipo: 'Producto en mal estado', estado: 'en_proceso', fecha: '2026-05-09', descripcion: 'Premix con humedad' },
+    { id: '3', cliente: 'Finca La Esperanza', zona: 'Norte de Antioquia', tipo: 'Retraso en entrega', estado: 'cerrada', fecha: '2026-05-07', descripcion: 'Entrega con 2 días de retraso' },
+    { id: '4', cliente: 'Agropecuaria Delta', zona: 'Medellín', tipo: 'Documentación', estado: 'abierta', fecha: '2026-05-11', descripcion: 'Factura con datos incorrectos' },
+  ],
+  notasCredito: [
+    { id: '1', cliente: 'Ganadería Costa', zona: 'Barranquilla', valor: 8500000, motivo: 'Producto defectuoso', fecha: '2026-05-08', estado: 'aprobada' },
+    { id: '2', cliente: 'Fincas del Valle', zona: 'Cali', valor: 5200000, motivo: 'Entrega fuera de tiempo', fecha: '2026-05-09', estado: 'pendiente' },
+    { id: '3', cliente: 'Hacienda Andina', zona: 'Manizales', valor: 3200000, motivo: 'Diferencia de precio', fecha: '2026-05-10', estado: 'aprobada' },
+    { id: '4', cliente: 'Cooperativa Eje', zona: 'Armenia', valor: 6800000, motivo: 'Mercancia averiada', fecha: '2026-05-11', estado: 'rechazada' },
+  ],
+  inventario: [
+    { id: '1', nombre: 'Siberia', ubicacion: 'Cota, Cundinamarca', zonaPrincipal: 'Bogotá', stockPremix: 420000, stockSolubles: 2400, estado: 'alto', capacidad: 500000, utilizacion: 84 },
+    { id: '2', nombre: 'Fontibón', ubicacion: 'Bogotá D.C.', zonaPrincipal: 'Bogotá', stockPremix: 380000, stockSolubles: 1900, estado: 'medio', capacidad: 450000, utilizacion: 84 },
+    { id: '3', nombre: 'Santa Rosa', ubicacion: 'Santa Rosa de Cabal', zonaPrincipal: 'Eje Cafetero', stockPremix: 210000, stockSolubles: 980, estado: 'medio', capacidad: 280000, utilizacion: 75 },
+    { id: '4', nombre: 'La Unión', ubicacion: 'La Unión, Valle', zonaPrincipal: 'Valle Norte', stockPremix: 260000, stockSolubles: 1250, estado: 'alto', capacidad: 300000, utilizacion: 87 },
+    { id: '5', nombre: 'Palmira', ubicacion: 'Palmira, Valle', zonaPrincipal: 'Valle Sur / Cali', stockPremix: 340000, stockSolubles: 1700, estado: 'alto', capacidad: 380000, utilizacion: 89 },
+    { id: '6', nombre: 'Girón', ubicacion: 'Girón, Santander', zonaPrincipal: 'Santander / Costa', stockPremix: 300000, stockSolubles: 1150, estado: 'medio', capacidad: 350000, utilizacion: 86 },
+    { id: '7', nombre: 'Medellín', ubicacion: 'Medellín, Antioquia', zonaPrincipal: 'Antioquia', stockPremix: 460000, stockSolubles: 2100, estado: 'alto', capacidad: 500000, utilizacion: 92 },
+  ],
+  inventarioPorProducto: [
+    { producto: 'Premix Avicultura', presentacion: 'Saco 25 kg', stockTotal: 850000, bodegas: [{ nombre: 'Medellín', stock: 250000 }, { nombre: 'Girón', stock: 180000 }, { nombre: 'Palmira', stock: 150000 }, { nombre: 'Siberia', stock: 120000 }, { nombre: 'Fontibón', stock: 100000 }, { nombre: 'La Unión', stock: 50000 }] },
+    { producto: 'Premix Porcicultura', presentacion: 'Saco 25 kg', stockTotal: 620000, bodegas: [{ nombre: 'Medellín', stock: 180000 }, { nombre: 'Fontibón', stock: 120000 }, { nombre: 'Girón', stock: 100000 }, { nombre: 'Palmira', stock: 90000 }, { nombre: 'Siberia', stock: 80000 }, { nombre: 'Santa Rosa', stock: 50000 }] },
+    { producto: 'Núcleo Engorde', presentacion: 'Saco 20 kg', stockTotal: 380000, bodegas: [{ nombre: 'Girón', stock: 120000 }, { nombre: 'Palmira', stock: 90000 }, { nombre: 'Siberia', stock: 80000 }, { nombre: 'Fontibón', stock: 50000 }, { nombre: 'Medellín', stock: 40000 }] },
+    { producto: 'Soluble Electrolitos', presentacion: 'Paquete 1 kg', stockTotal: 45000, bodegas: [{ nombre: 'Medellín', stock: 15000 }, { nombre: 'Siberia', stock: 12000 }, { nombre: 'Palmira', stock: 8000 }, { nombre: 'Girón', stock: 5000 }, { nombre: 'Fontibón', stock: 5000 }] },
+    { producto: 'Soluble Vitamínico', presentacion: 'Paquete 5 kg', stockTotal: 28000, bodegas: [{ nombre: 'Medellín', stock: 10000 }, { nombre: 'Girón', stock: 6000 }, { nombre: 'Palmira', stock: 5000 }, { nombre: 'Siberia', stock: 4000 }, { nombre: 'Fontibón', stock: 3000 }] },
+    { producto: 'Soluble Antiestrés', presentacion: 'Paquete 10 kg', stockTotal: 18000, bodegas: [{ nombre: 'Medellín', stock: 6000 }, { nombre: 'Girón', stock: 4000 }, { nombre: 'Palmira', stock: 3000 }, { nombre: 'Siberia', stock: 3000 }, { nombre: 'Fontibón', stock: 2000 }] },
+  ],
+  alertas: [
+    { id: '1', tipo: 'otif', nivel: 'critica', titulo: 'OTIF por debajo del 95%', descripcion: 'Zona Barranquilla con 90% OTIF', zona: 'Barranquilla', fecha: '2026-05-12' },
+    { id: '2', tipo: 'cliente', nivel: 'alta', titulo: 'Clientes sin movimiento', descripcion: '128 clientes sin compra en los últimos 30 días', fecha: '2026-05-12' },
+    { id: '3', tipo: 'inventario', nivel: 'alta', titulo: 'Inventario bajo', descripcion: '27 productos con stock crítico', fecha: '2026-05-12' },
+    { id: '4', tipo: 'margen', nivel: 'media', titulo: 'Margen bajo en producto', descripcion: 'Antibiótico Terapéutico con margen del 18.2%', fecha: '2026-05-12' },
+    { id: '5', tipo: 'queja', nivel: 'alta', titulo: 'Quejas abiertas', descripcion: '2 quejas abiertas requieren atención inmediata', fecha: '2026-05-12' },
+  ],
+  gastosPorZona: [
+    { zona: 'Norte de Antioquia', gasto: 125000000, presupuesto: 120000000, variacion: 4.2, categoria: 'Comercial' },
+    { zona: 'Medellín', gasto: 145000000, presupuesto: 140000000, variacion: 3.6, categoria: 'Comercial' },
+    { zona: 'Bogotá', gasto: 180000000, presupuesto: 175000000, variacion: 2.9, categoria: 'Comercial' },
+    { zona: 'Bucaramanga', gasto: 95000000, presupuesto: 100000000, variacion: -5.0, categoria: 'Comercial' },
+    { zona: 'Cali', gasto: 88000000, presupuesto: 90000000, variacion: -2.2, categoria: 'Comercial' },
+    { zona: 'Armenia', gasto: 65000000, presupuesto: 70000000, variacion: -7.1, categoria: 'Comercial' },
+    { zona: 'Barranquilla', gasto: 72000000, presupuesto: 75000000, variacion: -4.0, categoria: 'Comercial' },
+  ],
+  resumenMensual: [
+    { mes: 'Enero', ventaTotal: 16500000000, ventaPresupuesto: 16000000000, margenBruto: 27.2, otif: 88.5, clientesNuevos: 28, clientesSinMovimiento: 105, quejas: 18, notasCredito: 38000000 },
+    { mes: 'Febrero', ventaTotal: 17200000000, ventaPresupuesto: 16500000000, margenBruto: 27.8, otif: 89.2, clientesNuevos: 32, clientesSinMovimiento: 112, quejas: 16, notasCredito: 42000000 },
+    { mes: 'Marzo', ventaTotal: 16800000000, ventaPresupuesto: 17000000000, margenBruto: 26.5, otif: 87.8, clientesNuevos: 30, clientesSinMovimiento: 118, quejas: 20, notasCredito: 45000000 },
+    { mes: 'Abril', ventaTotal: 17500000000, ventaPresupuesto: 17500000000, margenBruto: 27.9, otif: 90.5, clientesNuevos: 35, clientesSinMovimiento: 115, quejas: 14, notasCredito: 38000000 },
+    { mes: 'Mayo', ventaTotal: 18450000000, ventaPresupuesto: 18000000000, margenBruto: 28.6, otif: 92.4, clientesNuevos: 36, clientesSinMovimiento: 128, quejas: 14, notasCredito: 45678000 },
+  ],
+  reglasPromesa: [
+    { tipo: 'Premix >10kg y pedido <1吨', descripcion: 'Despachar desde bodega más cercana con stock completo', condiciones: ['Prioridad a menor tiempo logístico', 'Consolidación regional', 'Seguimiento diario'] },
+    { tipo: 'Premix >10kg y pedido >4吨', descripcion: 'Despacho directo desde bodega con disponibilidad suficiente', condiciones: ['Vehículo dedicado o carga completa', 'Priorizar OTIF y cita de entrega', 'Mejor costo/tiempo'] },
+    { tipo: 'Solubles <30kg', descripcion: 'Despacho por operador parcelado desde bodega cercana', condiciones: ['Foco en rapidez', 'Trazabilidad y servicio'] },
+  ],
+};
+
+export const zonas = ['Todas', 'Norte de Antioquia', 'Medellín', 'Bogotá', 'Bucaramanga', 'Barranquilla', 'Cali', 'Armenia', 'Pereira', 'Manizales'];
+
+export const productos = ['Todos', 'Soluble Electrolitos', 'Soluble Vitamínico', 'Soluble Antiestrés', 'Premix Avicultura', 'Núcleo Engorde', 'Premix Porcicultura', 'Suplemento Mineral', 'Antibiótico Terapéutico'];
+
+export const presentaciones = ['Todas', 'Paquete 1 kg', 'Paquete 5 kg', 'Paquete 10 kg', 'Saco 25 kg', 'Saco 20 kg', 'Saco 10 kg', 'Frasco 100 ml'];
+
+export const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
