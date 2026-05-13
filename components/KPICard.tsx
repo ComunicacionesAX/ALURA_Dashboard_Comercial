@@ -1,7 +1,7 @@
 'use client';
 
 import { KPIMetric } from '@/lib/types';
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { TrendingUp, TrendingDown } from 'lucide-react';
 
 interface KPICardProps {
   metric: KPIMetric;
@@ -41,21 +41,21 @@ export default function KPICard({ metric, onClick, isActive }: KPICardProps) {
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-lg border p-4 cursor-pointer transition-all hover:shadow-md ${
-        isActive ? 'border-blue-500 ring-2 ring-blue-200' : 'border-gray-200'
+      className={`bg-white rounded-[8px] border p-4 cursor-pointer transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] ${
+        isActive ? 'border-[#993935] ring-2 ring-[#993935]/20' : 'border-[#DBE2EB]'
       }`}
     >
       <div className="flex justify-between items-start mb-2">
-        <span className="text-sm text-gray-600 font-medium">{metric.label}</span>
-        <span className={`text-xs flex items-center gap-1 ${change.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+        <span className="text-sm text-[#6B7381] font-medium">{metric.label}</span>
+        <span className={`text-xs flex items-center gap-1 ${change.isPositive ? 'text-[#73DEA9]' : 'text-[#EB5852]'}`}>
           {change.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
           {change.value.toFixed(1)}%
         </span>
       </div>
-      <div className="text-2xl font-bold text-gray-900">
+      <div className="text-2xl font-bold text-[#2B2E35]">
         {formatValue(metric.value, metric.unit, metric.format)}
       </div>
-      <div className="text-xs text-gray-500 mt-1">
+      <div className="text-xs text-[#8B8B8D] mt-1">
         vs. {formatValue(metric.previousValue, metric.unit, metric.format)} mes anterior
       </div>
     </div>

@@ -10,19 +10,11 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  ReferenceLine,
 } from 'recharts';
 
 interface SalesChartProps {
   data: VentaPorZona[];
   showMargen?: boolean;
-}
-
-function formatCurrency(value: number): string {
-  if (value >= 1000000000) {
-    return `$${(value / 1000000000).toFixed(1)}M`;
-  }
-  return `$${(value / 1000000).toFixed(0)}M`;
 }
 
 export default function SalesChart({ data, showMargen = true }: SalesChartProps) {
@@ -35,36 +27,35 @@ export default function SalesChart({ data, showMargen = true }: SalesChartProps)
   }));
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4">
-      <h3 className="text-sm font-semibold text-gray-800 mb-4">Venta por Zona (Millones $)</h3>
+    <div className="bg-white rounded-[8px] border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+      <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Venta por Zona (Millones $)</h3>
       <div className="h-[300px] min-h-[300px]">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData} width={800} height={300} margin={{ top: 5, right: 30, left: 20, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#DBE2EB" />
             <XAxis
               dataKey="zona"
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: '#6B7381' }}
               angle={-45}
               textAnchor="end"
               height={60}
             />
             <YAxis
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: '#6B7381' }}
               tickFormatter={(value) => `$${value}M`}
             />
             <Tooltip
               formatter={(value) => [`$${Number(value).toFixed(2)}M`, '']}
-              labelStyle={{ color: '#374151' }}
+              labelStyle={{ color: '#2B2E35' }}
               contentStyle={{
                 backgroundColor: 'white',
-                border: '1px solid #e5e7eb',
+                border: '1px solid #DBE2EB',
                 borderRadius: '8px',
               }}
             />
             <Legend />
-            <ReferenceLine y={0} stroke="#000" />
-            <Bar dataKey="venta" name="Venta" fill="#702b2b" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="presupuesto" name="Presupuesto" fill="#a88b8b" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="venta" name="Venta" fill="#993935" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="presupuesto" name="Presupuesto" fill="#DBE2EB" radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

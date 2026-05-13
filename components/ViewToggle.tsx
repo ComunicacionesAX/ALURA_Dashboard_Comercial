@@ -10,13 +10,13 @@ interface ViewToggleProps {
 
 export default function ViewToggle({ currentView, onViewChange }: ViewToggleProps) {
   return (
-    <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+    <div className="flex items-center gap-2 bg-[#DBE2EB] rounded-[8px] p-1">
       <button
         onClick={() => onViewChange('gerencial')}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
           currentView === 'gerencial'
-            ? 'bg-white text-[#702b2b] shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
+            ? 'bg-white text-[#993935] shadow-[0_2px_4px_rgba(0,0,0,0.08)]'
+            : 'text-[#6B7381] hover:text-[#2B2E35]'
         }`}
       >
         <Shield className="w-4 h-4" />
@@ -24,10 +24,10 @@ export default function ViewToggle({ currentView, onViewChange }: ViewToggleProp
       </button>
       <button
         onClick={() => onViewChange('consultor')}
-        className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+        className={`flex items-center gap-2 px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
           currentView === 'consultor'
-            ? 'bg-white text-[#702b2b] shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
+            ? 'bg-white text-[#993935] shadow-[0_2px_4px_rgba(0,0,0,0.08)]'
+            : 'text-[#6B7381] hover:text-[#2B2E35]'
         }`}
       >
         <User className="w-4 h-4" />

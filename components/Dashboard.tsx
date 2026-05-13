@@ -12,7 +12,7 @@ import ClientsTable from './ClientsTable';
 import ViewToggle from './ViewToggle';
 import ChatBot from './ChatBot';
 import Image from 'next/image';
-import { TrendingUp, Package, AlertCircle, Users } from 'lucide-react';
+import { TrendingUp, Package, Users } from 'lucide-react';
 
 interface DashboardProps {
   data?: DashboardData;
@@ -70,8 +70,8 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-gradient-to-r from-[#702b2b] to-white border-b border-gray-200 sticky top-0 z-10">
+    <div className="min-h-screen bg-[#EFF2F6]">
+      <header className="bg-[#993935] border-b border-[#CCCCCC] sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -80,10 +80,10 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
                 alt="Alura"
                 width={100}
                 height={35}
-                className="h-8 w-auto"
+                className="h-8 w-auto brightness-0 invert"
               />
               <div className="hidden md:block border-l border-white/30 pl-3 ml-1">
-                <h1 className="text-lg font-bold text-white drop-shadow-md">Dashboard Comercial CTC</h1>
+                <h1 className="text-lg font-bold text-white">Dashboard Comercial CTC</h1>
                 <p className="text-xs text-white/80">Iluma Alliance</p>
               </div>
             </div>
@@ -96,8 +96,8 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
         <Filters filters={filters} onFilterChange={setFilters} />
 
         <section>
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5" />
+          <h2 className="text-lg font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-[#993935]" />
             KPIs Principales
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
@@ -122,32 +122,32 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <Package className="w-4 h-4" />
+          <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+            <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
+              <Package className="w-4 h-4 text-[#993935]" />
               Ventas por Producto (Pareto)
             </h3>
             <div className="space-y-3">
               {filteredVentasPorProducto.slice(0, 6).map((producto, index) => (
-                <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{producto.producto}</p>
-                    <p className="text-xs text-gray-500">{producto.presentacion}</p>
+                    <p className="text-sm font-medium text-[#2B2E35] truncate">{producto.producto}</p>
+                    <p className="text-xs text-[#8B8B8D]">{producto.presentacion}</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-gray-900">
+                      <p className="text-sm font-bold text-[#2B2E35]">
                         ${(producto.venta / 1000000000).toFixed(1)}M
                       </p>
-                      <p className={`text-xs ${producto.cumplimiento >= 100 ? 'text-green-600' : 'text-red-600'}`}>
+                      <p className={`text-xs ${producto.cumplimiento >= 100 ? 'text-[#73DEA9]' : 'text-[#EB5852]'}`}>
                         {producto.cumplimiento.toFixed(1)}%
                       </p>
                     </div>
-                    <span className={`text-sm font-bold px-2 py-1 rounded ${
-                      producto.categoria === 'A' ? 'bg-green-100 text-green-800' :
-                      producto.categoria === 'B' ? 'bg-blue-100 text-blue-800' :
-                      producto.categoria === 'C' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
+                    <span className={`text-sm font-bold px-2 py-1 rounded-[6px] ${
+                      producto.categoria === 'A' ? 'bg-[#73DEA9]/20 text-[#2B2E35]' :
+                      producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#2B2E35]' :
+                      producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#2B2E35]' :
+                      'bg-[#EB5852]/20 text-[#EB5852]'
                     }`}>
                       {currentView === 'consultor' ? renderMargen(producto.margen) : `${producto.margen.toFixed(1)}%`}
                     </span>
@@ -157,23 +157,23 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <h3 className="text-sm font-semibold text-gray-800 mb-4 flex items-center gap-2">
-              <Users className="w-4 h-4" />
+          <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+            <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
+              <Users className="w-4 h-4 text-[#993935]" />
               Clientes Pareto (80/20)
             </h3>
             <div className="space-y-3">
               {filteredClientesPareto.slice(0, 6).map((cliente, index) => (
-                <div key={index} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{cliente.nombre}</p>
-                    <p className="text-xs text-gray-500">{cliente.zona}</p>
+                    <p className="text-sm font-medium text-[#2B2E35] truncate">{cliente.nombre}</p>
+                    <p className="text-xs text-[#8B8B8D]">{cliente.zona}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-gray-900">
+                    <p className="text-sm font-bold text-[#2B2E35]">
                       ${(cliente.venta / 1000000).toFixed(0)}M
                     </p>
-                    <p className="text-xs text-gray-500">{cliente.porcentaje.toFixed(1)}%</p>
+                    <p className="text-xs text-[#8B8B8D]">{cliente.porcentaje.toFixed(1)}%</p>
                   </div>
                 </div>
               ))}
@@ -187,31 +187,31 @@ export default function Dashboard({ data = mockData }: DashboardProps) {
 
         <InventoryTable inventario={data.inventario} />
 
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-semibold text-gray-800 mb-4">Gastos por Zona</h3>
+        <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+          <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Gastos por Zona</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left py-2 px-2 font-medium text-gray-600">Zona</th>
-                  <th className="text-right py-2 px-2 font-medium text-gray-600">Gasto</th>
-                  <th className="text-right py-2 px-2 font-medium text-gray-600">Presupuesto</th>
-                  <th className="text-center py-2 px-2 font-medium text-gray-600">Variación</th>
+                <tr className="border-b border-[#DBE2EB]">
+                  <th className="text-left py-2 px-2 font-medium text-[#6B7381]">Zona</th>
+                  <th className="text-right py-2 px-2 font-medium text-[#6B7381]">Gasto</th>
+                  <th className="text-right py-2 px-2 font-medium text-[#6B7381]">Presupuesto</th>
+                  <th className="text-center py-2 px-2 font-medium text-[#6B7381]">Variación</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredGastosPorZona.map((gasto, index) => (
-                  <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-2 px-2 font-medium text-gray-900">{gasto.zona}</td>
-                    <td className="py-2 px-2 text-right text-gray-900">
+                  <tr key={index} className="border-b border-[#DBE2EB] hover:bg-[#DBE2EB]">
+                    <td className="py-2 px-2 font-medium text-[#2B2E35]">{gasto.zona}</td>
+                    <td className="py-2 px-2 text-right text-[#2B2E35]">
                       ${(gasto.gasto / 1000000).toFixed(0)}M
                     </td>
-                    <td className="py-2 px-2 text-right text-gray-600">
+                    <td className="py-2 px-2 text-right text-[#8B8B8D]">
                       ${(gasto.presupuesto / 1000000).toFixed(0)}M
                     </td>
                     <td className="py-2 px-2 text-center">
-                      <span className={`text-xs px-2 py-1 rounded-full ${
-                        gasto.variacion > 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                      <span className={`text-xs px-2 py-1 rounded-[999px] ${
+                        gasto.variacion > 0 ? 'bg-[#EB5852]/10 text-[#EB5852]' : 'bg-[#73DEA9]/10 text-[#2B2E35]'
                       }`}>
                         {gasto.variacion > 0 ? '+' : ''}{gasto.variacion.toFixed(1)}%
                       </span>
