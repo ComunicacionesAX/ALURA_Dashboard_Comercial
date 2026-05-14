@@ -1,90 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: #EFF2F6;
-  --foreground: #2B2E35;
-  --color-white: #FFFFFF;
-  --color-silver: #CCCCCC;
-  --color-gray: #8B8B8D;
-  --color-crimson: #993935;
-  --color-coral: #EB5852;
-  --color-niebla: #DBE2EB;
-  --color-carbon: #2B2E35;
-  --color-acero: #6B7381;
-  --color-marino: #00264A;
-  --color-amber: #FFA600;
-  --color-cyan: #82BDFF;
-  --color-esmeralda: #73DEA9;
-  --border-default: #CCCCCC;
-  --border-color: #DBE2EB;
-  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.10);
-  --bg-surface: #FFFFFF;
-  --bg-page: #EFF2F6;
-  --text-primary: #2B2E35;
-  --text-secondary: #6B7381;
-  --text-tertiary: #8B8B8D;
-  --radius-component: 6px;
-  --radius-widget: 8px;
-  --radius-pill: 999px;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--color-crimson);
-  --color-primary-hover: #7e2e2a;
-  --color-secondary: var(--color-coral);
-  --color-surface: var(--bg-surface);
-  --color-page: var(--bg-page);
-  --color-carbon: var(--color-carbon);
-  --color-acero: var(--color-acero);
-  --color-marino: var(--color-marino);
-  --color-niebla: var(--color-niebla);
-  --color-silver: var(--color-silver);
-  --color-amber: var(--color-amber);
-  --color-cyan: var(--color-cyan);
-  --color-esmeralda: var(--color-esmeralda);
-  --color-success: var(--color-esmeralda);
-  --color-warning: var(--color-amber);
-  --color-error: var(--color-coral);
-  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-::selection {
-  background: var(--color-crimson);
-  color: var(--color-white);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-niebla);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-silver);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gray);
+  font-family: Arial, Helvetica, sans-serif;
 }

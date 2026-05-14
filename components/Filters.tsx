@@ -1,15 +1,19 @@
 'use client';
 
 import { FilterState } from '@/lib/types';
-import { zonas, productos, presentaciones } from '@/lib/mockData';
+import { presentaciones } from '@/lib/mockData';
 import { Calendar, MapPin, Package, Box, Users } from 'lucide-react';
 
 interface FiltersProps {
   filters: FilterState;
   onFilterChange: (filters: FilterState) => void;
+  zonas?: string[];
+  productos?: string[];
 }
 
-export default function Filters({ filters, onFilterChange }: FiltersProps) {
+export default function Filters({ filters, onFilterChange, zonas: zonasProp, productos: productosProp }: FiltersProps) {
+  const zonas = zonasProp ?? ['Todas'];
+  const productos = productosProp ?? ['Todos'];
   const handleChange = (key: keyof FilterState, value: string) => {
     onFilterChange({ ...filters, [key]: value });
   };
