@@ -4,11 +4,42 @@ import path from 'path';
 import fs from 'fs';
 
 const FILE_ID = '1c8vJpVXrVZhSbcDHOX1I18aDEZlsM2fm';
-const CACHE_TTL_MS = 10 * 60 * 1000;
 
 export type RawRow = Record<string, string | number | boolean>;
 
-// Persist cache on the global object so Next.js hot-reloads don't clear it
+// ── Schedule-based cache invalidation ────────────────────────────────────────
+// Data refreshes twice a week (Bogotá time, UTC-5, no DST):
+//   • Monday  00:00  — fresh data available at start of week
+//   • Friday  16:00  — weekly close update
+//
+// The cache is valid as long as it was filled AFTER the most recent of those
+// two points. No cron job needed; staleness is checked on every request.
+
+const BOGOTA_OFFSET_HOURS = -5;
+
+function getLastScheduledRefreshMs(nowMs: number = Date.now()): number {
+  // Shift to Bogotá "wall clock" so getUTCDay/Hour return Bogotá values
+  const bogota = new Date(nowMs + BOGOTA_OFFSET_HOURS * 3_600_000);
+  const dow = bogota.getUTCDay(); // 0=Sun … 6=Sat
+
+  // Hours elapsed since the most recent Monday 00:00 Bogotá
+  const daysFromMon = dow === 0 ? 6 : dow - 1;
+  const hoursFromMon =
+    daysFromMon * 24 + bogota.getUTCHours() + bogota.getUTCMinutes() / 60;
+
+  // Friday 16:00 is 4*24 + 16 = 112 h after Monday 00:00
+  const hoursBack =
+    hoursFromMon >= 112 ? hoursFromMon - 112 : hoursFromMon;
+
+  return nowMs - Math.round(hoursBack * 3_600_000);
+}
+
+function isCacheStale(ts: number): boolean {
+  return ts < getLastScheduledRefreshMs();
+}
+
+// ── Persistent global cache ───────────────────────────────────────────────────
+
 declare global {
   // eslint-disable-next-line no-var
   var __sheetsCache: {
@@ -39,8 +70,7 @@ function getAuth() {
 }
 
 async function getBuffer(): Promise<Buffer> {
-  const now = Date.now();
-  if (store.buf && now - store.buf.ts < CACHE_TTL_MS) return store.buf.data;
+  if (store.buf && !isCacheStale(store.buf.ts)) return store.buf.data;
 
   if (!store.bufInflight) {
     store.bufInflight = (async () => {
@@ -61,10 +91,8 @@ async function getBuffer(): Promise<Buffer> {
 }
 
 export async function readSheet(sheetName: string): Promise<RawRow[]> {
-  const now = Date.now();
-
-  // Fast path: cached rows still within TTL
-  if (store.buf && now - store.buf.ts < CACHE_TTL_MS && store.rows.has(sheetName)) {
+  // Fast path: buffer and parsed rows are both fresh
+  if (store.buf && !isCacheStale(store.buf.ts) && store.rows.has(sheetName)) {
     return store.rows.get(sheetName)!;
   }
 
@@ -75,11 +103,11 @@ export async function readSheet(sheetName: string): Promise<RawRow[]> {
       const wb = XLSX.read(buf, {
         type: 'buffer',
         sheets: [sheetName],
-        cellDates: false,    // keep dates as Excel serials (we parse them manually)
-        cellStyles: false,   // skip style metadata
-        cellFormula: false,  // skip formula strings
-        cellNF: false,       // skip number format strings
-        raw: true,           // skip number formatting
+        cellDates: false,
+        cellStyles: false,
+        cellFormula: false,
+        cellNF: false,
+        raw: true,
       });
       const ws = wb.Sheets[sheetName];
       const rows: RawRow[] = ws

@@ -3,6 +3,20 @@
 import { Alerta } from '@/lib/types';
 import { AlertTriangle, AlertCircle, Info, ChevronRight, CheckCircle } from 'lucide-react';
 
+// Bold numbers/percentages and the subject after a colon in alert text
+function RichText({ text }: { text: string }) {
+  const parts = text.split(/(\d+(?:[.,]\d+)?%?|\d+(?:\.\d+)?)/g);
+  return (
+    <>
+      {parts.map((part, i) =>
+        /^\d/.test(part)
+          ? <strong key={i} className="font-semibold">{part}</strong>
+          : <span key={i}>{part}</span>
+      )}
+    </>
+  );
+}
+
 interface AlertsProps {
   alertas: Alerta[];
   onVerTodas?: () => void;
@@ -80,8 +94,17 @@ export default function Alerts({ alertas, onVerTodas }: AlertsProps) {
                       {alerta.nivel}
                     </span>
                   </div>
-                  <p className="text-sm font-medium">{alerta.titulo}</p>
-                  <p className="text-xs mt-0.5 opacity-75">{alerta.descripcion}</p>
+                  <p className="text-sm font-medium">
+                    {alerta.titulo.includes(':') ? (
+                      <>
+                        {alerta.titulo.split(':')[0]}:{' '}
+                        <strong className="font-semibold">{alerta.titulo.split(':').slice(1).join(':').trim()}</strong>
+                      </>
+                    ) : alerta.titulo}
+                  </p>
+                  <p className="text-xs mt-0.5 opacity-75">
+                    <RichText text={alerta.descripcion} />
+                  </p>
                 </div>
               </div>
             );

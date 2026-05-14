@@ -1,10 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { DashboardData, FilterState, UserRole } from '@/lib/types';
+import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
+import {
+  DashboardData, UserRole,
+  GerencialFilters, GerencialFilterOptions,
+  ComercialFilters, ComercialFilterOptions,
+} from '@/lib/types';
 import { mockData } from '@/lib/mockData';
+import { formatCOP, formatPct } from '@/lib/format';
 import KPICard from './KPICard';
-import Filters from './Filters';
+import GerencialFiltersPanel from './GerencialFilters';
+import ComercialFiltersPanel from './ComercialFilters';
 import SalesChart from './SalesChart';
 import Alerts from './Alerts';
 import InventoryTable from './InventoryTable';
@@ -13,12 +19,12 @@ import ViewToggle from './ViewToggle';
 import ChatBot from './ChatBot';
 import DashboardSkeleton from './DashboardSkeleton';
 import Image from 'next/image';
-import { TrendingUp, Package, Users, RefreshCw, AlertCircle } from 'lucide-react';
+import { TrendingUp, Package, Users, RefreshCw, AlertCircle, ChevronRight, ChevronLeft, X } from 'lucide-react';
 
-// Estructura vacía para estado inicial — no mezcla datos simulados con datos reales
 const emptyData: DashboardData = {
-  kpis: mockData.kpis,            // placeholder hasta que cargue
+  kpis: mockData.kpis,
   ventasPorZona: [],
+  ventasPorMes: [],
   ventasPorProducto: [],
   clientesPareto: [],
   clientesSinMovimiento: [],
@@ -33,6 +39,20 @@ const emptyData: DashboardData = {
   reglasPromesa: [],
 };
 
+const emptyGerencialFilterOptions: GerencialFilterOptions = {
+  sociedades: [], sbus: [], periodos: [], consultores: [], clientes: [],
+};
+const defaultGerencialFilters: GerencialFilters = {
+  sociedad: '', sbu: '', periodo: '', consultor: '', cliente: '',
+};
+
+const emptyComercialFilterOptions: ComercialFilterOptions = {
+  consultores: [], clientes: [], productos: [], periodos: [],
+};
+const defaultComercialFilters: ComercialFilters = {
+  consultor: '', cliente: '', producto: '', periodo: '',
+};
+
 function mergeLiveData(live: Partial<DashboardData>): DashboardData {
   return {
     ...emptyData,
@@ -41,31 +61,49 @@ function mergeLiveData(live: Partial<DashboardData>): DashboardData {
   };
 }
 
+function buildGerencialQuery(f: GerencialFilters): string {
+  const p = new URLSearchParams();
+  if (f.sociedad)  p.set('sociedad',  f.sociedad);
+  if (f.sbu)       p.set('sbu',       f.sbu);
+  if (f.periodo)   p.set('periodo',   f.periodo);
+  if (f.consultor) p.set('consultor', f.consultor);
+  if (f.cliente)   p.set('cliente',   f.cliente);
+  const qs = p.toString();
+  return qs ? `?${qs}` : '';
+}
+
 export default function Dashboard() {
-  const [filters, setFilters] = useState<FilterState>({
-    fecha: 'mes',
-    zona: 'Todas',
-    producto: 'Todos',
-    presentacion: 'Todas',
-    cliente: '',
-  });
+  // Gerencial view filters (server-side)
+  const [gerencialFilters, setGerencialFilters] = useState<GerencialFilters>(defaultGerencialFilters);
+  const [gerencialFilterOptions, setGerencialFilterOptions] = useState<GerencialFilterOptions>(emptyGerencialFilterOptions);
+
+  // Comercial view filters (server-side)
+  const [comercialFilters, setComercialFilters] = useState<ComercialFilters>(defaultComercialFilters);
+  const [comercialFilterOptions, setComercialFilterOptions] = useState<ComercialFilterOptions>(emptyComercialFilterOptions);
+
   const [currentView, setCurrentView] = useState<UserRole>('gerencial');
   const [data, setData] = useState<DashboardData>(emptyData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [alertsOpen, setAlertsOpen] = useState(false);
 
-  const fetchData = useCallback(async (view: UserRole) => {
+  // Debounce gerencial filter changes so we don't fire on every keystroke
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const fetchGerencial = useCallback(async (f: GerencialFilters) => {
     setLoading(true);
     setError(null);
     try {
-      const endpoint = view === 'gerencial' ? '/api/data/gerencial' : '/api/data/comercial';
-      const res = await fetch(endpoint);
+      const qs = buildGerencialQuery(f);
+      const res = await fetch(`/api/data/gerencial${qs}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const live: Partial<DashboardData> = await res.json();
-      setData(mergeLiveData(live));
+      const json = await res.json();
+      const { filterOptions, ...live } = json;
+      setData(mergeLiveData(live as Partial<DashboardData>));
+      if (filterOptions) setGerencialFilterOptions(filterOptions);
       setLastUpdated(new Date());
-    } catch (e) {
+    } catch {
       setError('No se pudieron cargar los datos del servidor.');
       setData(emptyData);
     } finally {
@@ -73,84 +111,101 @@ export default function Dashboard() {
     }
   }, []);
 
+  const fetchComercial = useCallback(async (f: ComercialFilters) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const p = new URLSearchParams();
+      if (f.consultor) p.set('consultor', f.consultor);
+      if (f.cliente)   p.set('cliente',   f.cliente);
+      if (f.producto)  p.set('producto',  f.producto);
+      if (f.periodo)   p.set('periodo',   f.periodo);
+      const qs = p.toString();
+      const res = await fetch(`/api/data/comercial${qs ? `?${qs}` : ''}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      const { filterOptions, ...live } = json;
+      setData(mergeLiveData(live as Partial<DashboardData>));
+      if (filterOptions) setComercialFilterOptions(filterOptions);
+      setLastUpdated(new Date());
+    } catch {
+      setError('No se pudieron cargar los datos del servidor.');
+      setData(emptyData);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Initial load
   useEffect(() => {
-    fetchData(currentView);
-  }, [currentView, fetchData]);
+    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
+    else fetchComercial(comercialFilters);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentView]);
+
+  const handleGerencialFilterChange = useCallback((f: GerencialFilters) => {
+    setGerencialFilters(f);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchGerencial(f), 300);
+  }, [fetchGerencial]);
+
+  const handleComercialFilterChange = useCallback((f: ComercialFilters) => {
+    setComercialFilters(f);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => fetchComercial(f), 300);
+  }, [fetchComercial]);
 
   const handleViewChange = (view: UserRole) => {
     setCurrentView(view);
+    setGerencialFilters(defaultGerencialFilters);
+    setComercialFilters(defaultComercialFilters);
   };
 
-  const filteredVentasPorZona = filters.zona === 'Todas'
-    ? data.ventasPorZona
-    : data.ventasPorZona.filter(z => z.zona === filters.zona);
-
-  const filteredVentasPorProducto = (filters.producto === 'Todos'
-    ? data.ventasPorProducto
-    : data.ventasPorProducto.filter(p => p.producto === filters.producto)
-  ).filter(p => filters.presentacion === 'Todas' || p.presentacion === filters.presentacion);
-
-  const filteredClientesPareto = (filters.zona === 'Todas'
-    ? data.clientesPareto
-    : data.clientesPareto.filter(c => c.zona === filters.zona)
-  ).filter(c => filters.cliente === '' || c.nombre.toLowerCase().includes(filters.cliente.toLowerCase()));
-
-  const filteredClientesSinMovimiento = filters.zona === 'Todas'
-    ? data.clientesSinMovimiento
-    : data.clientesSinMovimiento.filter(c => c.zona === filters.zona);
-
-  const filteredClientesNuevos = filters.zona === 'Todas'
-    ? data.clientesNuevos
-    : data.clientesNuevos.filter(c => c.zona === filters.zona);
-
-  const filteredGastosPorZona = filters.zona === 'Todas'
-    ? data.gastosPorZona
-    : data.gastosPorZona.filter(g => g.zona === filters.zona);
-
-  const filteredAlertas = data.alertas.filter(a =>
-    filters.zona === 'Todas' || (a.zona === filters.zona || !a.zona)
-  );
-
-  const renderMargen = (margen: number) => {
-    if (currentView === 'consultor') {
-      if (margen >= 30) return 'A';
-      if (margen >= 25) return 'B';
-      if (margen >= 20) return 'C';
-      return 'D';
-    }
-    return `${margen.toFixed(1)}%`;
+  const handleRefresh = () => {
+    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
+    else fetchComercial(comercialFilters);
   };
 
-  // Derive dynamic filter options from real data
-  const zonaOptions = ['Todas', ...new Set(data.ventasPorZona.map(z => z.zona))];
-  const productoOptions = ['Todos', ...new Set(data.ventasPorProducto.map(p => p.producto))];
+  // All filtering is server-side for both views — data is already filtered
+  const ventasPorZonaDisplay     = data.ventasPorZona;
+  const ventasPorProductoDisplay = data.ventasPorProducto;
+  const clientesParetoDisplay    = data.clientesPareto;
+  const filteredAlertas          = data.alertas;
+
+  const isFullYear = (currentView === 'gerencial' ? gerencialFilters.periodo : comercialFilters.periodo).endsWith('-all');
+  const chartData  = isFullYear ? data.ventasPorMes : data.ventasPorZona;
+  const chartTitle = isFullYear
+    ? 'Venta mensual (año completo)'
+    : currentView === 'consultor' ? 'Venta por Consultor' : 'Venta por Zona / Equipo';
+
+  const renderMargen = (margen: number) => formatPct(margen);
 
   return (
     <div className="min-h-screen bg-[#EFF2F6]">
       <header className="bg-[#993935] border-b border-[#CCCCCC] sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
               <Image
                 src="https://latam.alura.bio/wp-content/uploads/2024/01/logo.svg"
                 alt="Alura"
                 width={100}
                 height={35}
-                className="h-8 w-auto brightness-0 invert"
+                className="h-7 w-auto brightness-0 invert flex-shrink-0"
               />
               <div className="hidden md:block border-l border-white/30 pl-3 ml-1">
-                <h1 className="text-lg font-bold text-white">Dashboard Comercial CTC</h1>
+                <h1 className="text-base font-bold text-white leading-tight">Dashboard Comercial CTC</h1>
                 <p className="text-xs text-white/80">Iluma Alliance</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 flex-shrink-0">
               {lastUpdated && (
                 <span className="text-xs text-white/70 hidden md:block">
                   Actualizado: {lastUpdated.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
                 </span>
               )}
               <button
-                onClick={() => fetchData(currentView)}
+                onClick={handleRefresh}
                 disabled={loading}
                 className="p-2 rounded-[6px] text-white/80 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
                 title="Refrescar datos"
@@ -170,56 +225,63 @@ export default function Dashboard() {
           <div className="flex items-center gap-3 bg-[#FFA600]/10 border border-[#FFA600] rounded-[8px] px-4 py-3 text-sm text-[#6B4C00]">
             <AlertCircle className="w-4 h-4 flex-shrink-0 text-[#FFA600]" />
             {error}
-            <button
-              onClick={() => fetchData(currentView)}
-              className="ml-auto text-xs font-medium underline hover:no-underline"
-            >
+            <button onClick={handleRefresh} className="ml-auto text-xs font-medium underline hover:no-underline">
               Reintentar
             </button>
           </div>
         </div>
       )}
 
-      <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+      <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 ${loading ? 'hidden' : ''}`}>
 
-        <Filters
-          filters={filters}
-          onFilterChange={setFilters}
-          zonas={zonaOptions}
-          productos={productoOptions}
-        />
+        {/* Filters — different per view */}
+        {currentView === 'gerencial' ? (
+          <GerencialFiltersPanel
+            filters={gerencialFilters}
+            options={gerencialFilterOptions}
+            onChange={handleGerencialFilterChange}
+          />
+        ) : (
+          <ComercialFiltersPanel
+            filters={comercialFilters}
+            options={comercialFilterOptions}
+            onChange={handleComercialFilterChange}
+          />
+        )}
 
+        {currentView === 'consultor' && (
+          <div className="flex items-start gap-2.5 bg-[#82BDFF]/10 border border-[#82BDFF]/40 rounded-[8px] px-4 py-3 text-sm text-[#2B2E35]">
+            <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#3b82f6]" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+            <span>
+              <strong className="font-semibold">Vista Comercial:</strong> muestra únicamente el portafolio gestionado por la fuerza de ventas directa (consultores asignados, Accuremax y equipos Porcicultura / Avicultura / Plantas ABA). Las ventas de aliados y canales indirectos no están incluidas.
+            </span>
+          </div>
+        )}
+
+        {/* KPIs — always reflect the currently fetched (filtered) data */}
         <section>
           <h2 className="text-lg font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-[#993935]" />
             KPIs Principales
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            <KPICard metric={data.kpis.ventaMes} />
-            {currentView === 'gerencial' && <KPICard metric={data.kpis.margenBruto} />}
-            {currentView === 'consultor' && (
-              <KPICard metric={{ ...data.kpis.margenBruto, label: 'Cumplimiento Ppto' }} />
-            )}
-            <KPICard metric={data.kpis.otif} />
-            <KPICard metric={data.kpis.clientesSinMovimiento} />
-            <KPICard metric={data.kpis.clientesNuevos} />
-            <KPICard metric={data.kpis.quejas} />
-            <KPICard metric={data.kpis.notasCredito} />
-            <KPICard metric={data.kpis.alertasInventario} />
-          </div>
+          <KPIGrid
+            kpis={data.kpis}
+            alertas={filteredAlertas}
+            currentView={currentView}
+            onOpenAlerts={() => setAlertsOpen(true)}
+          />
+          {alertsOpen && (
+            <AlertsModal alertas={filteredAlertas} onClose={() => setAlertsOpen(false)} />
+          )}
         </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <SalesChart
-              data={filteredVentasPorZona}
-              chartTitle={currentView === 'consultor' ? 'Venta por Consultor (MM COP)' : 'Venta por Zona / Equipo (MM COP)'}
-            />
-          </div>
-          <div>
-            <Alertas alertas={filteredAlertas} />
-          </div>
-        </div>
+        <SalesChart
+          data={chartData}
+          chartTitle={chartTitle}
+          isMonthly={isFullYear}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
@@ -227,11 +289,11 @@ export default function Dashboard() {
               <Package className="w-4 h-4 text-[#993935]" />
               Ventas por Producto (Pareto)
             </h3>
-            {filteredVentasPorProducto.length === 0 ? (
+            {ventasPorProductoDisplay.length === 0 ? (
               <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
             ) : (
               <div className="space-y-3">
-                {filteredVentasPorProducto.slice(0, 6).map((producto, index) => (
+                {ventasPorProductoDisplay.slice(0, 6).map((producto, index) => (
                   <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[#2B2E35] truncate">{producto.producto}</p>
@@ -240,10 +302,10 @@ export default function Dashboard() {
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <p className="text-sm font-bold text-[#2B2E35]">
-                          {producto.venta >= 1e9 ? `$${(producto.venta/1e9).toFixed(2)}Bn` : `$${(producto.venta/1e6).toFixed(0)}M`}
+                          {formatCOP(producto.venta)}
                         </p>
                         <p className={`text-xs ${producto.cumplimiento >= 100 ? 'text-[#73DEA9]' : 'text-[#EB5852]'}`}>
-                          {producto.cumplimiento > 0 ? `${producto.cumplimiento.toFixed(1)}%` : '—'}
+                          {producto.cumplimiento > 0 ? formatPct(producto.cumplimiento) : '—'}
                         </p>
                       </div>
                       {currentView === 'gerencial' && producto.margen > 0 && (
@@ -254,6 +316,16 @@ export default function Dashboard() {
                           'bg-[#EB5852]/20 text-[#EB5852]'
                         }`}>
                           {renderMargen(producto.margen)}
+                        </span>
+                      )}
+                      {currentView === 'consultor' && (
+                        <span className={`text-sm font-bold px-2 py-1 rounded-[6px] ${
+                          producto.categoria === 'A' ? 'bg-[#73DEA9]/20 text-[#2B2E35]' :
+                          producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#2B2E35]' :
+                          producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#2B2E35]' :
+                          'bg-[#EB5852]/20 text-[#EB5852]'
+                        }`}>
+                          {producto.categoria}
                         </span>
                       )}
                     </div>
@@ -268,11 +340,11 @@ export default function Dashboard() {
               <Users className="w-4 h-4 text-[#993935]" />
               Clientes Pareto (80/20)
             </h3>
-            {filteredClientesPareto.length === 0 ? (
+            {clientesParetoDisplay.length === 0 ? (
               <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
             ) : (
               <div className="space-y-3">
-                {filteredClientesPareto.slice(0, 6).map((cliente, index) => (
+                {clientesParetoDisplay.slice(0, 6).map((cliente, index) => (
                   <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-[#2B2E35] truncate">{cliente.nombre}</p>
@@ -280,9 +352,9 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-bold text-[#2B2E35]">
-                        {cliente.venta >= 1e9 ? `$${(cliente.venta/1e9).toFixed(2)}Bn` : `$${(cliente.venta/1e6).toFixed(0)}M`}
+                        {formatCOP(cliente.venta)}
                       </p>
-                      <p className="text-xs text-[#8B8B8D]">{cliente.porcentaje.toFixed(1)}%</p>
+                      <p className="text-xs text-[#8B8B8D]">{formatPct(cliente.porcentaje)}</p>
                     </div>
                   </div>
                 ))}
@@ -292,18 +364,24 @@ export default function Dashboard() {
         </div>
 
         {data.clientesSinMovimiento.length > 0 && (
-          <ClientsTable tipo="sin-movimiento" clientes={filteredClientesSinMovimiento} />
+          <ClientsTable
+            tipo="sin-movimiento"
+            clientes={data.clientesSinMovimiento}
+          />
         )}
 
         {data.clientesNuevos.length > 0 && (
-          <ClientsTable tipo="nuevos" clientes={filteredClientesNuevos} />
+          <ClientsTable
+            tipo="nuevos"
+            clientes={data.clientesNuevos}
+          />
         )}
 
         {data.inventario.length > 0 && (
           <InventoryTable inventario={data.inventario} />
         )}
 
-        {currentView === 'gerencial' && filteredGastosPorZona.length > 0 && (
+        {currentView === 'gerencial' && data.gastosPorZona.length > 0 && (
           <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Gastos por Zona</h3>
             <div className="overflow-x-auto">
@@ -317,20 +395,16 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredGastosPorZona.map((gasto, index) => (
+                  {data.gastosPorZona.map((gasto, index) => (
                     <tr key={index} className="border-b border-[#DBE2EB] hover:bg-[#DBE2EB]">
                       <td className="py-2 px-2 font-medium text-[#2B2E35]">{gasto.zona}</td>
-                      <td className="py-2 px-2 text-right text-[#2B2E35]">
-                        ${(gasto.gasto / 1000000).toFixed(0)}M
-                      </td>
-                      <td className="py-2 px-2 text-right text-[#8B8B8D]">
-                        ${(gasto.presupuesto / 1000000).toFixed(0)}M
-                      </td>
+                      <td className="py-2 px-2 text-right text-[#2B2E35]">{formatCOP(gasto.gasto)}</td>
+                      <td className="py-2 px-2 text-right text-[#8B8B8D]">{formatCOP(gasto.presupuesto)}</td>
                       <td className="py-2 px-2 text-center">
                         <span className={`text-xs px-2 py-1 rounded-[999px] ${
                           gasto.variacion > 0 ? 'bg-[#EB5852]/10 text-[#EB5852]' : 'bg-[#73DEA9]/10 text-[#2B2E35]'
                         }`}>
-                          {gasto.variacion > 0 ? '+' : ''}{gasto.variacion.toFixed(1)}%
+                          {gasto.variacion > 0 ? '+' : ''}{formatPct(gasto.variacion)}
                         </span>
                       </td>
                     </tr>
@@ -348,4 +422,92 @@ export default function Dashboard() {
 
 function Alertas({ alertas }: { alertas: DashboardData['alertas'] }) {
   return <Alerts alertas={alertas} />;
+}
+
+function KPIGrid({
+  kpis,
+  alertas,
+  currentView,
+  onOpenAlerts,
+}: {
+  kpis: DashboardData['kpis'];
+  alertas: DashboardData['alertas'];
+  currentView: UserRole;
+  onOpenAlerts: () => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+
+  const margenMetric = currentView === 'consultor'
+    ? { ...kpis.margenBruto, label: 'Cumplimiento Ppto' }
+    : kpis.margenBruto;
+
+  const alertAccent: 'critical' | 'warning' | 'info' | undefined =
+    alertas.some(a => a.nivel === 'critica') ? 'critical' :
+    alertas.some(a => a.nivel === 'alta')    ? 'warning'  :
+    alertas.length > 0                       ? 'info'     :
+    undefined;
+
+  return (
+    <div className="flex items-stretch gap-2 sm:gap-3">
+      <div className={`flex-1 grid gap-2 sm:gap-3 ${
+        expanded
+          ? 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-8'
+          : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
+      }`}>
+        <KPICard metric={kpis.ventaMes} />
+        <KPICard metric={margenMetric} />
+        <KPICard metric={kpis.otif} />
+        <KPICard metric={kpis.clientesSinMovimiento} />
+        <KPICard metric={kpis.clientesNuevos} />
+        <KPICard metric={kpis.alertasInventario} onClick={onOpenAlerts} accent={alertAccent} />
+        {expanded && (
+          <Fragment>
+            <KPICard metric={kpis.quejas} comingSoon />
+            <KPICard metric={kpis.notasCredito} comingSoon />
+          </Fragment>
+        )}
+      </div>
+
+      <button
+        onClick={() => setExpanded(v => !v)}
+        title={expanded ? 'Ocultar Quejas y Notas crédito' : 'Ver Quejas y Notas crédito'}
+        className="self-center flex-shrink-0 w-8 h-8 rounded-full bg-white border border-[#DBE2EB] flex items-center justify-center text-[#8B8B8D] hover:text-[#993935] hover:border-[#993935]/60 hover:bg-[#993935]/5 transition-colors shadow-sm"
+      >
+        {expanded ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+      </button>
+    </div>
+  );
+}
+
+function AlertsModal({
+  alertas,
+  onClose,
+}: {
+  alertas: DashboardData['alertas'];
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white rounded-[12px] shadow-2xl border border-[#DBE2EB] w-full max-w-md max-h-[80vh] flex flex-col"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#DBE2EB]">
+          <h2 className="text-sm font-bold text-[#2B2E35]">Alertas activas</h2>
+          <button
+            onClick={onClose}
+            className="text-[#8B8B8D] hover:text-[#2B2E35] transition-colors p-1 rounded-[6px] hover:bg-[#EFF2F6]"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-4">
+          <Alertas alertas={alertas} />
+        </div>
+      </div>
+    </div>
+  );
 }

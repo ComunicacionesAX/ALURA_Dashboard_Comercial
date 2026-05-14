@@ -13,25 +13,25 @@ export default function ViewToggle({ currentView, onViewChange }: ViewToggleProp
     <div className="flex items-center gap-2 bg-[#DBE2EB] rounded-[8px] p-1">
       <button
         onClick={() => onViewChange('gerencial')}
-        className={`flex items-center gap-2 px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
+        className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
           currentView === 'gerencial'
             ? 'bg-white text-[#993935] shadow-[0_2px_4px_rgba(0,0,0,0.08)]'
             : 'text-[#6B7381] hover:text-[#2B2E35]'
         }`}
       >
         <Shield className="w-4 h-4" />
-        Vista Gerencial
+        <span className="hidden sm:inline">Vista Gerencial</span>
       </button>
       <button
         onClick={() => onViewChange('consultor')}
-        className={`flex items-center gap-2 px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
+        className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-[6px] text-sm font-medium transition-all ${
           currentView === 'consultor'
             ? 'bg-white text-[#993935] shadow-[0_2px_4px_rgba(0,0,0,0.08)]'
             : 'text-[#6B7381] hover:text-[#2B2E35]'
         }`}
       >
         <User className="w-4 h-4" />
-        Vista Consultor
+        <span className="hidden sm:inline">Vista Consultor</span>
       </button>
     </div>
   );

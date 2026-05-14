@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 import { DashboardData } from '@/lib/types';
+import { formatCOP } from '@/lib/format';
 
 interface Message {
   id: string;
@@ -12,12 +13,6 @@ interface Message {
 
 interface ChatBotProps {
   data?: DashboardData | null;
-}
-
-function fmt(v: number): string {
-  if (v >= 1_000_000_000) return `$${(v / 1_000_000_000).toFixed(2)}Bn`;
-  if (v >= 1_000_000)     return `$${(v / 1_000_000).toFixed(0)}M`;
-  return `$${(v / 1_000).toFixed(0)}K`;
 }
 
 function generateResponse(question: string, data?: DashboardData | null): string {
@@ -30,7 +25,7 @@ function generateResponse(question: string, data?: DashboardData | null): string
   if (q.includes('venta') || q.includes('vend')) {
     const v = data.kpis.ventaMes;
     const diff = v.previousValue > 0 ? ((v.value - v.previousValue) / v.previousValue * 100).toFixed(1) : '—';
-    return `La venta del mes actual es ${fmt(v.value)}. Comparado con el mes anterior (${fmt(v.previousValue)}), eso es un ${Number(diff) >= 0 ? '+' : ''}${diff}%.`;
+    return `La venta del mes actual es ${formatCOP(v.value)}. Comparado con el mes anterior (${formatCOP(v.previousValue)}), eso es un ${Number(diff) >= 0 ? '+' : ''}${diff}%.`;
   }
 
   if (q.includes('margen') || q.includes('rentabilidad')) {
@@ -91,7 +86,7 @@ function generateResponse(question: string, data?: DashboardData | null): string
   }
 
   if (q.includes('nota') || q.includes('crédito')) {
-    return `Notas crédito del mes: ${fmt(data.kpis.notasCredito.value)}. El detalle de notas está pendiente de conexión.`;
+    return `Notas crédito del mes: ${formatCOP(data.kpis.notasCredito.value)}. El detalle de notas está pendiente de conexión.`;
   }
 
   if (q.includes('zona') || q.includes('región') || q.includes('equipo')) {
@@ -107,7 +102,7 @@ function generateResponse(question: string, data?: DashboardData | null): string
   if (q.includes('producto') || q.includes('top') || q.includes('mejor')) {
     if (data.ventasPorProducto.length > 0) {
       const top3 = data.ventasPorProducto.slice(0, 3);
-      return `Top 3 productos por venta: 1) ${top3[0].producto} (${fmt(top3[0].venta)}), 2) ${top3[1]?.producto ?? '—'} (${fmt(top3[1]?.venta ?? 0)}), 3) ${top3[2]?.producto ?? '—'} (${fmt(top3[2]?.venta ?? 0)}).`;
+      return `Top 3 productos por venta: 1) ${top3[0].producto} (${formatCOP(top3[0].venta)}), 2) ${top3[1]?.producto ?? '—'} (${formatCOP(top3[1]?.venta ?? 0)}), 3) ${top3[2]?.producto ?? '—'} (${formatCOP(top3[2]?.venta ?? 0)}).`;
     }
     return 'No hay datos de productos disponibles aún.';
   }
@@ -163,7 +158,9 @@ export default function ChatBot({ data }: ChatBotProps) {
           <span className="font-medium text-sm">Asistente CTC</span>
         </button>
       ) : (
-        <div className="bg-white rounded-[12px] shadow-2xl border border-[#DBE2EB] w-[380px] h-[500px] flex flex-col">
+        <div className="bg-white rounded-[12px] shadow-2xl border border-[#DBE2EB] flex flex-col
+          w-[calc(100vw-2rem)] h-[calc(100svh-5rem)]
+          sm:w-[380px] sm:h-[500px]">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-[#993935] rounded-t-[12px]">
             <div className="flex items-center gap-2 text-white">

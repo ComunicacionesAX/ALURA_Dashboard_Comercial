@@ -1,11 +1,37 @@
 export type UserRole = 'gerencial' | 'consultor';
 
-export interface FilterState {
-  fecha: string;
-  zona: string;
-  producto: string;
-  presentacion: string;
-  cliente: string;
+// Gerencial view filters (server-side)
+export interface GerencialFilters {
+  sociedad:  string;   // Sociedad column
+  sbu:       string;   // UEN column
+  periodo:   string;   // "YYYY-mmm" e.g. "2026-abr"
+  consultor: string;   // Consultor_Cliente column
+  cliente:   string;   // Cliente column
+}
+
+// Comercial view filters (server-side)
+export interface ComercialFilters {
+  consultor: string;  // Consultor_Cliente column (within comercial scope)
+  cliente:   string;  // Cliente column
+  producto:  string;  // Producto Único column
+  periodo:   string;  // "YYYY-mmm"
+}
+
+// Options available for comercial filter dropdowns
+export interface ComercialFilterOptions {
+  consultores: string[];
+  clientes:    string[];
+  productos:   string[];
+  periodos:    string[];   // sorted newest-first
+}
+
+// Options available for gerencial filter dropdowns
+export interface GerencialFilterOptions {
+  sociedades:  string[];
+  sbus:        string[];
+  periodos:    string[];   // sorted newest-first
+  consultores: string[];
+  clientes:    string[];   // scoped to selected consultor
 }
 
 export interface KPIMetric {
@@ -13,7 +39,6 @@ export interface KPIMetric {
   value: number;
   previousValue: number;
   unit: 'currency' | 'percentage' | 'number';
-  format: 'compact' | 'full';
 }
 
 export interface VentaPorZona {
@@ -147,6 +172,7 @@ export interface DashboardData {
     alertasInventario: KPIMetric;
   };
   ventasPorZona: VentaPorZona[];
+  ventasPorMes: VentaPorZona[];       // monthly totals for full-year chart
   ventasPorProducto: VentaPorProducto[];
   clientesPareto: ClientePareto[];
   clientesSinMovimiento: ClienteSinMovimiento[];

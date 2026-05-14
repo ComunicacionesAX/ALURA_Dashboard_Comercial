@@ -2,17 +2,12 @@
 
 import { useState } from 'react';
 import { ClienteSinMovimiento, ClienteNuevo } from '@/lib/types';
+import { formatCOP } from '@/lib/format';
 import { UserX, UserPlus, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface ClientsTableProps {
   tipo: 'sin-movimiento' | 'nuevos';
   clientes: (ClienteSinMovimiento | ClienteNuevo)[];
-}
-
-function formatCurrency(value: number): string {
-  if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}Bn`;
-  if (value >= 1_000_000)     return `$${(value / 1_000_000).toFixed(0)}M`;
-  return `$${(value / 1_000).toFixed(0)}K`;
 }
 
 const PAGE_SIZE = 5;
@@ -47,7 +42,7 @@ export default function ClientsTable({ tipo, clientes }: ClientsTableProps) {
           <thead>
             <tr className="border-b border-[#DBE2EB]">
               <th className="text-left py-2 px-2 font-medium text-[#6B7381]">Cliente</th>
-              <th className="text-left py-2 px-2 font-medium text-[#6B7381]">Zona / Consultor</th>
+              <th className="hidden sm:table-cell text-left py-2 px-2 font-medium text-[#6B7381]">Zona / Consultor</th>
               {isSinMovimiento ? (
                 <>
                   <th className="text-center py-2 px-2 font-medium text-[#6B7381]">Días sin compra</th>
@@ -65,7 +60,7 @@ export default function ClientsTable({ tipo, clientes }: ClientsTableProps) {
             {visible.map((cliente) => (
               <tr key={cliente.id} className="border-b border-[#DBE2EB] last:border-0 hover:bg-[#EFF2F6] transition-colors">
                 <td className="py-2 px-2 font-medium text-[#2B2E35] max-w-[180px] truncate">{cliente.nombre}</td>
-                <td className="py-2 px-2 text-[#8B8B8D] text-xs">{cliente.zona}</td>
+                <td className="hidden sm:table-cell py-2 px-2 text-[#8B8B8D] text-xs">{cliente.zona}</td>
                 {isSinMovimiento ? (
                   <>
                     <td className="py-2 px-2 text-center">
@@ -78,14 +73,14 @@ export default function ClientsTable({ tipo, clientes }: ClientsTableProps) {
                       </span>
                     </td>
                     <td className="py-2 px-2 text-right font-medium text-[#2B2E35]">
-                      {formatCurrency((cliente as ClienteSinMovimiento).potencial)}
+                      {formatCOP((cliente as ClienteSinMovimiento).potencial)}
                     </td>
                   </>
                 ) : (
                   <>
                     <td className="py-2 px-2 text-[#8B8B8D] text-xs">{(cliente as ClienteNuevo).fechaCreacion}</td>
                     <td className="py-2 px-2 text-right font-medium text-[#2B2E35]">
-                      {formatCurrency((cliente as ClienteNuevo).primeraCompra)}
+                      {formatCOP((cliente as ClienteNuevo).primeraCompra)}
                     </td>
                   </>
                 )}
