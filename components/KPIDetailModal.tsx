@@ -32,7 +32,9 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
     { mes: 'Mayo', valor: metric.value },
   ];
 
-  const isOtifMetric = metric.label === 'OTIF';
+  const isOtifMetric     = metric.label === 'OTIF';
+  const isUtilidadMetric = metric.label.includes('Utilidad');
+  const isVentaAnio      = metric.label === 'Venta año';
   let displayValue = metric.value;
   let displayPreviousValue = metric.previousValue;
   let displayChange = 0;
@@ -91,7 +93,13 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
             </div>
 
             <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
-              <p className="text-sm text-[#6B7381] mb-2">Mes Anterior{isOtifMetric ? ` - ${mockHistoricalData[mockHistoricalData.findIndex(d => d.mes === selectedMesOtif) - 1]?.mes || 'N/A'}` : ''}</p>
+              <p className="text-sm text-[#6B7381] mb-2">
+                {isUtilidadMetric || isVentaAnio
+                  ? 'Presupuesto'
+                  : isOtifMetric
+                  ? `Mes Anterior - ${mockHistoricalData[mockHistoricalData.findIndex(d => d.mes === selectedMesOtif) - 1]?.mes || 'N/A'}`
+                  : 'Mes Anterior'}
+              </p>
               <p className="text-3xl font-bold text-[#2B2E35]">
                 {displayPreviousValue === 0 ? (
                   <span className="text-[#8B8B8D] text-lg">Sin mes anterior</span>
@@ -105,7 +113,13 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
             </div>
 
             <div className={`rounded-lg p-4 border ${displayIsPositive ? 'bg-[#73DEA9]/10 border-[#73DEA9]' : 'bg-[#EB5852]/10 border-[#EB5852]'}`}>
-              <p className="text-sm text-[#6B7381] mb-2">Variación{isOtifMetric ? ` vs ${selectedMesOtif === 'Enero' ? 'Anterior' : mockHistoricalData[mockHistoricalData.findIndex(d => d.mes === selectedMesOtif) - 1]?.mes || 'Anterior'}` : ''}</p>
+              <p className="text-sm text-[#6B7381] mb-2">
+                {isUtilidadMetric || isVentaAnio
+                  ? 'Variación vs Presupuesto'
+                  : isOtifMetric
+                  ? `Variación vs ${selectedMesOtif === 'Enero' ? 'Anterior' : mockHistoricalData[mockHistoricalData.findIndex(d => d.mes === selectedMesOtif) - 1]?.mes || 'Anterior'}`
+                  : 'Variación'}
+              </p>
               <div className="flex items-center gap-2">
                 {displayIsPositive ? (
                   <TrendingUp className={`w-5 h-5 text-[#73DEA9]`} />

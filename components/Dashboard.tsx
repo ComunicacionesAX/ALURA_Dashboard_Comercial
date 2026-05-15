@@ -53,10 +53,10 @@ const defaultGerencialFilters: GerencialFilters = {
 };
 
 const emptyComercialFilterOptions: ComercialFilterOptions = {
-  consultores: [], clientes: [], productos: [], divisiones: [], periodos: [],
+  sociedades: [], consultores: [], clientes: [], productos: [], divisiones: [], periodos: [],
 };
 const defaultComercialFilters: ComercialFilters = {
-  consultor: '', cliente: '', productos: [], division: '', periodo: '',
+  sociedad: '', consultor: '', cliente: '', productos: [], division: '', periodo: '',
 };
 
 function mergeLiveData(live: Partial<DashboardData>): DashboardData {
@@ -124,6 +124,7 @@ export default function Dashboard() {
     setError(null);
     try {
       const p = new URLSearchParams();
+      if (f.sociedad)           p.set('sociedad',  f.sociedad);
       if (f.consultor)          p.set('consultor', f.consultor);
       if (f.cliente)            p.set('cliente',   f.cliente);
       if (f.division)           p.set('division',  f.division);
@@ -192,6 +193,7 @@ export default function Dashboard() {
   const buildKpiHistory = (metric: DashboardData['kpis']['ventaMes']) => {
     if (!data.resumenMensual || data.resumenMensual.length === 0) return undefined;
     if (metric.label.includes('Venta') || metric.label.includes('año')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.ventaTotal }));
+    if (metric.label.includes('Utilidad'))       return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.utilidadBruta }));
     if (metric.label.includes('Margen') || metric.label.includes('Cumplimiento')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.margenBruto }));
     if (metric.label === 'OTIF')                 return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.otif }));
     if (metric.label.includes('sin movimiento')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.clientesSinMovimiento }));
@@ -475,14 +477,21 @@ function KPIGrid({
     alertas.length > 0                       ? 'info'     :
     undefined;
 
+  const isGerencial = currentView === 'gerencial';
+
   return (
     <div className="flex items-stretch gap-2 sm:gap-3">
       <div className={`flex-1 grid gap-2 sm:gap-3 ${
         expanded
-          ? 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-8'
-          : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
+          ? 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-9'
+          : isGerencial
+            ? 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-7'
+            : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
       }`}>
         <KPICard metric={kpis.ventaMes} onClick={() => onKPIClick(kpis.ventaMes)} />
+        {currentView === 'gerencial' && (
+          <KPICard metric={kpis.utilidadBruta} onClick={() => onKPIClick(kpis.utilidadBruta)} />
+        )}
         <KPICard metric={margenMetric} onClick={() => onKPIClick(margenMetric)} />
         <KPICard metric={kpis.otif} onClick={() => onKPIClick(kpis.otif)} />
         <KPICard metric={kpis.clientesSinMovimiento} onClick={() => onKPIClick(kpis.clientesSinMovimiento)} />

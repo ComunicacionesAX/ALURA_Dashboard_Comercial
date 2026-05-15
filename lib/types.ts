@@ -12,6 +12,7 @@ export interface GerencialFilters {
 
 // Comercial view filters (server-side)
 export interface ComercialFilters {
+  sociedad:  string;    // Sociedad column
   consultor: string;    // Consultor_Cliente column (within comercial scope)
   cliente:   string;    // Cliente column
   productos: string[];  // Producto Único column — multi-select
@@ -21,6 +22,7 @@ export interface ComercialFilters {
 
 // Options available for comercial filter dropdowns
 export interface ComercialFilterOptions {
+  sociedades:  string[];
   consultores: string[];
   clientes:    string[];
   productos:   string[];
@@ -150,6 +152,8 @@ export interface ResumenMensual {
   mes: string;
   ventaTotal: number;
   ventaPresupuesto: number;
+  utilidadBruta: number;
+  utilidadBrutaPresupuesto: number;
   margenBruto: number;
   otif: number;
   clientesNuevos: number;
@@ -178,6 +182,7 @@ export interface OTIFCausalPorMes {
 export interface DashboardData {
   kpis: {
     ventaMes: KPIMetric;
+    utilidadBruta: KPIMetric;
     margenBruto: KPIMetric;
     otif: KPIMetric;
     clientesSinMovimiento: KPIMetric;

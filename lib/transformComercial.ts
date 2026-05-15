@@ -39,6 +39,7 @@ function isComercial(r: RawRow): boolean {
 // ── Build filter option lists from all comercial ERP rows ────────────────────
 // When consultorFilter is provided, clientes and productos are scoped to that consultant.
 export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''): ComercialFilterOptions {
+  const sociedades  = new Set<string>();
   const consultores = new Set<string>();
   const clientes    = new Set<string>();
   const productos   = new Set<string>();
@@ -51,15 +52,17 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
     const venta = money(r['Venta']);
     if (venta <= 0) continue;
 
-    const con  = String(r['Consultor_Cliente'] ?? '').trim();
-    const cli  = String(r['Cliente']           ?? '').trim();
-    const prod = String(r['Producto Único']    ?? '').trim();
-    const div  = String(r['Division']          ?? '').trim();
-    const mes  = String(r['Mes']               ?? '').toLowerCase().trim();
+    const soc  = String(r['Sociedad']           ?? '').trim();
+    const con  = String(r['Consultor_Cliente']  ?? '').trim();
+    const cli  = String(r['Cliente']            ?? '').trim();
+    const prod = String(r['Producto Único']     ?? '').trim();
+    const div  = String(r['Division']           ?? '').trim();
+    const mes  = String(r['Mes']                ?? '').toLowerCase().trim();
     const year = n(r['Año']);
 
-    if (con && con !== '-' && con !== 'ALIADOS') consultores.add(con);
-    if (div && div !== '-') divisiones.add(div);
+    if (soc  && soc  !== '-') sociedades.add(soc);
+    if (con  && con  !== '-' && con !== 'ALIADOS') consultores.add(con);
+    if (div  && div  !== '-') divisiones.add(div);
     if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
 
     // Scope clientes/productos to selected consultant
@@ -76,6 +79,7 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
   });
 
   return {
+    sociedades:  [...sociedades].sort(),
     consultores: [...consultores].sort(),
     clientes:    [...clientes].sort(),
     productos:   [...productos].sort(),
@@ -95,6 +99,7 @@ export function transformComercial(
   rows: RawRow[],
   filters?: Partial<ComercialFilters>
 ): Partial<DashboardData> {
+  const fSociedad   = filters?.sociedad   || '';
   const fConsultor  = filters?.consultor  || '';
   const fCliente    = filters?.cliente    || '';
   const fProductos  = filters?.productos?.filter(Boolean) ?? [];
@@ -123,8 +128,9 @@ export function transformComercial(
     }
   }
 
-  // Apply consultor + cliente + productos + division filters
-  const erp2: RawRow[] = (fConsultor || fCliente || fProductos.length > 0 || fDivision) ? erp.filter(r => {
+  // Apply sociedad + consultor + cliente + productos + division filters
+  const erp2: RawRow[] = (fSociedad || fConsultor || fCliente || fProductos.length > 0 || fDivision) ? erp.filter(r => {
+    if (fSociedad              && String(r['Sociedad']          ?? '').trim() !== fSociedad)                    return false;
     if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   return false;
     if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     return false;
     if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               return false;
@@ -250,6 +256,7 @@ export function transformComercial(
     const ppto = money(r['Ppto']);
     const mes  = String(r['Mes']).toLowerCase();
 
+    if (fSociedad              && String(r['Sociedad']          ?? '').trim() !== fSociedad)                    continue;
     if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   continue;
     if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     continue;
     if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               continue;
@@ -367,6 +374,8 @@ export function transformComercial(
         _ord: v.ord,
         ventaTotal: v.ventaTotal,
         ventaPresupuesto: mesPptoMap.get(mes) ?? 0,
+        utilidadBruta: 0,
+        utilidadBrutaPresupuesto: 0,
         margenBruto: 0,
         otif: 0, clientesNuevos: 0, clientesSinMovimiento: 0, quejas: 0, notasCredito: 0,
       };
@@ -425,7 +434,8 @@ export function transformComercial(
 
   // ── KPIs ──────────────────────────────────────────────────────────────────
   const kpis: DashboardData['kpis'] = {
-    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 ventaPrev,        'currency'),
+    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 isAllYear ? pptoCur : ventaPrev, 'currency'),
+    utilidadBruta:         kpi('Utilidad bruta',                                       0,                        0,                'currency'),
     margenBruto:           kpi('Cumplimiento Ppto',                                    cumplimientoCur,          cumplimientoPrev, 'percentage'),
     otif:                  kpi('OTIF',                                                 82,                       80,               'percentage'),
     clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)',                   sinMovimientoList.length, 0,                'number'),

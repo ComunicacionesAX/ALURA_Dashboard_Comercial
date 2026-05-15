@@ -1,7 +1,7 @@
 'use client';
 
 import { ComercialFilters, ComercialFilterOptions } from '@/lib/types';
-import { UserCheck, Users, Package, Layers, CalendarDays, X } from 'lucide-react';
+import { UserCheck, Users, Package, Layers, CalendarDays, Building2, X } from 'lucide-react';
 import PeriodPicker, { periodoLabel } from './PeriodPicker';
 import { SingleSelect, MultiSelect } from './FilterSelect';
 
@@ -11,18 +11,31 @@ interface Props {
   onChange: (f: ComercialFilters) => void;
 }
 
-const empty: ComercialFilters = { consultor: '', cliente: '', productos: [], division: '', periodo: '' };
+const empty: ComercialFilters = { sociedad: '', consultor: '', cliente: '', productos: [], division: '', periodo: '' };
 
 export default function ComercialFiltersPanel({ filters, options, onChange }: Props) {
   const set = (key: keyof ComercialFilters, value: string | string[]) =>
     onChange({ ...filters, [key]: value });
 
   const hasActive =
-    !!filters.consultor || !!filters.cliente || (filters.productos?.length ?? 0) > 0 || !!filters.division || !!filters.periodo;
+    !!filters.sociedad || !!filters.consultor || !!filters.cliente || (filters.productos?.length ?? 0) > 0 || !!filters.division || !!filters.periodo;
 
   return (
     <div className="bg-white rounded-[8px] border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3">
+
+        {/* Sociedad */}
+        <div>
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
+            <Building2 className="w-3 h-3 text-[#993935] flex-shrink-0" />
+            <span className="truncate">Sociedad</span>
+          </label>
+          <SingleSelect
+            value={filters.sociedad}
+            options={options.sociedades ?? []}
+            onChange={v => set('sociedad', v)}
+          />
+        </div>
 
         {/* Consultor */}
         <div>
@@ -93,6 +106,9 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
       {/* Active filter chips */}
       {hasActive && (
         <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[#DBE2EB]">
+          {filters.sociedad && (
+            <Chip label={`Sociedad: ${filters.sociedad}`} onRemove={() => set('sociedad', '')} />
+          )}
           {filters.consultor && (
             <Chip label={`Consultor: ${filters.consultor}`} onRemove={() => set('consultor', '')} />
           )}

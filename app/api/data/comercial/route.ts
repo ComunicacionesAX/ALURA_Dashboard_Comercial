@@ -25,6 +25,7 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const filters: Partial<ComercialFilters> = {
+      sociedad:  searchParams.get('sociedad')  || '',
       consultor: searchParams.get('consultor') || '',
       cliente:   searchParams.get('cliente')   || '',
       productos: searchParams.getAll('producto').filter(Boolean),

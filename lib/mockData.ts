@@ -3,6 +3,7 @@ import { DashboardData } from './types';
 export const mockData: DashboardData = {
   kpis: {
     ventaMes:              { label: 'Venta del mes',                      value: 18450000000, previousValue: 16420000000, unit: 'currency' },
+    utilidadBruta:         { label: 'Utilidad bruta',                     value: 5276700000,  previousValue: 5000000000,  unit: 'currency' },
     margenBruto:           { label: 'Margen bruto',                       value: 28.6,        previousValue: 26.5,        unit: 'percentage' },
     otif:                  { label: 'OTIF',                               value: 92.4,        previousValue: 89.0,        unit: 'percentage' },
     clientesSinMovimiento: { label: 'Clientes sin movimiento (+30 días)', value: 128,         previousValue: 118,         unit: 'number' },
@@ -106,11 +107,11 @@ export const mockData: DashboardData = {
     { zona: 'Barranquilla', gasto: 72000000, presupuesto: 75000000, variacion: -4.0, categoria: 'Comercial' },
   ],
   resumenMensual: [
-    { mes: 'Enero', ventaTotal: 16500000000, ventaPresupuesto: 16000000000, margenBruto: 27.2, otif: 88.5, clientesNuevos: 28, clientesSinMovimiento: 105, quejas: 18, notasCredito: 38000000 },
-    { mes: 'Febrero', ventaTotal: 17200000000, ventaPresupuesto: 16500000000, margenBruto: 27.8, otif: 89.2, clientesNuevos: 32, clientesSinMovimiento: 112, quejas: 16, notasCredito: 42000000 },
-    { mes: 'Marzo', ventaTotal: 16800000000, ventaPresupuesto: 17000000000, margenBruto: 26.5, otif: 87.8, clientesNuevos: 30, clientesSinMovimiento: 118, quejas: 20, notasCredito: 45000000 },
-    { mes: 'Abril', ventaTotal: 17500000000, ventaPresupuesto: 17500000000, margenBruto: 27.9, otif: 90.5, clientesNuevos: 35, clientesSinMovimiento: 115, quejas: 14, notasCredito: 38000000 },
-    { mes: 'Mayo', ventaTotal: 18450000000, ventaPresupuesto: 18000000000, margenBruto: 28.6, otif: 92.4, clientesNuevos: 36, clientesSinMovimiento: 128, quejas: 14, notasCredito: 45678000 },
+    { mes: 'Enero',   ventaTotal: 16500000000, ventaPresupuesto: 16000000000, utilidadBruta: 4488000000, utilidadBrutaPresupuesto: 4352000000, margenBruto: 27.2, otif: 88.5, clientesNuevos: 28, clientesSinMovimiento: 105, quejas: 18, notasCredito: 38000000 },
+    { mes: 'Febrero', ventaTotal: 17200000000, ventaPresupuesto: 16500000000, utilidadBruta: 4781600000, utilidadBrutaPresupuesto: 4587000000, margenBruto: 27.8, otif: 89.2, clientesNuevos: 32, clientesSinMovimiento: 112, quejas: 16, notasCredito: 42000000 },
+    { mes: 'Marzo',   ventaTotal: 16800000000, ventaPresupuesto: 17000000000, utilidadBruta: 4452000000, utilidadBrutaPresupuesto: 4505000000, margenBruto: 26.5, otif: 87.8, clientesNuevos: 30, clientesSinMovimiento: 118, quejas: 20, notasCredito: 45000000 },
+    { mes: 'Abril',   ventaTotal: 17500000000, ventaPresupuesto: 17500000000, utilidadBruta: 4882500000, utilidadBrutaPresupuesto: 4882500000, margenBruto: 27.9, otif: 90.5, clientesNuevos: 35, clientesSinMovimiento: 115, quejas: 14, notasCredito: 38000000 },
+    { mes: 'Mayo',    ventaTotal: 18450000000, ventaPresupuesto: 18000000000, utilidadBruta: 5276700000, utilidadBrutaPresupuesto: 5148000000, margenBruto: 28.6, otif: 92.4, clientesNuevos: 36, clientesSinMovimiento: 128, quejas: 14, notasCredito: 45678000 },
   ],
   reglasPromesa: [
     { tipo: 'Premix >10kg y pedido <1吨', descripcion: 'Despachar desde bodega más cercana con stock completo', condiciones: ['Prioridad a menor tiempo logístico', 'Consolidación regional', 'Seguimiento diario'] },

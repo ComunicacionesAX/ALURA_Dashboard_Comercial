@@ -161,6 +161,9 @@ export function transformGerencial(
     }
   }
 
+  // Monthly UB PPTO map (filled in pass 3 below)
+  const mesUbPptoMap = new Map<string, number>();
+
   // When a periodo filter is active, treat that specific month as "current"
   let ultimoPeriodo: number;
   let penultimoPeriodo: number;
@@ -296,13 +299,16 @@ export function transformGerencial(
   const margenCur  = ventaCur  > 0 ? (ubCur  / ventaCur)  * 100 : 0;
   const margenPrev = ventaPrev > 0 ? (ubPrev / ventaPrev) * 100 : 0;
 
-  // ── Pass 3: ppto rows → fill zona/prod ppto + monthly ppto ───────────────
+  // ── Pass 3: ppto rows → fill zona/prod ppto + monthly ppto + UB PPTO ──────
   const mesPptoMap = new Map<string, number>();
+  let pptoCurTotal = 0;
+  let ubPptoCur    = 0;
 
   for (const r of pptoRows) {
-    const year = n(r['Año']);
-    const ppto = money(r['Ppto']);
-    const mes  = String(r['Mes']).toLowerCase();
+    const year   = n(r['Año']);
+    const ppto   = money(r['Ppto']);
+    const ubPpto = money(r['UB PPTO']);
+    const mes    = String(r['Mes']).toLowerCase();
 
     // Apply same non-period filters to ppto rows
     if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  continue;
@@ -314,9 +320,13 @@ export function transformGerencial(
     if (yearMatches) {
       const label = MES_LABEL[mes] ?? mes;
       mesPptoMap.set(label, (mesPptoMap.get(label) ?? 0) + ppto);
+      mesUbPptoMap.set(label, (mesUbPptoMap.get(label) ?? 0) + ubPpto);
 
-      // In full-year mode accumulate ppto for all months; otherwise only current month
+      // In full-year mode accumulate for all months; otherwise only current month
       if (isAllYear || mes === mesCur) {
+        pptoCurTotal += ppto;
+        ubPptoCur    += ubPpto;
+
         const zona = String(r['Equipo_Actual'] || '-');
         if (!zonaMap.has(zona)) zonaMap.set(zona, { venta: 0, ppto: 0, ub: 0, clientes: new Set() });
         zonaMap.get(zona)!.ppto += ppto;
@@ -412,6 +422,8 @@ export function transformGerencial(
         _ord: v.ord,
         ventaTotal: v.ventaTotal,
         ventaPresupuesto: mesPptoMap.get(mes) ?? 0,
+        utilidadBruta: v.ub,
+        utilidadBrutaPresupuesto: mesUbPptoMap.get(mes) ?? 0,
         margenBruto: v.ventaTotal > 0 ? (v.ub / v.ventaTotal) * 100 : 0,
         otif: 0, clientesNuevos: 0, clientesSinMovimiento: 0, quejas: 0, notasCredito: 0,
       };
@@ -481,7 +493,8 @@ export function transformGerencial(
 
   // ── KPIs ──────────────────────────────────────────────────────────────────
   const kpis: DashboardData['kpis'] = {
-    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 ventaPrev,       'currency'),
+    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 isAllYear ? pptoCurTotal : ventaPrev, 'currency'),
+    utilidadBruta:         kpi(isAllYear ? 'Utilidad bruta año' : 'Utilidad bruta',   ubCur,                    ubPptoCur,       'currency'),
     margenBruto:           kpi('Margen bruto',                                         margenCur,                margenPrev,      'percentage'),
     otif:                  kpi('OTIF',                                                 82,                       80,              'percentage'),
     clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)',                   sinMovimientoList.length, 0,               'number'),
