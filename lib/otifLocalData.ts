@@ -82,7 +82,6 @@ export function applyLocalOtifOverrides(data: DashboardData): DashboardData {
           value: Math.round(otifPercentage * 10) / 10,
           previousValue: previousOtif,
           unit: 'percentage',
-          format: 'full',
         },
       },
       resumenMensual: updatedResumenMensual,

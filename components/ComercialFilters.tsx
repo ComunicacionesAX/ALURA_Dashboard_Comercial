@@ -1,7 +1,7 @@
 'use client';
 
 import { ComercialFilters, ComercialFilterOptions } from '@/lib/types';
-import { UserCheck, Users, Package, CalendarDays, X } from 'lucide-react';
+import { UserCheck, Users, Package, Layers, CalendarDays, X } from 'lucide-react';
 import PeriodPicker, { periodoLabel } from './PeriodPicker';
 import { SingleSelect, MultiSelect } from './FilterSelect';
 
@@ -11,18 +11,18 @@ interface Props {
   onChange: (f: ComercialFilters) => void;
 }
 
-const empty: ComercialFilters = { consultor: '', cliente: '', productos: [], periodo: '' };
+const empty: ComercialFilters = { consultor: '', cliente: '', productos: [], division: '', periodo: '' };
 
 export default function ComercialFiltersPanel({ filters, options, onChange }: Props) {
   const set = (key: keyof ComercialFilters, value: string | string[]) =>
     onChange({ ...filters, [key]: value });
 
   const hasActive =
-    !!filters.consultor || !!filters.cliente || (filters.productos?.length ?? 0) > 0 || !!filters.periodo;
+    !!filters.consultor || !!filters.cliente || (filters.productos?.length ?? 0) > 0 || !!filters.division || !!filters.periodo;
 
   return (
     <div className="bg-white rounded-[8px] border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
 
         {/* Consultor */}
         <div>
@@ -63,6 +63,19 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
           />
         </div>
 
+        {/* División */}
+        <div>
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
+            <Layers className="w-3 h-3 text-[#993935] flex-shrink-0" />
+            <span className="truncate">División</span>
+          </label>
+          <SingleSelect
+            value={filters.division}
+            options={options.divisiones ?? []}
+            onChange={v => set('division', v)}
+          />
+        </div>
+
         {/* Período */}
         <div>
           <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
@@ -90,6 +103,9 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
             <Chip key={p} label={`Producto: ${p}`}
               onRemove={() => set('productos', (filters.productos ?? []).filter(x => x !== p))} />
           ))}
+          {filters.division && (
+            <Chip label={`División: ${filters.division}`} onRemove={() => set('division', '')} />
+          )}
           {filters.periodo && (
             <Chip label={`Período: ${periodoLabel(filters.periodo)}`} onRemove={() => set('periodo', '')} />
           )}

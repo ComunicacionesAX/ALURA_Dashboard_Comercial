@@ -37,6 +37,7 @@ function margenLetra(pct: number): 'A' | 'B' | 'C' | 'D' {
 export function buildGerencialFilterOptions(rows: RawRow[], consultorFilter = ''): GerencialFilterOptions {
   const sociedades  = new Set<string>();
   const sbus        = new Set<string>();
+  const divisiones  = new Set<string>();
   const periodos    = new Set<string>(); // "YYYY-mmm"
   const consultores = new Set<string>();
   const clientes    = new Set<string>();
@@ -46,15 +47,17 @@ export function buildGerencialFilterOptions(rows: RawRow[], consultorFilter = ''
     const venta = money(r['Venta']);
     if (venta <= 0) continue;
 
-    const soc  = String(r['Sociedad'] ?? '').trim();
-    const sbu  = String(r['UEN'] ?? '').trim();
+    const soc  = String(r['Sociedad']  ?? '').trim();
+    const sbu  = String(r['UEN']       ?? '').trim();
+    const div  = String(r['Division']  ?? '').trim();
     const cons = String(r['Consultor_Cliente'] ?? '').trim();
-    const cli  = String(r['Cliente'] ?? '').trim();
-    const mes  = String(r['Mes'] ?? '').toLowerCase().trim();
+    const cli  = String(r['Cliente']   ?? '').trim();
+    const mes  = String(r['Mes']       ?? '').toLowerCase().trim();
     const year = n(r['Año']);
 
     if (soc  && soc  !== '-') sociedades.add(soc);
     if (sbu  && sbu  !== '-') sbus.add(sbu);
+    if (div  && div  !== '-') divisiones.add(div);
     if (cons && cons !== '-' && cons !== 'ALIADOS') consultores.add(cons);
     if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
 
@@ -74,6 +77,7 @@ export function buildGerencialFilterOptions(rows: RawRow[], consultorFilter = ''
   return {
     sociedades:  [...sociedades].sort(),
     sbus:        [...sbus].sort(),
+    divisiones:  [...divisiones].sort(),
     periodos:    sortedPeriodos,
     consultores: [...consultores].sort(),
     clientes:    [...clientes].sort(),
@@ -94,10 +98,11 @@ export function transformGerencial(
 ): Partial<DashboardData> {
   const fSociedad  = filters?.sociedad  || '';
   const fSbu       = filters?.sbu       || '';
+  const fDivision  = filters?.division  || '';
   const fPeriodo   = filters?.periodo   || '';
   const fConsultor = filters?.consultor || '';
   const fCliente   = filters?.cliente   || '';
-  const hasFilter  = !!(fSociedad || fSbu || fPeriodo || fConsultor || fCliente);
+  const hasFilter  = !!(fSociedad || fSbu || fDivision || fPeriodo || fConsultor || fCliente);
 
   // "YYYY-all" means full-year accumulation; regular "YYYY-mmm" means a single month
   const isAllYear     = fPeriodo.endsWith('-all');
@@ -125,6 +130,7 @@ export function transformGerencial(
   const erp2: RawRow[] = hasFilter ? erp.filter(r => {
     if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  return false;
     if (fSbu       && String(r['UEN']               ?? '').trim() !== fSbu)       return false;
+    if (fDivision  && String(r['Division']          ?? '').trim() !== fDivision)  return false;
     if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) return false;
     if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   return false;
     return true;

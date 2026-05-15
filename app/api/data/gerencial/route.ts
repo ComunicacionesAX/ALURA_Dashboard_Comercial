@@ -2,15 +2,27 @@ import { readSheet } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
 import { applyLocalOtifOverrides } from '@/lib/otifLocalData';
-import { transformGerencial } from '@/lib/transformGerencial';
+import { transformGerencial, buildGerencialFilterOptions } from '@/lib/transformGerencial';
+import type { GerencialFilters } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const filters: Partial<GerencialFilters> = {
+      sociedad:  searchParams.get('sociedad')  || '',
+      sbu:       searchParams.get('sbu')       || '',
+      division:  searchParams.get('division')  || '',
+      periodo:   searchParams.get('periodo')   || '',
+      consultor: searchParams.get('consultor') || '',
+      cliente:   searchParams.get('cliente')   || '',
+    };
+
     const rows = await readSheet('Informe Comercial Gerencial');
-    const data = applyLocalOtifOverrides(transformGerencial(rows) as typeof mockData);
-    return Response.json(data);
+    const filterOptions = buildGerencialFilterOptions(rows, filters.consultor || '');
+    const data = applyLocalOtifOverrides(transformGerencial(rows, filters) as typeof mockData);
+    return Response.json({ ...data, filterOptions });
   } catch (err) {
     console.warn('[api/data/gerencial] fallback local activado:', err);
     try {
