@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { DashboardData, FilterState, UserRole } from '@/lib/types';
 import { mockData } from '@/lib/mockData';
 import KPICard from './KPICard';
-import Filters from './Filters';
+// import Filters from './Filters';
 import SalesChart from './SalesChart';
 import Alerts from './Alerts';
 import InventoryTable from './InventoryTable';
@@ -216,12 +216,12 @@ export default function Dashboard() {
 
       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
 
-        <Filters
+        {/* <Filters
           filters={filters}
           onFilterChange={setFilters}
           zonas={zonaOptions}
           productos={productoOptions}
-        />
+        /> */}
 
         <section>
           <h2 className="text-lg font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
