@@ -12,8 +12,13 @@ import ClientsTable from './ClientsTable';
 import ViewToggle from './ViewToggle';
 import ChatBot from './ChatBot';
 import DashboardSkeleton from './DashboardSkeleton';
+import KPIDetailModal from './KPIDetailModal';
 import Image from 'next/image';
 import { TrendingUp, Package, Users, RefreshCw, AlertCircle } from 'lucide-react';
+import ParetoChart from './ParetoChart';
+import ProductDonutChart from './ProductDonutChart';
+import AreaTrendChart from './AreaTrendChart';
+import PerformanceHeatmap from './PerformanceHeatmap';
 
 // Estructura vacía para estado inicial — no mezcla datos simulados con datos reales
 const emptyData: DashboardData = {
@@ -31,6 +36,7 @@ const emptyData: DashboardData = {
   gastosPorZona: [],
   resumenMensual: [],
   reglasPromesa: [],
+  otifCausalPorMes: [],
 };
 
 function mergeLiveData(live: Partial<DashboardData>): DashboardData {
@@ -54,6 +60,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [selectedKPI, setSelectedKPI] = useState<typeof data.kpis.ventaMes | null>(null);
 
   const fetchData = useCallback(async (view: UserRole) => {
     setLoading(true);
@@ -119,6 +126,33 @@ export default function Dashboard() {
       return 'D';
     }
     return `${margen.toFixed(1)}%`;
+  };
+
+  const buildKpiHistory = (metric: typeof data.kpis.ventaMes) => {
+    if (!data.resumenMensual || data.resumenMensual.length === 0) return undefined;
+
+    if (metric.label.includes('Venta')) {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.ventaTotal }));
+    }
+    if (metric.label.includes('Margen')) {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.margenBruto }));
+    }
+    if (metric.label === 'OTIF') {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.otif }));
+    }
+    if (metric.label.includes('sin movimiento')) {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.clientesSinMovimiento }));
+    }
+    if (metric.label.includes('Clientes nuevos')) {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.clientesNuevos }));
+    }
+    if (metric.label === 'Quejas') {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.quejas }));
+    }
+    if (metric.label.includes('crédito')) {
+      return data.resumenMensual.map(item => ({ mes: item.mes, valor: item.notasCredito }));
+    }
+    return undefined;
   };
 
   // Derive dynamic filter options from real data
@@ -194,18 +228,38 @@ export default function Dashboard() {
             <TrendingUp className="w-5 h-5 text-[#993935]" />
             KPIs Principales
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-            <KPICard metric={data.kpis.ventaMes} />
-            {currentView === 'gerencial' && <KPICard metric={data.kpis.margenBruto} />}
-            {currentView === 'consultor' && (
-              <KPICard metric={{ ...data.kpis.margenBruto, label: 'Cumplimiento Ppto' }} />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div onClick={() => setSelectedKPI(data.kpis.ventaMes)} className="cursor-pointer">
+              <KPICard metric={data.kpis.ventaMes} />
+            </div>
+            {currentView === 'gerencial' && (
+              <div onClick={() => setSelectedKPI(data.kpis.margenBruto)} className="cursor-pointer">
+                <KPICard metric={data.kpis.margenBruto} />
+              </div>
             )}
-            <KPICard metric={data.kpis.otif} />
-            <KPICard metric={data.kpis.clientesSinMovimiento} />
-            <KPICard metric={data.kpis.clientesNuevos} />
-            <KPICard metric={data.kpis.quejas} />
-            <KPICard metric={data.kpis.notasCredito} />
-            <KPICard metric={data.kpis.alertasInventario} />
+            {currentView === 'consultor' && (
+              <div onClick={() => setSelectedKPI({ ...data.kpis.margenBruto, label: 'Cumplimiento Ppto' })} className="cursor-pointer">
+                <KPICard metric={{ ...data.kpis.margenBruto, label: 'Cumplimiento Ppto' }} />
+              </div>
+            )}
+            <div onClick={() => setSelectedKPI(data.kpis.otif)} className="cursor-pointer">
+              <KPICard metric={data.kpis.otif} />
+            </div>
+            <div onClick={() => setSelectedKPI(data.kpis.clientesSinMovimiento)} className="cursor-pointer">
+              <KPICard metric={data.kpis.clientesSinMovimiento} />
+            </div>
+            <div onClick={() => setSelectedKPI(data.kpis.clientesNuevos)} className="cursor-pointer">
+              <KPICard metric={data.kpis.clientesNuevos} />
+            </div>
+            <div onClick={() => setSelectedKPI(data.kpis.quejas)} className="cursor-pointer">
+              <KPICard metric={data.kpis.quejas} />
+            </div>
+            <div onClick={() => setSelectedKPI(data.kpis.notasCredito)} className="cursor-pointer">
+              <KPICard metric={data.kpis.notasCredito} />
+            </div>
+            <div onClick={() => setSelectedKPI(data.kpis.alertasInventario)} className="cursor-pointer">
+              <KPICard metric={data.kpis.alertasInventario} />
+            </div>
           </div>
         </section>
 
@@ -221,11 +275,33 @@ export default function Dashboard() {
           </div>
         </div>
 
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <AreaTrendChart
+            data={data.resumenMensual}
+            title="Tendencia de Ventas vs Presupuesto"
+          />
+          <PerformanceHeatmap
+            data={filteredVentasPorZona}
+            title={currentView === 'consultor' ? 'Mapa de Desempeño por Consultor' : 'Mapa de Desempeño por Zona'}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ParetoChart
+            data={filteredClientesPareto}
+            title="Análisis Pareto de Clientes (Top 10)"
+          />
+          <ProductDonutChart
+            data={filteredVentasPorProducto}
+            title="Distribución de Ventas por Producto"
+          />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
               <Package className="w-4 h-4 text-[#993935]" />
-              Ventas por Producto (Pareto)
+              Top 6 Productos
             </h3>
             {filteredVentasPorProducto.length === 0 ? (
               <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
@@ -266,7 +342,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
               <Users className="w-4 h-4 text-[#993935]" />
-              Clientes Pareto (80/20)
+              Top 6 Clientes
             </h3>
             {filteredClientesPareto.length === 0 ? (
               <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
@@ -291,12 +367,16 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {data.clientesSinMovimiento.length > 0 && (
-          <ClientsTable tipo="sin-movimiento" clientes={filteredClientesSinMovimiento} />
-        )}
+        {(data.clientesSinMovimiento.length > 0 || data.clientesNuevos.length > 0) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {data.clientesSinMovimiento.length > 0 && (
+              <ClientsTable tipo="sin-movimiento" clientes={filteredClientesSinMovimiento} />
+            )}
 
-        {data.clientesNuevos.length > 0 && (
-          <ClientsTable tipo="nuevos" clientes={filteredClientesNuevos} />
+            {data.clientesNuevos.length > 0 && (
+              <ClientsTable tipo="nuevos" clientes={filteredClientesNuevos} />
+            )}
+          </div>
         )}
 
         {data.inventario.length > 0 && (
@@ -341,6 +421,14 @@ export default function Dashboard() {
           </div>
         )}
       </main>
+
+      <KPIDetailModal
+        metric={selectedKPI}
+        onClose={() => setSelectedKPI(null)}
+        historicalData={selectedKPI ? buildKpiHistory(selectedKPI) : undefined}
+        otifCausalPorMes={selectedKPI?.label === 'OTIF' ? data.otifCausalPorMes : undefined}
+      />
+
       <ChatBot data={loading ? null : data} />
     </div>
   );

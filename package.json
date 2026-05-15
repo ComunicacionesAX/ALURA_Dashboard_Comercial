@@ -6,7 +6,8 @@
     "dev": "NODE_OPTIONS='--max-old-space-size=4096' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build-data": "node scripts/buildData.js"
   },
   "dependencies": {
     "googleapis": "^171.4.0",
