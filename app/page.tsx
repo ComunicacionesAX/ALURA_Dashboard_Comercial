@@ -5,9 +5,9 @@ import { mockData } from '@/lib/mockData';
 export default async function Home() {
   try {
     const data = await loadDashboardData();
-    return <Dashboard data={data} />;
+    return <Dashboard initialData={data} />;
   } catch (error) {
     console.error('Error cargando datos:', error);
-    return <Dashboard data={mockData} />;
+    return <Dashboard initialData={mockData} />;
   }
 }
