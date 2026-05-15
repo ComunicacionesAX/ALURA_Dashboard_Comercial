@@ -1,0 +1,3724 @@
+
+> dashboard-alura@0.1.0 dev
+> node --max-old-space-size=4096 ./node_modules/next/dist/bin/next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.16.3.170:3000
+✓ Ready in 3.5s
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\adesarrollo1\Documents\nuevo-proyecto\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\adesarrollo1\Documents\nuevo-proyecto\ALURA_Dashboard_Comercial\package-lock.json
+
+○ Compiling instrumentation Node.js ...
+[instrumentation] Cache pre-warm failed: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⚠ Failed to reload dynamic routes: Error: UNKNOWN: unknown error, open 'C:\Users\adesarrollo1\Documents\nuevo-proyecto\ALURA_Dashboard_Comercial\.next\dev\types\validator.ts'
+    at ignore-listed frames {
+  errno: -4094,
+  code: 'UNKNOWN',
+  syscall: 'open',
+  path: 'C:\\Users\\adesarrollo1\\Documents\\nuevo-proyecto\\ALURA_Dashboard_Comercial\\.next\\dev\\types\\validator.ts'
+}
+ GET / 500 in 997ms (next.js: 712ms, application-code: 285ms)
+ GET / 500 in 1054ms (next.js: 994ms, application-code: 60ms)
+ GET / 500 in 1053ms (next.js: 1014ms, application-code: 39ms)
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ HEAD / 500 in 31ms (next.js: 15ms, application-code: 16ms)
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET / 500 in 24ms (next.js: 13ms, application-code: 11ms)
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+  [90m 5 |[0m [36mimport[0m { mockData } [36mfrom[0m [32m'@/lib/mockData'[0m;
+  [90m 6 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m [33mFilters[0m [36mfrom[0m [32m'./Filters'[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m 9 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m10 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET / 500 in 42ms (next.js: 18ms, application-code: 24ms)
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+[browser] ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:7:1
+Module not found: Can't resolve './Filters'
+   5 | import { mockData } from '@/lib/mockData';
+   6 | import KPICard from './KPICard';
+>  7 | import Filters from './Filters';
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import SalesChart from './SalesChart';
+   9 | import Alerts from './Alerts';
+  10 | import InventoryTable from './InventoryTable';
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+https://nextjs.org/docs/messages/module-not-found 
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+⨯ ReferenceError: Filters is not defined
+    at Dashboard (components\Dashboard.tsx:219:10)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions} {
+  digest: '4232370944'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+⨯ ReferenceError: Filters is not defined
+    at Dashboard (components\Dashboard.tsx:219:10)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions} {
+  digest: '4232370944'
+}
+ GET / 500 in 1126ms (next.js: 1022ms, application-code: 104ms)
+ GET / 500 in 1154ms (next.js: 480ms, application-code: 673ms)
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+⨯ ReferenceError: Filters is not defined
+    at Dashboard (components\Dashboard.tsx:219:10)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions} {
+  digest: '4232370944'
+}
+⨯ ReferenceError: Filters is not defined
+    at Dashboard (components\Dashboard.tsx:219:10)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions} {
+  digest: '4232370944'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+⨯ ReferenceError: Filters is not defined
+    at Dashboard (components\Dashboard.tsx:219:10)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions} {
+  digest: '4232370944'
+}
+ GET / 500 in 432ms (next.js: 17ms, application-code: 415ms)
+ GET / 500 in 434ms (next.js: 55ms, application-code: 379ms)
+ GET / 500 in 260ms (next.js: 24ms, application-code: 236ms)
+[browser] Uncaught ReferenceError: Filters is not defined
+    at Dashboard (components/Dashboard.tsx:219:10)
+    at Home (app\page.tsx:8:12)
+  217 |       <main className={`max-w-7xl mx-auto px-4 py-6 space-y-6 ${loading ? 'hidden' : ''}`}>
+  218 |
+> 219 |         <Filters
+      |          ^
+  220 |           filters={filters}
+  221 |           onFilterChange={setFilters}
+  222 |           zonas={zonaOptions}
+✓ Compiled in 232ms
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET / 200 in 1248ms (next.js: 175ms, application-code: 1073ms)
+ GET / 200 in 612ms (next.js: 24ms, application-code: 588ms)
+ GET / 200 in 429ms (next.js: 45ms, application-code: 383ms)
+[browser] Image with src "https://latam.alura.bio/wp-content/uploads/2024/01/logo.svg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 2.1s (next.js: 1969ms, application-code: 148ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 44ms (next.js: 9ms, application-code: 35ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 54ms (next.js: 10ms, application-code: 45ms)
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET / 200 in 194ms (next.js: 16ms, application-code: 177ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 68ms (next.js: 17ms, application-code: 51ms)
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+✓ Compiled in 1604ms
+ GET / 500 in 776ms (next.js: 665ms, application-code: 111ms)
+ GET / 500 in 763ms (next.js: 733ms, application-code: 30ms)
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+ GET / 500 in 162ms (next.js: 63ms, application-code: 99ms)
+ GET / 500 in 164ms (next.js: 99ms, application-code: 65ms)
+ GET / 500 in 197ms (next.js: 131ms, application-code: 66ms)
+ GET / 500 in 197ms (next.js: 164ms, application-code: 33ms)
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+⨯ ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:2
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m  [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  [90m242 |[0m       <main className={[32m`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-..[0m.
+  [90m243 |[0m
+[31m[1m>[0m [90m244 |[0m <<<<<<< [33mHEAD[0m
+  [90m    |[0m    [31m[1m^^[0m
+  [90m245 |[0m         {/* <[33mFilters[0m
+  [90m246 |[0m           filters={filters}
+  [90m247 |[0m           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:12:1
+Merge conflict marker encountered.
+  [90m10 |[0m [36mimport[0m { formatCOP, formatPct } [36mfrom[0m [32m'@/lib/format'[0m;
+  [90m11 |[0m [36mimport[0m [33mKPICard[0m [36mfrom[0m [32m'./KPICard'[0m;
+[31m[1m>[0m [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+  [90m14 |[0m =======
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:14:1
+Merge conflict marker encountered.
+  [90m12 |[0m <<<<<<< [33mHEAD[0m
+  [90m13 |[0m [90m// import Filters from './Filters';[0m
+[31m[1m>[0m [90m14 |[0m =======
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+  [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+
+./ALURA_Dashboard_Comercial/components/Dashboard.tsx:17:1
+Merge conflict marker encountered.
+  [90m15 |[0m [36mimport[0m [33mGerencialFiltersPanel[0m [36mfrom[0m [32m'./GerencialFilters'[0m;
+  [90m16 |[0m [36mimport[0m [33mComercialFiltersPanel[0m [36mfrom[0m [32m'./ComercialFilters'[0m;
+[31m[1m>[0m [90m17 |[0m >>>>>>> [35m477[0mb9e54579237a8186f8480dd1cf609ba178c64
+  [90m   |[0m [31m[1m^^^^^^^[0m
+  [90m18 |[0m [36mimport[0m [33mSalesChart[0m [36mfrom[0m [32m'./SalesChart'[0m;
+  [90m19 |[0m [36mimport[0m [33mAlerts[0m [36mfrom[0m [32m'./Alerts'[0m;
+  [90m20 |[0m [36mimport[0m [33mInventoryTable[0m [36mfrom[0m [32m'./InventoryTable'[0m;
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+ GET / 500 in 255ms (next.js: 166ms, application-code: 90ms)
+ GET / 500 in 187ms (next.js: 141ms, application-code: 46ms)
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  242 |       <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-...
+  243 |
+> 244 | <<<<<<< HEAD
+      |    ^^
+  245 |         {/* <Filters
+  246 |           filters={filters}
+  247 |           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  242 |       <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-...
+  243 |
+> 244 | <<<<<<< HEAD
+      |    ^^
+  245 |         {/* <Filters
+  246 |           filters={filters}
+  247 |           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+[browser] Uncaught Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4
+Expression expected
+  242 |       <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-...
+  243 |
+> 244 | <<<<<<< HEAD
+      |    ^^
+  245 |         {/* <Filters
+  246 |           filters={filters}
+  247 |           onFilterChange={setFilters}
+
+Parsing ecmascript source code failed
+
+Import trace:
+  Server Component:
+    ./ALURA_Dashboard_Comercial/components/Dashboard.tsx
+    ./ALURA_Dashboard_Comercial/app/page.tsx
+
+
+    at <unknown> (Error: ./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+    at <unknown> (Error: (./ALURA_Dashboard_Comercial/components/Dashboard.tsx:244:4)
+ GET / 200 in 3.2s (next.js: 2.0s, application-code: 1198ms)
+ GET / 200 in 3.2s (next.js: 2.2s, application-code: 943ms)
+ GET / 200 in 517ms (next.js: 108ms, application-code: 409ms)
+ GET / 200 in 517ms (next.js: 194ms, application-code: 324ms)
+ GET / 200 in 165ms (next.js: 15ms, application-code: 150ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 5.2s (next.js: 5.1s, application-code: 63ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 115ms (next.js: 13ms, application-code: 102ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 37ms (next.js: 9ms, application-code: 27ms)
+ GET / 200 in 171ms (next.js: 14ms, application-code: 157ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 133ms (next.js: 27ms, application-code: 106ms)
+ GET / 200 in 191ms (next.js: 20ms, application-code: 171ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 71ms (next.js: 10ms, application-code: 61ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 58ms (next.js: 11ms, application-code: 47ms)
+[api/data/gerencial] fallback local activado: Error: error:1E08010C:DECODER routines::unsupported
+    at ignore-listed frames {
+  opensslErrorStack: [ 'error:1E08010C:DECODER routines::unsupported' ],
+  library: 'DECODER routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_UNSUPPORTED'
+}
+dashboardData.json no encontrado — usando datos de ejemplo. Ejecuta: node scripts/buildData.js
+ GET /api/data/gerencial 200 in 27ms (next.js: 6ms, application-code: 21ms)
+ GET / 200 in 951ms (next.js: 747ms, application-code: 205ms)
+ GET / 200 in 93ms (next.js: 7ms, application-code: 86ms)
+ GET / 200 in 49ms (next.js: 9ms, application-code: 41ms)

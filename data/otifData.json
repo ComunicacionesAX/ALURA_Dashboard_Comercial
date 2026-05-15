@@ -1,0 +1,221 @@
+{
+  "por_mes": {
+    "enero": {
+      "Backorder abastecimiento ( No inventario)": {
+        "cantidad": 1,
+        "valor": 73500000
+      },
+      "Backorder decision comercial ( Manejo de inventario)": {
+        "cantidad": 5,
+        "valor": 12650800
+      },
+      "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 7,
+        "valor": 188809200
+      },
+      "Inventario que no se entrego en el mes con forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 12,
+        "valor": 329972000
+      },
+      "Manufactura ( Proceso productivo// planificación de produccion o acondicionamiento)": {
+        "cantidad": 3,
+        "valor": 299860000
+      },
+      "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)": {
+        "cantidad": 7,
+        "valor": 235615000
+      },
+      "Cartera (Demoras por gestion comercial de cartera)": {
+        "cantidad": 8,
+        "valor": 28989750
+      },
+      "Inventario y alistamiento de productos": {
+        "cantidad": 1,
+        "valor": 9750000
+      },
+      "Cancelado": {
+        "cantidad": 4,
+        "valor": 89215400
+      }
+    },
+    "febrero": {
+      "Backorder abastecimiento ( No inventario)": {
+        "cantidad": 12,
+        "valor": 115139000
+      },
+      "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 2,
+        "valor": 7284800
+      },
+      "Inventario que no se entrego en el mes con forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 15,
+        "valor": 726652000
+      },
+      "Manufactura ( Proceso productivo// planificación de produccion o acondicionamiento)": {
+        "cantidad": 4,
+        "valor": 10505000
+      },
+      "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)": {
+        "cantidad": 9,
+        "valor": 98485260
+      },
+      "Cartera (Demoras por gestion comercial de cartera)": {
+        "cantidad": 7,
+        "valor": 37055000
+      },
+      "Inventario y alistamiento de productos": {
+        "cantidad": 1,
+        "valor": 23400000
+      },
+      "Cancelado": {
+        "cantidad": 6,
+        "valor": 177770000
+      }
+    },
+    "marzo": {
+      "Backorder abastecimiento ( No inventario)": {
+        "cantidad": 2,
+        "valor": 144000000
+      },
+      "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 5,
+        "valor": 20709500
+      },
+      "Inventario que no se entrego en el mes con forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 5,
+        "valor": 35918750
+      },
+      "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)": {
+        "cantidad": 10,
+        "valor": 91884000
+      },
+      "Cartera (Demoras por gestion comercial de cartera)": {
+        "cantidad": 19,
+        "valor": 318741500
+      },
+      "Inventario y alistamiento de productos": {
+        "cantidad": 2,
+        "valor": 23415000
+      },
+      "Cancelado": {
+        "cantidad": 1,
+        "valor": 300000
+      },
+      "ASC ( Queja de calidad // concentracion del producto)": {
+        "cantidad": 2,
+        "valor": 26635000
+      }
+    },
+    "abril": {
+      "Backorder abastecimiento ( No inventario)": {
+        "cantidad": 5,
+        "valor": 110750000
+      },
+      "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 2,
+        "valor": 7275000
+      },
+      "Inventario que no se entrego en el mes con forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 16,
+        "valor": 162276600
+      },
+      "Manufactura ( Proceso productivo// planificación de produccion o acondicionamiento)": {
+        "cantidad": 1,
+        "valor": 48125000
+      },
+      "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)": {
+        "cantidad": 13,
+        "valor": 490638500
+      },
+      "Cartera (Demoras por gestion comercial de cartera)": {
+        "cantidad": 32,
+        "valor": 529841500
+      },
+      "Inventario y alistamiento de productos": {
+        "cantidad": 4,
+        "valor": 9751750
+      },
+      "Cancelado": {
+        "cantidad": 5,
+        "valor": 27297000
+      },
+      "Cartera e Inventario ( se quedo inicialmente retenido por cartera, posteriormente se libera pero no hay producto para envio": {
+        "cantidad": 4,
+        "valor": 79970000
+      },
+      "Cartera - Transporte ( se quedo inicialmente retenido por cartera y no se cumplio con la fcha solicitada, posteriormente se libera pero se presento novedad en transporte)": {
+        "cantidad": 1,
+        "valor": 5300000
+      }
+    },
+    "mayo": {
+      "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)": {
+        "cantidad": 1,
+        "valor": 19250000
+      },
+      "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)": {
+        "cantidad": 2,
+        "valor": 24450000
+      },
+      "Cartera (Demoras por gestion comercial de cartera)": {
+        "cantidad": 11,
+        "valor": 101775000
+      },
+      "Inventario y alistamiento de productos": {
+        "cantidad": 2,
+        "valor": 113520000
+      }
+    }
+  },
+  "otifPercentages": {
+    "enero": {
+      "numeroPedidos": 354,
+      "hits": 300,
+      "misses": 54,
+      "otifPercent": 84.7
+    },
+    "febrero": {
+      "numeroPedidos": 311,
+      "hits": 255,
+      "misses": 56,
+      "otifPercent": 82
+    },
+    "marzo": {
+      "numeroPedidos": 352,
+      "hits": 305,
+      "misses": 47,
+      "otifPercent": 86.6
+    },
+    "abril": {
+      "numeroPedidos": 334,
+      "hits": 247,
+      "misses": 87,
+      "otifPercent": 74
+    },
+    "mayo": {
+      "numeroPedidos": 145,
+      "hits": 129,
+      "misses": 16,
+      "otifPercent": 89
+    }
+  },
+  "causales_totales": [
+    "ASC ( Queja de calidad // concentracion del producto)",
+    "Backorder abastecimiento ( No inventario)",
+    "Backorder decision comercial ( Manejo de inventario)",
+    "Cancelado",
+    "Cartera (Demoras por gestion comercial de cartera)",
+    "Cartera - Transporte ( se quedo inicialmente retenido por cartera y no se cumplio con la fcha solicitada, posteriormente se libera pero se presento novedad en transporte)",
+    "Cartera e Inventario ( se quedo inicialmente retenido por cartera, posteriormente se libera pero no hay producto para envio",
+    "Inventario que no se entrego en el mes con forecast ( Producto no disponible o falta de  certificados u otro)",
+    "Inventario que no se entrego en el mes sin forecast ( Producto no disponible o falta de  certificados u otro)",
+    "Inventario y alistamiento de productos",
+    "Manufactura ( Proceso productivo// planificación de produccion o acondicionamiento)",
+    "Transporte (entregas fuera de la fecha del cliente // averias // certificados // novedades transportadora)"
+  ],
+  "resumen": {
+    "total_causales": 12,
+    "meses_procesados": 5,
+    "ultima_actualizacion": "2026-05-15T14:53:33.805Z"
+  }
+}

@@ -40,11 +40,13 @@ export async function GET(request: Request) {
   } catch (err) {
     console.warn('[api/data/comercial] fallback local activado:', err);
     try {
-      const data = await loadDashboardData();
+      const data = applyLocalOtifOverrides(await loadDashboardData());
       return Response.json(buildComercialFallback(data));
     } catch (fallbackErr) {
       console.warn('[api/data/comercial] fallback mock activado:', fallbackErr);
-      return Response.json(buildComercialFallback(mockData));
+      // Asegurar que siempre se apliquen las sobreescrituras OTIF
+      const dataWithOtif = applyLocalOtifOverrides(mockData);
+      return Response.json(buildComercialFallback(dataWithOtif));
     }
   }
 }

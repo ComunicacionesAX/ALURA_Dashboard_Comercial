@@ -22,9 +22,29 @@ interface OtifData {
 
 export function applyLocalOtifOverrides(data: DashboardData): DashboardData {
   try {
-    const jsonPath = path.join(process.cwd(), 'data', 'otifData.json');
+    // Try multiple possible paths for otifData.json
+    const possiblePaths = [
+      path.join(process.cwd(), 'data', 'otifData.json'),
+      path.join(__dirname, '..', 'data', 'otifData.json'),
+      path.resolve(process.cwd(), 'data', 'otifData.json'),
+      '/app/data/otifData.json',  // Para Vercel
+      'C:/Users/adesarrollo1/Documents/nuevo-proyecto/ALURA_Dashboard_Comercial/data/otifData.json',  // Desarrollo local
+    ];
 
-    if (!fs.existsSync(jsonPath)) {
+    let jsonPath = '';
+    for (const p of possiblePaths) {
+      try {
+        if (fs.existsSync(p)) {
+          jsonPath = p;
+          break;
+        }
+      } catch (e) {
+        // Ignorar errores de acceso
+      }
+    }
+
+    if (!jsonPath) {
+      console.warn('otifData.json no encontrado. Rutas probadas:', possiblePaths);
       return data;
     }
 
