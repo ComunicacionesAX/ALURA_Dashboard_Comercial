@@ -2,6 +2,7 @@ import type { RawRow } from './sheetsClient';
 import type {
   DashboardData, KPIMetric, VentaPorZona, VentaPorProducto,
   ClientePareto, ClienteSinMovimiento, ClienteNuevo, ResumenMensual,
+  GerencialFilters, GerencialFilterOptions,
 } from './types';
 
 const MESES_ORD: Record<string, number> = {
@@ -21,11 +22,8 @@ function n(v: unknown): number {
 
 const money = (v: unknown) => n(v) * 1_000_000;
 
-function kpi(
-  label: string, value: number, prev: number,
-  unit: KPIMetric['unit'], format: KPIMetric['format'] = 'compact'
-): KPIMetric {
-  return { label, value, previousValue: prev, unit, format };
+function kpi(label: string, value: number, prev: number, unit: KPIMetric['unit']): KPIMetric {
+  return { label, value, previousValue: prev, unit };
 }
 
 function margenLetra(pct: number): 'A' | 'B' | 'C' | 'D' {
@@ -35,77 +33,119 @@ function margenLetra(pct: number): 'A' | 'B' | 'C' | 'D' {
   return 'D';
 }
 
-function excelSerialToDate(serial: number): string {
-  if (!serial || serial < 1) return '';
-  return new Date((serial - 25569) * 86400 * 1000).toISOString().slice(0, 10);
+// ── Build filter option lists from all ERP rows (unfiltered) ─────────────────
+export function buildGerencialFilterOptions(rows: RawRow[], consultorFilter = ''): GerencialFilterOptions {
+  const sociedades  = new Set<string>();
+  const sbus        = new Set<string>();
+  const periodos    = new Set<string>(); // "YYYY-mmm"
+  const consultores = new Set<string>();
+  const clientes    = new Set<string>();
+
+  for (const r of rows) {
+    if (r['Es_Ppto'] !== 'Es ERP') continue;
+    const venta = money(r['Venta']);
+    if (venta <= 0) continue;
+
+    const soc  = String(r['Sociedad'] ?? '').trim();
+    const sbu  = String(r['UEN'] ?? '').trim();
+    const cons = String(r['Consultor_Cliente'] ?? '').trim();
+    const cli  = String(r['Cliente'] ?? '').trim();
+    const mes  = String(r['Mes'] ?? '').toLowerCase().trim();
+    const year = n(r['Año']);
+
+    if (soc  && soc  !== '-') sociedades.add(soc);
+    if (sbu  && sbu  !== '-') sbus.add(sbu);
+    if (cons && cons !== '-' && cons !== 'ALIADOS') consultores.add(cons);
+    if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
+
+    // Scope clientes to selected consultor
+    if (consultorFilter && cons !== consultorFilter) continue;
+    if (cli) clientes.add(cli);
+  }
+
+  // Sort periodos newest-first
+  const sortedPeriodos = [...periodos].sort((a, b) => {
+    const [ay, am] = a.split('-');
+    const [by, bm] = b.split('-');
+    const diff = Number(by) - Number(ay);
+    return diff !== 0 ? diff : (MESES_ORD[bm] ?? 0) - (MESES_ORD[am] ?? 0);
+  });
+
+  return {
+    sociedades:  [...sociedades].sort(),
+    sbus:        [...sbus].sort(),
+    periodos:    sortedPeriodos,
+    consultores: [...consultores].sort(),
+    clientes:    [...clientes].sort(),
+  };
 }
 
-export function transformGerencial(rows: RawRow[]): Partial<DashboardData> {
-  // ── Single pass: split rows + collect years ───────────────────────────────
+// Decode "YYYY-mmm" back into year + mes key
+function parsePeriodo(p: string): { year: number; mes: string } | null {
+  const [y, m] = p.split('-');
+  if (!y || !m) return null;
+  return { year: Number(y), mes: m.toLowerCase() };
+}
+
+// ── Main transform ────────────────────────────────────────────────────────────
+export function transformGerencial(
+  rows: RawRow[],
+  filters?: Partial<GerencialFilters>
+): Partial<DashboardData> {
+  const fSociedad  = filters?.sociedad  || '';
+  const fSbu       = filters?.sbu       || '';
+  const fPeriodo   = filters?.periodo   || '';
+  const fConsultor = filters?.consultor || '';
+  const fCliente   = filters?.cliente   || '';
+  const hasFilter  = !!(fSociedad || fSbu || fPeriodo || fConsultor || fCliente);
+
+  // "YYYY-all" means full-year accumulation; regular "YYYY-mmm" means a single month
+  const isAllYear     = fPeriodo.endsWith('-all');
+  const allYear       = isAllYear ? Number(fPeriodo.split('-')[0]) : 0;
+  const periodoFilter = (!isAllYear && fPeriodo) ? parsePeriodo(fPeriodo) : null;
+
+  // ── Split rows ────────────────────────────────────────────────────────────
   const erp: RawRow[] = [];
   const pptoRows: RawRow[] = [];
   const yearSet = new Set<number>();
 
   for (const r of rows) {
+    const y = n(r['Año']);
     if (r['Es_Ppto'] === 'Es ERP') {
+      if (periodoFilter && y !== periodoFilter.year) continue;
+      if (isAllYear     && y !== allYear)            continue;
       erp.push(r);
-      const y = n(r['Año']);
       if (y > 2000) yearSet.add(y);
     } else if (r['Es_Ppto'] === 'Es Ppto') {
       pptoRows.push(r);
     }
   }
 
+  // Apply non-period filters to erp
+  const erp2: RawRow[] = hasFilter ? erp.filter(r => {
+    if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  return false;
+    if (fSbu       && String(r['UEN']               ?? '').trim() !== fSbu)       return false;
+    if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) return false;
+    if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   return false;
+    return true;
+  }) : erp;
+
   const years = [...yearSet].sort((a, b) => b - a);
-  const curYear  = years[0] ?? new Date().getFullYear();
-  const prevYear = years[1] ?? curYear - 1;
+  const curYear = years[0] ?? new Date().getFullYear();
 
-  // ── Single pass over erp: collect periods + client history + resumen ──────
+  // ── Pass 1: periods + monthly summary ────────────────────────────────────
   const periodSet = new Set<number>();
-  // client sets
-  const clientesPrevYear  = new Set<string>(); // active in prevYear
-  const clientesCurYear   = new Set<string>(); // active in curYear
-  const clientesPreCurYear = new Set<string>(); // active before curYear (for "nuevos")
-  // maps for clientes sin movimiento
-  const ultimaVentaMap     = new Map<string, number>();   // cliente → last period serial (prevYear)
-  const ventaAnual2025Map  = new Map<string, number>();   // cliente → total venta prevYear
-  // maps for primer periodo nuevos
-  const primerPeriodoMap   = new Map<string, { periodo: number; venta: number }>();
-  // resumen mensual
   const mesVentaMap = new Map<string, { ord: number; ventaTotal: number; ub: number }>();
-  // zona map (will be filled from cur slice later — keep separate for efficiency)
-  const zonaMap = new Map<string, { venta: number; ppto: number; ub: number; clientes: Set<string> }>();
-  // prod map
-  const prodMap = new Map<string, { venta: number; ppto: number; ub: number; material: string }>();
-  // cliente venta map (pareto)
-  const clienteVentaMap = new Map<string, { zona: string; venta: number }>();
 
-  for (const r of erp) {
+  for (const r of erp2) {
     const year   = n(r['Año']);
     const venta  = money(r['Venta']);
     const ub     = money(r['UB']);
     const period = n(r['Periodo']);
-    const cliente = String(r['Cliente']);
     const mes    = String(r['Mes']).toLowerCase();
 
     if (year === curYear && venta > 0) periodSet.add(period);
 
-    // Client history
-    if (venta > 0) {
-      if (year < curYear)  clientesPreCurYear.add(cliente);
-      if (year === prevYear) clientesPrevYear.add(cliente);
-      if (year === curYear)  clientesCurYear.add(cliente);
-    }
-
-    // ultimaVentaMap + ventaAnual2025Map (single pass, was two)
-    if (year === prevYear && venta > 0) {
-      if (!ultimaVentaMap.has(cliente) || period > ultimaVentaMap.get(cliente)!) {
-        ultimaVentaMap.set(cliente, period);
-      }
-      ventaAnual2025Map.set(cliente, (ventaAnual2025Map.get(cliente) ?? 0) + venta);
-    }
-
-    // Resumen mensual
     if (year === curYear) {
       const label = MES_LABEL[mes] ?? mes;
       if (!mesVentaMap.has(label)) mesVentaMap.set(label, { ord: MESES_ORD[mes] ?? 99, ventaTotal: 0, ub: 0 });
@@ -115,58 +155,142 @@ export function transformGerencial(rows: RawRow[]): Partial<DashboardData> {
     }
   }
 
-  // ── Determine current and previous periods ────────────────────────────────
-  const periodosCur = [...periodSet].sort((a, b) => b - a);
-  const ultimoPeriodo    = periodosCur[0] ?? 0;
-  const penultimoPeriodo = periodosCur[1] ?? 0;
+  // When a periodo filter is active, treat that specific month as "current"
+  let ultimoPeriodo: number;
+  let penultimoPeriodo: number;
 
-  // ── Single pass: build cur/prev slices + zona/prod/pareto maps ───────────
+  if (isAllYear) {
+    // Full-year: use the latest period serial as reference (for date display only)
+    const periodosCur = [...periodSet].sort((a, b) => b - a);
+    ultimoPeriodo    = periodosCur[0] ?? 0;
+    penultimoPeriodo = 0;
+  } else if (periodoFilter) {
+    // Find the Excel serial that matches year+mes from the filtered rows
+    const matchSerial = erp2.find(
+      r => n(r['Año']) === periodoFilter.year &&
+           String(r['Mes']).toLowerCase() === periodoFilter.mes &&
+           money(r['Venta']) > 0
+    );
+    ultimoPeriodo    = matchSerial ? n(matchSerial['Periodo']) : 0;
+    penultimoPeriodo = 0; // no prev-month comparison when a specific period is selected
+  } else {
+    const periodosCur = [...periodSet].sort((a, b) => b - a);
+    ultimoPeriodo    = periodosCur[0] ?? 0;
+    penultimoPeriodo = periodosCur[1] ?? 0;
+  }
+
+  const cutoff12m = ultimoPeriodo - 365;
+
+  // ── Pass 2: cur/prev totals + zona/prod/pareto/client maps ────────────────
   let ventaCur = 0, ventaPrev = 0, ubCur = 0, ubPrev = 0;
-  const clientesUltimoMes = new Set<string>();
+  const clientesUltimoMes      = new Set<string>();
+  const clientesUltimos12Meses = new Set<string>();
+  const clientesMesAnterior    = new Map<string, { zona: string; venta: number }>();
+  const zonaMap   = new Map<string, { venta: number; ppto: number; ub: number; clientes: Set<string> }>();
+  const prodMap   = new Map<string, { venta: number; ppto: number; ub: number; material: string; segmento: string }>();
+  const clienteVentaMap = new Map<string, { zona: string; venta: number }>();
   let mesCur = '';
 
-  for (const r of erp) {
-    const period = n(r['Periodo']);
-    const venta  = money(r['Venta']);
-    const ub     = money(r['UB']);
+  for (const r of erp2) {
+    const period  = n(r['Periodo']);
+    const venta   = money(r['Venta']);
+    const ub      = money(r['UB']);
     const cliente = String(r['Cliente']);
+    const mes     = String(r['Mes'] ?? '').toLowerCase();
 
-    if (period === ultimoPeriodo) {
+    // When period filter is active, accumulate all rows (not just ultimoPeriodo)
+    if (isAllYear) {
+      if (n(r['Año']) !== allYear) continue;
       ventaCur += venta;
       ubCur    += ub;
       if (venta > 0) clientesUltimoMes.add(cliente);
-      if (!mesCur) mesCur = String(r['Mes'] ?? '').toLowerCase();
 
-      // Zona map
       const zona = String(r['Equipo_Actual'] || '-');
       if (!zonaMap.has(zona)) zonaMap.set(zona, { venta: 0, ppto: 0, ub: 0, clientes: new Set() });
       const z = zonaMap.get(zona)!;
-      z.venta += venta;
-      z.ub    += ub;
-      z.clientes.add(cliente);
+      z.venta += venta; z.ub += ub; z.clientes.add(cliente);
 
-      // Prod map
       const prod = String(r['Producto Único'] || 'Otros');
-      if (!prodMap.has(prod)) prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || '') });
+      const seg  = String(r['Segmento_prod'] || '').trim();
+      if (!prodMap.has(prod)) {
+        prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: seg });
+      } else if (seg && !prodMap.get(prod)!.segmento) {
+        prodMap.get(prod)!.segmento = seg;
+      }
       const p = prodMap.get(prod)!;
-      p.venta += venta;
-      p.ub    += ub;
+      p.venta += venta; p.ub += ub;
 
-      // Pareto
       if (venta > 0) {
         if (!clienteVentaMap.has(cliente)) clienteVentaMap.set(cliente, { zona: String(r['Equipo_Actual'] || '-'), venta: 0 });
         clienteVentaMap.get(cliente)!.venta += venta;
       }
-    } else if (period === penultimoPeriodo) {
-      ventaPrev += venta;
-      ubPrev    += ub;
+    } else if (periodoFilter) {
+      if (n(r['Año']) !== periodoFilter.year || mes !== periodoFilter.mes) continue;
+      ventaCur += venta;
+      ubCur    += ub;
+      if (venta > 0) clientesUltimoMes.add(cliente);
+      if (!mesCur) mesCur = mes;
+
+      const zona = String(r['Equipo_Actual'] || '-');
+      if (!zonaMap.has(zona)) zonaMap.set(zona, { venta: 0, ppto: 0, ub: 0, clientes: new Set() });
+      const z = zonaMap.get(zona)!;
+      z.venta += venta; z.ub += ub; z.clientes.add(cliente);
+
+      const prod = String(r['Producto Único'] || 'Otros');
+      const seg  = String(r['Segmento_prod'] || '').trim();
+      if (!prodMap.has(prod)) {
+        prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: seg });
+      } else if (seg && !prodMap.get(prod)!.segmento) {
+        prodMap.get(prod)!.segmento = seg;
+      }
+      const p = prodMap.get(prod)!;
+      p.venta += venta; p.ub += ub;
+
+      if (venta > 0) {
+        if (!clienteVentaMap.has(cliente)) clienteVentaMap.set(cliente, { zona: String(r['Equipo_Actual'] || '-'), venta: 0 });
+        clienteVentaMap.get(cliente)!.venta += venta;
+      }
+    } else {
+      if (period === ultimoPeriodo) {
+        ventaCur += venta; ubCur += ub;
+        if (venta > 0) clientesUltimoMes.add(cliente);
+        if (!mesCur) mesCur = mes;
+
+        const zona = String(r['Equipo_Actual'] || '-');
+        if (!zonaMap.has(zona)) zonaMap.set(zona, { venta: 0, ppto: 0, ub: 0, clientes: new Set() });
+        const z = zonaMap.get(zona)!;
+        z.venta += venta; z.ub += ub; z.clientes.add(cliente);
+
+        const prod = String(r['Producto Único'] || 'Otros');
+        const seg  = String(r['Segmento_prod'] || '').trim();
+        if (!prodMap.has(prod)) {
+          prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: seg });
+        } else if (seg && !prodMap.get(prod)!.segmento) {
+          prodMap.get(prod)!.segmento = seg;
+        }
+        const p = prodMap.get(prod)!;
+        p.venta += venta; p.ub += ub;
+
+        if (venta > 0) {
+          if (!clienteVentaMap.has(cliente)) clienteVentaMap.set(cliente, { zona: String(r['Equipo_Actual'] || '-'), venta: 0 });
+          clienteVentaMap.get(cliente)!.venta += venta;
+        }
+      } else if (period === penultimoPeriodo) {
+        ventaPrev += venta; ubPrev += ub;
+        if (venta > 0) {
+          if (!clientesMesAnterior.has(cliente)) clientesMesAnterior.set(cliente, { zona: String(r['Equipo_Actual'] || '-'), venta: 0 });
+          clientesMesAnterior.get(cliente)!.venta += venta;
+        }
+      } else if (period > cutoff12m && period < ultimoPeriodo && venta > 0) {
+        clientesUltimos12Meses.add(cliente);
+      }
     }
   }
 
   const margenCur  = ventaCur  > 0 ? (ubCur  / ventaCur)  * 100 : 0;
   const margenPrev = ventaPrev > 0 ? (ubPrev / ventaPrev) * 100 : 0;
 
-  // ── Single pass over pptoRows: fill zona + prod ppto + resumen ppto ───────
+  // ── Pass 3: ppto rows → fill zona/prod ppto + monthly ppto ───────────────
   const mesPptoMap = new Map<string, number>();
 
   for (const r of pptoRows) {
@@ -174,70 +298,67 @@ export function transformGerencial(rows: RawRow[]): Partial<DashboardData> {
     const ppto = money(r['Ppto']);
     const mes  = String(r['Mes']).toLowerCase();
 
-    if (year === curYear) {
+    // Apply same non-period filters to ppto rows
+    if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  continue;
+    if (fSbu       && String(r['UEN']               ?? '').trim() !== fSbu)       continue;
+    if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
+    if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
+
+    const yearMatches = isAllYear ? year === allYear : year === curYear;
+    if (yearMatches) {
       const label = MES_LABEL[mes] ?? mes;
       mesPptoMap.set(label, (mesPptoMap.get(label) ?? 0) + ppto);
 
-      if (mes === mesCur) {
+      // In full-year mode accumulate ppto for all months; otherwise only current month
+      if (isAllYear || mes === mesCur) {
         const zona = String(r['Equipo_Actual'] || '-');
         if (!zonaMap.has(zona)) zonaMap.set(zona, { venta: 0, ppto: 0, ub: 0, clientes: new Set() });
         zonaMap.get(zona)!.ppto += ppto;
 
         const prod = String(r['Producto Único'] || 'Otros');
-        if (!prodMap.has(prod)) prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || '') });
+        if (!prodMap.has(prod)) prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: '' });
         prodMap.get(prod)!.ppto += ppto;
       }
     }
   }
 
   // ── Clientes sin movimiento ───────────────────────────────────────────────
-  const sinMovimientoList = [...clientesPrevYear].filter(c => !clientesUltimoMes.has(c));
-  const refDate = ultimoPeriodo > 0 ? new Date((ultimoPeriodo - 25569) * 86400 * 1000) : new Date();
+  const sinMovimientoList = [...clientesMesAnterior.keys()].filter(c => !clientesUltimoMes.has(c));
+  const refDate  = ultimoPeriodo    > 0 ? new Date((ultimoPeriodo    - 25569) * 86400 * 1000) : new Date();
+  const prevDate = penultimoPeriodo > 0 ? new Date((penultimoPeriodo - 25569) * 86400 * 1000) : new Date();
 
   const clientesSinMovimiento: ClienteSinMovimiento[] = sinMovimientoList
     .map((c, i) => {
-      const lastSerial = ultimaVentaMap.get(c) ?? 0;
-      const lastDate   = lastSerial > 0 ? new Date((lastSerial - 25569) * 86400 * 1000) : new Date();
-      const dias = Math.max(0, Math.round((refDate.getTime() - lastDate.getTime()) / 86400000));
-      const zonaRow = erp.find(r => r['Cliente'] === c);
+      const dias = Math.max(0, Math.round((refDate.getTime() - prevDate.getTime()) / 86400000));
       return {
         id: String(i + 1),
         nombre: c,
-        zona: String(zonaRow?.['Equipo_Actual'] ?? '-'),
+        zona: clientesMesAnterior.get(c)!.zona,
         diasSinCompra: dias,
-        ultimaCompra: lastDate.toISOString().slice(0, 10),
-        potencial: Math.round((ventaAnual2025Map.get(c) ?? 0) / 12),
+        ultimaCompra: prevDate.toISOString().slice(0, 10),
+        potencial: Math.round(clientesMesAnterior.get(c)!.venta),
       };
     })
-    .sort((a, b) => b.diasSinCompra - a.diasSinCompra);
+    .sort((a, b) => a.nombre.localeCompare(b.nombre));
 
   // ── Clientes nuevos ───────────────────────────────────────────────────────
-  const nuevos2026 = [...clientesCurYear].filter(c => !clientesPreCurYear.has(c));
+  const nuevos = [...clientesUltimoMes].filter(c => !clientesUltimos12Meses.has(c));
 
-  // Collect primer periodo for nuevos in one pass (already done above for all curYear)
-  // Need separate pass only for nuevos subset
-  for (const r of erp) {
-    if (n(r['Año']) !== curYear || money(r['Venta']) <= 0) continue;
-    const c = String(r['Cliente']);
-    if (!nuevos2026.includes(c)) continue;
-    const p = n(r['Periodo']);
-    const existing = primerPeriodoMap.get(c);
-    if (!existing || p < existing.periodo) primerPeriodoMap.set(c, { periodo: p, venta: money(r['Venta']) });
-  }
+  const clientesNuevos: ClienteNuevo[] = nuevos.map((c, i) => ({
+    id: String(i + 1),
+    nombre: c,
+    zona: clienteVentaMap.get(c)?.zona ?? '-',
+    fechaCreacion: refDate.toISOString().slice(0, 10),
+    primeraCompra: clienteVentaMap.get(c)?.venta ?? 0,
+  })).sort((a, b) => b.primeraCompra - a.primeraCompra);
 
-  const clientesNuevos: ClienteNuevo[] = nuevos2026.map((c, i) => {
-    const info = primerPeriodoMap.get(c);
-    const zonaRow = erp.find(r => r['Cliente'] === c);
-    return {
-      id: String(i + 1),
-      nombre: c,
-      zona: String(zonaRow?.['Equipo_Actual'] ?? '-'),
-      fechaCreacion: info ? excelSerialToDate(info.periodo) : '',
-      primeraCompra: info?.venta ?? 0,
-    };
-  }).sort((a, b) => b.primeraCompra - a.primeraCompra);
+  // ── Output arrays ─────────────────────────────────────────────────────────
+  const toCategoria = (s: string, fallback: 'A' | 'B' | 'C' | 'D'): 'A' | 'B' | 'C' | 'D' => {
+    const v = s.trim().toUpperCase();
+    if (v === 'A' || v === 'B' || v === 'C' || v === 'D') return v as 'A' | 'B' | 'C' | 'D';
+    return fallback;
+  };
 
-  // ── Build output arrays ───────────────────────────────────────────────────
   const ventasPorZona: VentaPorZona[] = [...zonaMap.entries()]
     .map(([zona, z]) => ({
       zona,
@@ -260,7 +381,7 @@ export function transformGerencial(rows: RawRow[]): Partial<DashboardData> {
         presupuesto: p.ppto,
         cumplimiento: p.ppto > 0 ? (p.venta / p.ppto) * 100 : 0,
         margen,
-        categoria: margenLetra(margen),
+        categoria: toCategoria(p.segmento, margenLetra(margen)),
       };
     })
     .filter(p => p.venta > 0 || p.presupuesto > 0)
@@ -292,27 +413,88 @@ export function transformGerencial(rows: RawRow[]): Partial<DashboardData> {
     .sort((a, b) => (a as any)._ord - (b as any)._ord)
     .map(({ _ord: _, ...rest }) => rest as ResumenMensual);
 
+  // ── ventasPorMes — for full-year chart (months as X-axis) ────────────────
+  const ventasPorMes: VentaPorZona[] = [...new Set([...mesVentaMap.keys(), ...mesPptoMap.keys()])]
+    .map(label => {
+      const v   = mesVentaMap.get(label) ?? { ord: 99, ventaTotal: 0, ub: 0 };
+      const ppto = mesPptoMap.get(label) ?? 0;
+      const venta = v.ventaTotal;
+      return {
+        _ord: v.ord,
+        zona: label,
+        venta,
+        presupuesto: ppto,
+        cumplimiento: ppto > 0 ? (venta / ppto) * 100 : 0,
+        margen: venta > 0 ? (v.ub / venta) * 100 : 0,
+        clientsCount: 0,
+      };
+    })
+    .sort((a, b) => (a as any)._ord - (b as any)._ord)
+    .map(({ _ord: _, ...rest }) => rest as VentaPorZona);
+
+  // ── Alerts — derived from same data as KPIs and chart ───────────────────
+  const alertasFecha = refDate.toISOString().slice(0, 10);
+  const alertas: DashboardData['alertas'] = [];
+  let alertId = 0;
+
+  for (const z of ventasPorZona) {
+    if (z.presupuesto > 0 && z.cumplimiento < 80) {
+      alertas.push({
+        id: String(++alertId),
+        tipo: 'otif',
+        nivel: z.cumplimiento < 60 ? 'critica' : 'alta',
+        titulo: `Zona bajo presupuesto: ${z.zona}`,
+        descripcion: `Cumplimiento del ${z.cumplimiento.toFixed(1)}% vs presupuesto.`,
+        zona: z.zona,
+        fecha: alertasFecha,
+      });
+    }
+  }
+
+  if (sinMovimientoList.length > 0) {
+    alertas.push({
+      id: String(++alertId),
+      tipo: 'cliente',
+      nivel: sinMovimientoList.length >= 5 ? 'alta' : 'media',
+      titulo: 'Clientes sin movimiento',
+      descripcion: `${sinMovimientoList.length} cliente(s) sin compra en el período actual.`,
+      fecha: alertasFecha,
+    });
+  }
+
+  for (const p of ventasPorProducto.filter(p => p.categoria === 'D' && p.venta > 0).slice(0, 3)) {
+    alertas.push({
+      id: String(++alertId),
+      tipo: 'margen',
+      nivel: 'alta',
+      titulo: `Margen bajo: ${p.producto}`,
+      descripcion: `Margen del ${p.margen.toFixed(1)}%, por debajo del umbral mínimo (20%).`,
+      fecha: alertasFecha,
+    });
+  }
+
   // ── KPIs ──────────────────────────────────────────────────────────────────
   const kpis: DashboardData['kpis'] = {
-    ventaMes:              kpi('Venta del mes',                     ventaCur,              ventaPrev,   'currency',   'compact'),
-    margenBruto:           kpi('Margen bruto',                      margenCur,             margenPrev,  'percentage', 'full'),
-    otif:                  kpi('OTIF',                              82,                    80,          'percentage', 'full'),
-    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)', sinMovimientoList.length, 0,        'number',     'full'),
-    clientesNuevos:        kpi('Clientes nuevos',                   nuevos2026.length,     0,           'number',     'full'),
-    quejas:                kpi('Quejas',                            0,                     0,           'number',     'full'),
-    notasCredito:          kpi('Notas crédito',                     0,                     0,           'currency',   'compact'),
-    alertasInventario:     kpi('Alertas inventario',                0,                     0,           'number',     'full'),
+    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 ventaPrev,       'currency'),
+    margenBruto:           kpi('Margen bruto',                                         margenCur,                margenPrev,      'percentage'),
+    otif:                  kpi('OTIF',                                                 82,                       80,              'percentage'),
+    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)',                   sinMovimientoList.length, 0,               'number'),
+    clientesNuevos:        kpi('Clientes nuevos',                                      nuevos.length,            0,               'number'),
+    quejas:                kpi('Quejas',                                               0,                        0,               'number'),
+    notasCredito:          kpi('Notas crédito',                                        0,                        0,               'currency'),
+    alertasInventario:     kpi('Alertas activas',                                      alertas.length,           0,               'number'),
   };
 
   return {
     kpis,
     ventasPorZona,
+    ventasPorMes,
     ventasPorProducto,
     clientesPareto,
     clientesSinMovimiento,
     clientesNuevos,
     resumenMensual,
-    quejas: [], notasCredito: [], alertas: [],
+    quejas: [], notasCredito: [], alertas,
     gastosPorZona: [], inventario: [], inventarioPorProducto: [], reglasPromesa: [],
   };
 }

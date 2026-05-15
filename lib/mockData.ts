@@ -2,62 +2,14 @@ import { DashboardData } from './types';
 
 export const mockData: DashboardData = {
   kpis: {
-    ventaMes: {
-      label: 'Venta del mes',
-      value: 18450000000,
-      previousValue: 16420000000,
-      unit: 'currency',
-      format: 'compact',
-    },
-    margenBruto: {
-      label: 'Margen bruto',
-      value: 28.6,
-      previousValue: 26.5,
-      unit: 'percentage',
-      format: 'full',
-    },
-    otif: {
-      label: 'OTIF',
-      value: 92.4,
-      previousValue: 89.0,
-      unit: 'percentage',
-      format: 'full',
-    },
-    clientesSinMovimiento: {
-      label: 'Clientes sin movimiento (+30 días)',
-      value: 128,
-      previousValue: 118,
-      unit: 'number',
-      format: 'full',
-    },
-    clientesNuevos: {
-      label: 'Clientes nuevos',
-      value: 36,
-      previousValue: 31,
-      unit: 'number',
-      format: 'full',
-    },
-    quejas: {
-      label: 'Quejas',
-      value: 14,
-      previousValue: 15,
-      unit: 'number',
-      format: 'full',
-    },
-    notasCredito: {
-      label: 'Notas crédito',
-      value: 45678000,
-      previousValue: 42300000,
-      unit: 'currency',
-      format: 'compact',
-    },
-    alertasInventario: {
-      label: 'Alertas inventario',
-      value: 27,
-      previousValue: 22,
-      unit: 'number',
-      format: 'full',
-    },
+    ventaMes:              { label: 'Venta del mes',                      value: 18450000000, previousValue: 16420000000, unit: 'currency' },
+    margenBruto:           { label: 'Margen bruto',                       value: 28.6,        previousValue: 26.5,        unit: 'percentage' },
+    otif:                  { label: 'OTIF',                               value: 92.4,        previousValue: 89.0,        unit: 'percentage' },
+    clientesSinMovimiento: { label: 'Clientes sin movimiento (+30 días)', value: 128,         previousValue: 118,         unit: 'number' },
+    clientesNuevos:        { label: 'Clientes nuevos',                    value: 36,          previousValue: 31,          unit: 'number' },
+    quejas:                { label: 'Quejas',                             value: 14,          previousValue: 15,          unit: 'number' },
+    notasCredito:          { label: 'Notas crédito',                      value: 45678000,    previousValue: 42300000,    unit: 'currency' },
+    alertasInventario:     { label: 'Alertas inventario',                 value: 27,          previousValue: 22,          unit: 'number' },
   },
   ventasPorZona: [
     { zona: 'Norte de Antioquia', venta: 3250000000, presupuesto: 3100000000, cumplimiento: 104.8, margen: 29.2, clientsCount: 45 },
@@ -70,6 +22,7 @@ export const mockData: DashboardData = {
     { zona: 'Pereira', venta: 900000000, presupuesto: 950000000, cumplimiento: 94.7, margen: 28.8, clientsCount: 22 },
     { zona: 'Manizales', venta: 700000000, presupuesto: 750000000, cumplimiento: 93.3, margen: 31.2, clientsCount: 18 },
   ],
+  ventasPorMes: [],
   ventasPorProducto: [
     { producto: 'Soluble Electrolitos', presentacion: 'Paquete 1 kg', venta: 4200000000, presupuesto: 3800000000, cumplimiento: 110.5, margen: 36.5, categoria: 'A' },
     { producto: 'Soluble Vitamínico', presentacion: 'Paquete 5 kg', venta: 3800000000, presupuesto: 3500000000, cumplimiento: 108.6, margen: 33.7, categoria: 'A' },
