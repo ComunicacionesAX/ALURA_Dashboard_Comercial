@@ -1,8 +1,25 @@
 import { readSheet } from '@/lib/sheetsClient';
+import { loadDashboardData } from '@/lib/excelData';
+import { mockData } from '@/lib/mockData';
+import { applyLocalOtifOverrides } from '@/lib/otifLocalData';
 import { transformComercial, buildComercialFilterOptions } from '@/lib/transformComercial';
+import { DashboardData } from '@/lib/types';
 import type { ComercialFilters } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
+
+function buildComercialFallback(data: DashboardData): DashboardData {
+  return {
+    ...data,
+    kpis: {
+      ...data.kpis,
+      margenBruto: {
+        ...data.kpis.margenBruto,
+        label: 'Cumplimiento Ppto',
+      },
+    },
+  };
+}
 
 export async function GET(request: Request) {
   try {
@@ -16,14 +33,17 @@ export async function GET(request: Request) {
     };
 
     const rows = await readSheet('Informe Comercial Gerencial');
-
-    // Always return filter options, but scope clientes/productos by consultor when one is selected
     const filterOptions = buildComercialFilterOptions(rows, filters.consultor || '');
-
-    const data = transformComercial(rows, filters);
+    const data = applyLocalOtifOverrides(transformComercial(rows, filters) as DashboardData);
     return Response.json({ ...data, filterOptions });
   } catch (err) {
-    console.error('[api/data/comercial]', err);
-    return Response.json({ error: 'Error cargando datos comerciales' }, { status: 500 });
+    console.warn('[api/data/comercial] fallback local activado:', err);
+    try {
+      const data = await loadDashboardData();
+      return Response.json(buildComercialFallback(data));
+    } catch (fallbackErr) {
+      console.warn('[api/data/comercial] fallback mock activado:', fallbackErr);
+      return Response.json(buildComercialFallback(mockData));
+    }
   }
 }

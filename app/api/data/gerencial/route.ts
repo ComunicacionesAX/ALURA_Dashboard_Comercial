@@ -1,4 +1,7 @@
 import { readSheet } from '@/lib/sheetsClient';
+import { loadDashboardData } from '@/lib/excelData';
+import { mockData } from '@/lib/mockData';
+import { applyLocalOtifOverrides } from '@/lib/otifLocalData';
 import { transformGerencial, buildGerencialFilterOptions } from '@/lib/transformGerencial';
 import type { GerencialFilters } from '@/lib/types';
 
@@ -17,14 +20,17 @@ export async function GET(request: Request) {
     };
 
     const rows = await readSheet('Informe Comercial Gerencial');
-
-    // Always return filter options; scope clientes by selected consultor
     const filterOptions = buildGerencialFilterOptions(rows, filters.consultor || '');
-
-    const data = transformGerencial(rows, filters);
+    const data = applyLocalOtifOverrides(transformGerencial(rows, filters) as typeof mockData);
     return Response.json({ ...data, filterOptions });
   } catch (err) {
-    console.error('[api/data/gerencial]', err);
-    return Response.json({ error: 'Error cargando datos gerenciales' }, { status: 500 });
+    console.warn('[api/data/gerencial] fallback local activado:', err);
+    try {
+      const data = await loadDashboardData();
+      return Response.json(data);
+    } catch (fallbackErr) {
+      console.warn('[api/data/gerencial] fallback mock activado:', fallbackErr);
+      return Response.json(mockData);
+    }
   }
 }

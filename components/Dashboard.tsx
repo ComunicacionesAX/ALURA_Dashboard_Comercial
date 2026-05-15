@@ -37,6 +37,7 @@ const emptyData: DashboardData = {
   gastosPorZona: [],
   resumenMensual: [],
   reglasPromesa: [],
+  otifCausalPorMes: [],
 };
 
 const emptyGerencialFilterOptions: GerencialFilterOptions = {

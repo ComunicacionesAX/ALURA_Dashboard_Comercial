@@ -164,6 +164,17 @@ export interface ReglaPromesa {
   condiciones: string[];
 }
 
+export interface OTIFCausal {
+  causal: string;
+  cantidad: number;
+  valor: number;
+}
+
+export interface OTIFCausalPorMes {
+  mes: string;
+  causales: OTIFCausal[];
+}
+
 export interface DashboardData {
   kpis: {
     ventaMes: KPIMetric;
@@ -189,4 +200,5 @@ export interface DashboardData {
   gastosPorZona: GastoPorZona[];
   resumenMensual: ResumenMensual[];
   reglasPromesa: ReglaPromesa[];
+  otifCausalPorMes: OTIFCausalPorMes[];
 }

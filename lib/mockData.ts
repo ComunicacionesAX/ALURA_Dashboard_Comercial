@@ -117,12 +117,59 @@ export const mockData: DashboardData = {
     { tipo: 'Premix >10kg y pedido >4吨', descripcion: 'Despacho directo desde bodega con disponibilidad suficiente', condiciones: ['Vehículo dedicado o carga completa', 'Priorizar OTIF y cita de entrega', 'Mejor costo/tiempo'] },
     { tipo: 'Solubles <30kg', descripcion: 'Despacho por operador parcelado desde bodega cercana', condiciones: ['Foco en rapidez', 'Trazabilidad y servicio'] },
   ],
+  otifCausalPorMes: [
+    {
+      mes: 'Enero',
+      causales: [
+        { causal: 'Falta de stock', cantidad: 45, valor: 125000000 },
+        { causal: 'Retraso logístico', cantidad: 28, valor: 78000000 },
+        { causal: 'Error en picking', cantidad: 12, valor: 35000000 },
+        { causal: 'Documentación incompleta', cantidad: 8, valor: 22000000 },
+      ],
+    },
+    {
+      mes: 'Febrero',
+      causales: [
+        { causal: 'Falta de stock', cantidad: 42, valor: 118000000 },
+        { causal: 'Retraso logístico', cantidad: 25, valor: 72000000 },
+        { causal: 'Error en picking', cantidad: 10, valor: 28000000 },
+        { causal: 'Documentación incompleta', cantidad: 6, valor: 18000000 },
+      ],
+    },
+    {
+      mes: 'Marzo',
+      causales: [
+        { causal: 'Falta de stock', cantidad: 52, valor: 142000000 },
+        { causal: 'Retraso logístico', cantidad: 32, valor: 92000000 },
+        { causal: 'Error en picking', cantidad: 15, valor: 42000000 },
+        { causal: 'Documentación incompleta', cantidad: 9, valor: 25000000 },
+      ],
+    },
+    {
+      mes: 'Abril',
+      causales: [
+        { causal: 'Falta de stock', cantidad: 38, valor: 105000000 },
+        { causal: 'Retraso logístico', cantidad: 22, valor: 62000000 },
+        { causal: 'Error en picking', cantidad: 9, valor: 25000000 },
+        { causal: 'Documentación incompleta', cantidad: 5, valor: 15000000 },
+      ],
+    },
+    {
+      mes: 'Mayo',
+      causales: [
+        { causal: 'Falta de stock', cantidad: 32, valor: 88000000 },
+        { causal: 'Retraso logístico', cantidad: 18, valor: 52000000 },
+        { causal: 'Error en picking', cantidad: 8, valor: 22000000 },
+        { causal: 'Documentación incompleta', cantidad: 4, valor: 12000000 },
+      ],
+    },
+  ],
 };
 
-export const zonas = ['Todas', 'Norte de Antioquia', 'Medellín', 'Bogotá', 'Bucaramanga', 'Barranquilla', 'Cali', 'Armenia', 'Pereira', 'Manizales'];
+export const zonas = ['Todas', 'AFA', 'Avicultura', 'Oficina Aliados', 'Oficina Allius', 'Oficina Directos', 'Plantas ABA', 'Porcicultura'];
 
-export const productos = ['Todos', 'Soluble Electrolitos', 'Soluble Vitamínico', 'Soluble Antiestrés', 'Premix Avicultura', 'Núcleo Engorde', 'Premix Porcicultura', 'Suplemento Mineral', 'Antibiótico Terapéutico'];
+export const productos = ['Todos', 'Accuremax', 'Amoxin', 'Avinova', 'Bimmu', 'Celmanax', 'Clortetraciclina', 'Dinamix', 'Exolution', 'Halquinox', 'Roflox', 'Tilvasyn'];
 
-export const presentaciones = ['Todas', 'Paquete 1 kg', 'Paquete 5 kg', 'Paquete 10 kg', 'Saco 25 kg', 'Saco 20 kg', 'Saco 10 kg', 'Frasco 100 ml'];
+export const presentaciones = ['Todas', 'AFA Functionals', 'Functionals', 'Health', 'New Health', 'Otros'];
 
 export const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
