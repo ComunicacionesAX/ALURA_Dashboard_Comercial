@@ -1,7 +1,7 @@
 'use client';
 
 import { GerencialFilters, GerencialFilterOptions } from '@/lib/types';
-import { Building2, BarChart2, CalendarDays, UserCircle2, Users, X } from 'lucide-react';
+import { Building2, BarChart2, Layers, CalendarDays, UserCircle2, Users, X } from 'lucide-react';
 import PeriodPicker, { periodoLabel } from './PeriodPicker';
 import { SingleSelect } from './FilterSelect';
 
@@ -11,7 +11,7 @@ interface Props {
   onChange: (f: GerencialFilters) => void;
 }
 
-const empty: GerencialFilters = { sociedad: '', sbu: '', periodo: '', consultor: '', cliente: '' };
+const empty: GerencialFilters = { sociedad: '', sbu: '', division: '', periodo: '', consultor: '', cliente: '' };
 
 export default function GerencialFiltersPanel({ filters, options, onChange }: Props) {
   const set = (key: keyof GerencialFilters, value: string) =>
@@ -21,7 +21,7 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
 
   return (
     <div className="bg-white rounded-[8px] border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
 
         {/* Sociedad */}
         <div>
@@ -48,6 +48,19 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
             options={options.sbus ?? []}
             placeholder="Todos"
             onChange={v => set('sbu', v)}
+          />
+        </div>
+
+        {/* División */}
+        <div>
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
+            <Layers className="w-3 h-3 text-[#993935] flex-shrink-0" />
+            <span className="truncate">División</span>
+          </label>
+          <SingleSelect
+            value={filters.division}
+            options={options.divisiones ?? []}
+            onChange={v => set('division', v)}
           />
         </div>
 
@@ -99,6 +112,9 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
           )}
           {filters.sbu && (
             <Chip label={`UEN: ${filters.sbu}`} onRemove={() => set('sbu', '')} />
+          )}
+          {filters.division && (
+            <Chip label={`División: ${filters.division}`} onRemove={() => set('division', '')} />
           )}
           {filters.periodo && (
             <Chip label={`Período: ${periodoLabel(filters.periodo)}`} onRemove={() => set('periodo', '')} />

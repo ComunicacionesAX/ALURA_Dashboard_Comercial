@@ -4,6 +4,7 @@ export type UserRole = 'gerencial' | 'consultor';
 export interface GerencialFilters {
   sociedad:  string;   // Sociedad column
   sbu:       string;   // UEN column
+  division:  string;   // Division column
   periodo:   string;   // "YYYY-mmm" e.g. "2026-abr"
   consultor: string;   // Consultor_Cliente column
   cliente:   string;   // Cliente column
@@ -14,6 +15,7 @@ export interface ComercialFilters {
   consultor: string;    // Consultor_Cliente column (within comercial scope)
   cliente:   string;    // Cliente column
   productos: string[];  // Producto Único column — multi-select
+  division:  string;    // Division column
   periodo:   string;    // "YYYY-mmm"
 }
 
@@ -22,6 +24,7 @@ export interface ComercialFilterOptions {
   consultores: string[];
   clientes:    string[];
   productos:   string[];
+  divisiones:  string[];
   periodos:    string[];   // sorted newest-first
 }
 
@@ -29,6 +32,7 @@ export interface ComercialFilterOptions {
 export interface GerencialFilterOptions {
   sociedades:  string[];
   sbus:        string[];
+  divisiones:  string[];
   periodos:    string[];   // sorted newest-first
   consultores: string[];
   clientes:    string[];   // scoped to selected consultor

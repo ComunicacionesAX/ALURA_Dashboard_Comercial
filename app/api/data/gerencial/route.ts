@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const filters: Partial<GerencialFilters> = {
       sociedad:  searchParams.get('sociedad')  || '',
       sbu:       searchParams.get('sbu')       || '',
+      division:  searchParams.get('division')  || '',
       periodo:   searchParams.get('periodo')   || '',
       consultor: searchParams.get('consultor') || '',
       cliente:   searchParams.get('cliente')   || '',

@@ -40,17 +40,17 @@ const emptyData: DashboardData = {
 };
 
 const emptyGerencialFilterOptions: GerencialFilterOptions = {
-  sociedades: [], sbus: [], periodos: [], consultores: [], clientes: [],
+  sociedades: [], sbus: [], divisiones: [], periodos: [], consultores: [], clientes: [],
 };
 const defaultGerencialFilters: GerencialFilters = {
-  sociedad: '', sbu: '', periodo: '', consultor: '', cliente: '',
+  sociedad: '', sbu: '', division: '', periodo: '', consultor: '', cliente: '',
 };
 
 const emptyComercialFilterOptions: ComercialFilterOptions = {
-  consultores: [], clientes: [], productos: [], periodos: [],
+  consultores: [], clientes: [], productos: [], divisiones: [], periodos: [],
 };
 const defaultComercialFilters: ComercialFilters = {
-  consultor: '', cliente: '', productos: [], periodo: '',
+  consultor: '', cliente: '', productos: [], division: '', periodo: '',
 };
 
 function mergeLiveData(live: Partial<DashboardData>): DashboardData {
@@ -65,6 +65,7 @@ function buildGerencialQuery(f: GerencialFilters): string {
   const p = new URLSearchParams();
   if (f.sociedad)  p.set('sociedad',  f.sociedad);
   if (f.sbu)       p.set('sbu',       f.sbu);
+  if (f.division)  p.set('division',  f.division);
   if (f.periodo)   p.set('periodo',   f.periodo);
   if (f.consultor) p.set('consultor', f.consultor);
   if (f.cliente)   p.set('cliente',   f.cliente);
@@ -118,6 +119,7 @@ export default function Dashboard() {
       const p = new URLSearchParams();
       if (f.consultor)          p.set('consultor', f.consultor);
       if (f.cliente)            p.set('cliente',   f.cliente);
+      if (f.division)           p.set('division',  f.division);
       if (f.periodo)            p.set('periodo',   f.periodo);
       f.productos?.forEach(pr => p.append('producto', pr));
       const qs = p.toString();

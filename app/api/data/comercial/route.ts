@@ -11,6 +11,7 @@ export async function GET(request: Request) {
       consultor: searchParams.get('consultor') || '',
       cliente:   searchParams.get('cliente')   || '',
       productos: searchParams.getAll('producto').filter(Boolean),
+      division:  searchParams.get('division')  || '',
       periodo:   searchParams.get('periodo')   || '',
     };
 

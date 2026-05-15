@@ -42,6 +42,7 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
   const consultores = new Set<string>();
   const clientes    = new Set<string>();
   const productos   = new Set<string>();
+  const divisiones  = new Set<string>();
   const periodos    = new Set<string>();
 
   for (const r of rows) {
@@ -53,10 +54,12 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
     const con  = String(r['Consultor_Cliente'] ?? '').trim();
     const cli  = String(r['Cliente']           ?? '').trim();
     const prod = String(r['Producto Único']    ?? '').trim();
+    const div  = String(r['Division']          ?? '').trim();
     const mes  = String(r['Mes']               ?? '').toLowerCase().trim();
     const year = n(r['Año']);
 
     if (con && con !== '-' && con !== 'ALIADOS') consultores.add(con);
+    if (div && div !== '-') divisiones.add(div);
     if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
 
     // Scope clientes/productos to selected consultant
@@ -76,6 +79,7 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
     consultores: [...consultores].sort(),
     clientes:    [...clientes].sort(),
     productos:   [...productos].sort(),
+    divisiones:  [...divisiones].sort(),
     periodos:    sortedPeriodos,
   };
 }
@@ -94,6 +98,7 @@ export function transformComercial(
   const fConsultor  = filters?.consultor  || '';
   const fCliente    = filters?.cliente    || '';
   const fProductos  = filters?.productos?.filter(Boolean) ?? [];
+  const fDivision   = filters?.division   || '';
   const fPeriodo    = filters?.periodo    || '';
 
   const isAllYear = fPeriodo.endsWith('-all');
@@ -118,11 +123,12 @@ export function transformComercial(
     }
   }
 
-  // Apply consultor + cliente + productos filters
-  const erp2: RawRow[] = (fConsultor || fCliente || fProductos.length > 0) ? erp.filter(r => {
-    if (fConsultor              && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                    return false;
-    if (fCliente                && String(r['Cliente']           ?? '').trim() !== fCliente)                      return false;
-    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))                 return false;
+  // Apply consultor + cliente + productos + division filters
+  const erp2: RawRow[] = (fConsultor || fCliente || fProductos.length > 0 || fDivision) ? erp.filter(r => {
+    if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   return false;
+    if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     return false;
+    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               return false;
+    if (fDivision              && String(r['Division']          ?? '').trim() !== fDivision)                    return false;
     return true;
   }) : erp;
 
@@ -244,9 +250,10 @@ export function transformComercial(
     const ppto = money(r['Ppto']);
     const mes  = String(r['Mes']).toLowerCase();
 
-    if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
-    if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
-    if (fProductos.length > 0 && !fProductos.includes(String(r['Producto Único'] ?? '').trim())) continue;
+    if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   continue;
+    if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     continue;
+    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               continue;
+    if (fDivision              && String(r['Division']          ?? '').trim() !== fDivision)                    continue;
 
     const yearMatches = isAllYear ? year === allYear : year === curYear;
     if (yearMatches) {
