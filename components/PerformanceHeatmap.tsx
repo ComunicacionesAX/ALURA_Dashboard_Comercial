@@ -7,71 +7,68 @@ interface PerformanceHeatmapProps {
   title?: string;
 }
 
+function cumplLabel(c: number) {
+  if (c >= 100) return 'Excelente';
+  if (c >= 90)  return 'Muy bien';
+  if (c >= 80)  return 'Bien';
+  if (c >= 70)  return 'Regular';
+  return 'Bajo';
+}
+
+function cumplStyles(c: number) {
+  if (c >= 100) return { bar: 'bg-[#27ae60]',  badge: 'bg-[#27ae60]/15 text-[#1a7a44]' };
+  if (c >= 90)  return { bar: 'bg-[#73DEA9]',  badge: 'bg-[#73DEA9]/20 text-[#1a7a44]' };
+  if (c >= 80)  return { bar: 'bg-[#82BDFF]',  badge: 'bg-[#82BDFF]/20 text-[#0066CC]' };
+  if (c >= 70)  return { bar: 'bg-[#FFA600]',  badge: 'bg-[#FFA600]/20 text-[#7a4d00]' };
+  return         { bar: 'bg-[#EB5852]',  badge: 'bg-[#EB5852]/15 text-[#9B2A1C]' };
+}
+
 export default function PerformanceHeatmap({ data, title = 'Mapa de Desempeño por Zona' }: PerformanceHeatmapProps) {
   if (data.length === 0) {
     return (
-      <div className="rounded-[12px] border border-[#DBE2EB] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+      <div className="rounded-[12px] border border-[#DBE2EB] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
         <h3 className="mb-4 text-sm font-bold text-[#2B2E35]">{title}</h3>
         <p className="text-center text-sm text-[#8B8B8D]">Sin datos disponibles</p>
       </div>
     );
   }
 
-  const getPerformanceColor = (cumplimiento: number) => {
-    if (cumplimiento >= 100) return 'bg-gradient-to-br from-[#2D7A5D] to-[#1d4a35]';
-    if (cumplimiento >= 90) return 'bg-gradient-to-br from-[#73DEA9] to-[#4CB584]';
-    if (cumplimiento >= 80) return 'bg-gradient-to-br from-[#82BDFF] to-[#5A9AE8]';
-    if (cumplimiento >= 70) return 'bg-gradient-to-br from-[#FFA600] to-[#FF8C00]';
-    return 'bg-gradient-to-br from-[#EB5852] to-[#D32F2F]';
-  };
-
-  const getPerformanceLabel = (cumplimiento: number) => {
-    if (cumplimiento >= 100) return 'Excelente';
-    if (cumplimiento >= 90) return 'Muy Bien';
-    if (cumplimiento >= 80) return 'Bien';
-    if (cumplimiento >= 70) return 'Regular';
-    return 'Bajo';
-  };
-
   return (
-    <div className="rounded-[12px] border border-[#DBE2EB] bg-white p-6 shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-shadow hover:shadow-[0_12px_24px_rgba(0,0,0,0.12)]">
+    <div className="rounded-[12px] border border-[#DBE2EB] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
       <h3 className="mb-4 text-sm font-bold text-[#2B2E35]">{title}</h3>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {data.map((zona, idx) => {
-          const cumplimiento = zona.cumplimiento;
-          const performancePercentage = Math.min(cumplimiento, 120);
+          const c  = zona.cumplimiento;
+          const st = cumplStyles(c);
+          const w  = `${Math.min(c, 120)}%`;
 
           return (
-            <div key={`${zona.zona}-${idx}`} className="space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-[#2B2E35]">{zona.zona}</span>
-                <div className="flex items-center gap-2">
-                  <span className={`text-xs font-bold px-2 py-1 rounded-full ${
-                    cumplimiento >= 100 ? 'bg-[#2D7A5D]/15 text-[#2D7A5D]' :
-                    cumplimiento >= 90 ? 'bg-[#73DEA9]/20 text-[#2D7A5D]' :
-                    cumplimiento >= 80 ? 'bg-[#82BDFF]/20 text-[#0066CC]' :
-                    cumplimiento >= 70 ? 'bg-[#FFA600]/20 text-[#B86B00]' :
-                    'bg-[#EB5852]/20 text-[#9B2A1C]'
-                  }`}>
-                    {cumplimiento.toFixed(1)}%
+            <div key={`${zona.zona}-${idx}`}>
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-medium text-[#2B2E35] truncate max-w-[55%]">{zona.zona}</span>
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  <span className={`text-[11px] font-semibold px-1.5 py-0.5 rounded-full ${st.badge}`}>
+                    {c.toFixed(1)}%
                   </span>
-                  <span className="text-xs text-[#8B8B8D]">{getPerformanceLabel(cumplimiento)}</span>
+                  <span className="text-[11px] text-[#8B8B8D] hidden sm:inline">{cumplLabel(c)}</span>
                 </div>
               </div>
 
-              <div className="relative h-8 w-full rounded-lg bg-[#F5F7FB] overflow-hidden">
+              <div className="relative h-6 w-full rounded-[4px] bg-[#EFF2F6] overflow-hidden">
                 <div
-                  className={`h-full ${getPerformanceColor(cumplimiento)} transition-all duration-300 flex items-center justify-end pr-2`}
-                  style={{ width: `${performancePercentage}%` }}
+                  className={`h-full ${st.bar} transition-all duration-500 rounded-[4px] flex items-center justify-end pr-2`}
+                  style={{ width: w }}
                 >
-                  {performancePercentage > 20 && (
-                    <span className="text-xs font-bold text-white">${(zona.venta / 1_000_000).toFixed(0)}M</span>
+                  {c > 25 && (
+                    <span className="text-[10px] font-bold text-white leading-none">
+                      ${(zona.venta / 1_000_000).toFixed(0)}M
+                    </span>
                   )}
                 </div>
               </div>
 
-              <div className="flex justify-between text-xs text-[#8B8B8D]">
+              <div className="flex justify-between text-[10px] text-[#8B8B8D] mt-0.5">
                 <span>Venta: ${(zona.venta / 1_000_000).toFixed(0)}M</span>
                 <span>Meta: ${(zona.presupuesto / 1_000_000).toFixed(0)}M</span>
               </div>
@@ -80,27 +77,20 @@ export default function PerformanceHeatmap({ data, title = 'Mapa de Desempeño p
         })}
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-3 border-t border-[#DBE2EB] pt-4 md:grid-cols-5">
-        <div className="text-center">
-          <div className="mb-2 h-4 rounded-full bg-gradient-to-br from-[#2D7A5D] to-[#1d4a35]"></div>
-          <p className="text-xs text-[#8B8B8D]">≥100%</p>
-        </div>
-        <div className="text-center">
-          <div className="mb-2 h-4 rounded-full bg-gradient-to-br from-[#73DEA9] to-[#4CB584]"></div>
-          <p className="text-xs text-[#8B8B8D]">90-99%</p>
-        </div>
-        <div className="text-center">
-          <div className="mb-2 h-4 rounded-full bg-gradient-to-br from-[#82BDFF] to-[#5A9AE8]"></div>
-          <p className="text-xs text-[#8B8B8D]">80-89%</p>
-        </div>
-        <div className="text-center">
-          <div className="mb-2 h-4 rounded-full bg-gradient-to-br from-[#FFA600] to-[#FF8C00]"></div>
-          <p className="text-xs text-[#8B8B8D]">70-79%</p>
-        </div>
-        <div className="text-center">
-          <div className="mb-2 h-4 rounded-full bg-gradient-to-br from-[#EB5852] to-[#D32F2F]"></div>
-          <p className="text-xs text-[#8B8B8D]">&lt;70%</p>
-        </div>
+      {/* Legend */}
+      <div className="mt-4 pt-3 border-t border-[#DBE2EB] grid grid-cols-5 gap-1">
+        {[
+          { color: 'bg-[#27ae60]', label: '≥100%' },
+          { color: 'bg-[#73DEA9]', label: '90–99%' },
+          { color: 'bg-[#82BDFF]', label: '80–89%' },
+          { color: 'bg-[#FFA600]', label: '70–79%' },
+          { color: 'bg-[#EB5852]', label: '<70%' },
+        ].map(({ color, label }) => (
+          <div key={label} className="text-center">
+            <div className={`mb-1 h-2 rounded-full ${color}`} />
+            <p className="text-[10px] text-[#8B8B8D]">{label}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
