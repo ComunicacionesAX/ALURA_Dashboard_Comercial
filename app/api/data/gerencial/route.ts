@@ -30,7 +30,9 @@ export async function GET(request: Request) {
       return Response.json(data);
     } catch (fallbackErr) {
       console.warn('[api/data/gerencial] fallback mock activado:', fallbackErr);
-      return Response.json(mockData);
+      // Asegurar que siempre se apliquen las sobreescrituras OTIF
+      const dataWithOtif = applyLocalOtifOverrides(mockData);
+      return Response.json(dataWithOtif);
     }
   }
 }

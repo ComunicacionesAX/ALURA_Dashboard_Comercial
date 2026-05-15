@@ -43,7 +43,9 @@ export async function GET(request: Request) {
       return Response.json(buildComercialFallback(data));
     } catch (fallbackErr) {
       console.warn('[api/data/comercial] fallback mock activado:', fallbackErr);
-      return Response.json(buildComercialFallback(mockData));
+      // Asegurar que siempre se apliquen las sobreescrituras OTIF
+      const dataWithOtif = applyLocalOtifOverrides(mockData);
+      return Response.json(buildComercialFallback(dataWithOtif));
     }
   }
 }
