@@ -91,10 +91,10 @@ export function transformComercial(
   rows: RawRow[],
   filters?: Partial<ComercialFilters>
 ): Partial<DashboardData> {
-  const fConsultor = filters?.consultor || '';
-  const fCliente   = filters?.cliente   || '';
-  const fProducto  = filters?.producto  || '';
-  const fPeriodo   = filters?.periodo   || '';
+  const fConsultor  = filters?.consultor  || '';
+  const fCliente    = filters?.cliente    || '';
+  const fProductos  = filters?.productos?.filter(Boolean) ?? [];
+  const fPeriodo    = filters?.periodo    || '';
 
   const isAllYear = fPeriodo.endsWith('-all');
   const allYear   = isAllYear ? Number(fPeriodo.split('-')[0]) : 0;
@@ -118,11 +118,11 @@ export function transformComercial(
     }
   }
 
-  // Apply consultor + cliente + producto filters
-  const erp2: RawRow[] = (fConsultor || fCliente || fProducto) ? erp.filter(r => {
-    if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) return false;
-    if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   return false;
-    if (fProducto  && String(r['Producto Único']    ?? '').trim() !== fProducto)  return false;
+  // Apply consultor + cliente + productos filters
+  const erp2: RawRow[] = (fConsultor || fCliente || fProductos.length > 0) ? erp.filter(r => {
+    if (fConsultor              && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                    return false;
+    if (fCliente                && String(r['Cliente']           ?? '').trim() !== fCliente)                      return false;
+    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))                 return false;
     return true;
   }) : erp;
 
@@ -246,7 +246,7 @@ export function transformComercial(
 
     if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
     if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
-    if (fProducto  && String(r['Producto Único']    ?? '').trim() !== fProducto)  continue;
+    if (fProductos.length > 0 && !fProductos.includes(String(r['Producto Único'] ?? '').trim())) continue;
 
     const yearMatches = isAllYear ? year === allYear : year === curYear;
     if (yearMatches) {

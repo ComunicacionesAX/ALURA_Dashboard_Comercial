@@ -50,7 +50,7 @@ const emptyComercialFilterOptions: ComercialFilterOptions = {
   consultores: [], clientes: [], productos: [], periodos: [],
 };
 const defaultComercialFilters: ComercialFilters = {
-  consultor: '', cliente: '', producto: '', periodo: '',
+  consultor: '', cliente: '', productos: [], periodo: '',
 };
 
 function mergeLiveData(live: Partial<DashboardData>): DashboardData {
@@ -116,10 +116,10 @@ export default function Dashboard() {
     setError(null);
     try {
       const p = new URLSearchParams();
-      if (f.consultor) p.set('consultor', f.consultor);
-      if (f.cliente)   p.set('cliente',   f.cliente);
-      if (f.producto)  p.set('producto',  f.producto);
-      if (f.periodo)   p.set('periodo',   f.periodo);
+      if (f.consultor)          p.set('consultor', f.consultor);
+      if (f.cliente)            p.set('cliente',   f.cliente);
+      if (f.periodo)            p.set('periodo',   f.periodo);
+      f.productos?.forEach(pr => p.append('producto', pr));
       const qs = p.toString();
       const res = await fetch(`/api/data/comercial${qs ? `?${qs}` : ''}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -415,7 +415,7 @@ export default function Dashboard() {
           </div>
         )}
       </main>
-      <ChatBot data={loading ? null : data} />
+      <ChatBot data={loading ? null : data} view={currentView} />
     </div>
   );
 }

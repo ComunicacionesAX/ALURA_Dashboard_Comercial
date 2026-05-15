@@ -1,8 +1,9 @@
 'use client';
 
 import { ComercialFilters, ComercialFilterOptions } from '@/lib/types';
-import { UserCheck, Users, Package, CalendarDays, ChevronDown, X } from 'lucide-react';
+import { UserCheck, Users, Package, CalendarDays, X } from 'lucide-react';
 import PeriodPicker, { periodoLabel } from './PeriodPicker';
+import { SingleSelect, MultiSelect } from './FilterSelect';
 
 interface Props {
   filters: ComercialFilters;
@@ -10,13 +11,14 @@ interface Props {
   onChange: (f: ComercialFilters) => void;
 }
 
-const empty: ComercialFilters = { consultor: '', cliente: '', producto: '', periodo: '' };
+const empty: ComercialFilters = { consultor: '', cliente: '', productos: [], periodo: '' };
 
 export default function ComercialFiltersPanel({ filters, options, onChange }: Props) {
-  const set = (key: keyof ComercialFilters, value: string) =>
+  const set = (key: keyof ComercialFilters, value: string | string[]) =>
     onChange({ ...filters, [key]: value });
 
-  const hasActive = Object.values(filters).some(v => v !== '');
+  const hasActive =
+    !!filters.consultor || !!filters.cliente || (filters.productos?.length ?? 0) > 0 || !!filters.periodo;
 
   return (
     <div className="bg-white rounded-[8px] border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
@@ -24,43 +26,46 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
 
         {/* Consultor */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <UserCheck className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Consultor</span>
           </label>
-          <SelectWrapper value={filters.consultor} onChange={v => set('consultor', v)}>
-            <option value="">Todos</option>
-            {(options.consultores ?? []).map(c => <option key={c} value={c}>{c}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.consultor}
+            options={options.consultores ?? []}
+            onChange={v => set('consultor', v)}
+          />
         </div>
 
         {/* Cliente */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <Users className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Cliente</span>
           </label>
-          <SelectWrapper value={filters.cliente} onChange={v => set('cliente', v)}>
-            <option value="">Todos</option>
-            {(options.clientes ?? []).map(c => <option key={c} value={c}>{c}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.cliente}
+            options={options.clientes ?? []}
+            onChange={v => set('cliente', v)}
+          />
         </div>
 
-        {/* Producto Único */}
+        {/* Producto Único — multi-select */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <Package className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Producto Único</span>
           </label>
-          <SelectWrapper value={filters.producto} onChange={v => set('producto', v)}>
-            <option value="">Todos</option>
-            {(options.productos ?? []).map(p => <option key={p} value={p}>{p}</option>)}
-          </SelectWrapper>
+          <MultiSelect
+            value={filters.productos ?? []}
+            options={options.productos ?? []}
+            onChange={next => set('productos', next)}
+          />
         </div>
 
         {/* Período */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <CalendarDays className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Período</span>
           </label>
@@ -72,7 +77,7 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
         </div>
       </div>
 
-      {/* Chips + clear */}
+      {/* Active filter chips */}
       {hasActive && (
         <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[#DBE2EB]">
           {filters.consultor && (
@@ -81,9 +86,10 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
           {filters.cliente && (
             <Chip label={`Cliente: ${filters.cliente}`} onRemove={() => set('cliente', '')} />
           )}
-          {filters.producto && (
-            <Chip label={`Producto: ${filters.producto}`} onRemove={() => set('producto', '')} />
-          )}
+          {(filters.productos ?? []).map(p => (
+            <Chip key={p} label={`Producto: ${p}`}
+              onRemove={() => set('productos', (filters.productos ?? []).filter(x => x !== p))} />
+          ))}
           {filters.periodo && (
             <Chip label={`Período: ${periodoLabel(filters.periodo)}`} onRemove={() => set('periodo', '')} />
           )}
@@ -96,27 +102,6 @@ export default function ComercialFiltersPanel({ filters, options, onChange }: Pr
           </button>
         </div>
       )}
-    </div>
-  );
-}
-
-function SelectWrapper({
-  value, onChange, children,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        className="w-full appearance-none text-sm text-[#2B2E35] bg-[#EFF2F6] border border-[#CCCCCC] rounded-[6px] pl-3 pr-9 py-2 focus:outline-none focus:ring-2 focus:ring-[#993935] focus:border-[#993935] transition-colors cursor-pointer"
-      >
-        {children}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B7381]" />
     </div>
   );
 }

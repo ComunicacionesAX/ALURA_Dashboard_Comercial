@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     const filters: Partial<ComercialFilters> = {
       consultor: searchParams.get('consultor') || '',
       cliente:   searchParams.get('cliente')   || '',
-      producto:  searchParams.get('producto')  || '',
+      productos: searchParams.getAll('producto').filter(Boolean),
       periodo:   searchParams.get('periodo')   || '',
     };
 

@@ -1,8 +1,9 @@
 'use client';
 
 import { GerencialFilters, GerencialFilterOptions } from '@/lib/types';
-import { Building2, BarChart2, CalendarDays, UserCircle2, Users, ChevronDown, X } from 'lucide-react';
+import { Building2, BarChart2, CalendarDays, UserCircle2, Users, X } from 'lucide-react';
 import PeriodPicker, { periodoLabel } from './PeriodPicker';
+import { SingleSelect } from './FilterSelect';
 
 interface Props {
   filters: GerencialFilters;
@@ -24,31 +25,35 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
 
         {/* Sociedad */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <Building2 className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Sociedad</span>
           </label>
-          <SelectWrapper value={filters.sociedad} onChange={v => set('sociedad', v)}>
-            <option value="">Todas</option>
-            {options.sociedades.map(s => <option key={s} value={s}>{s}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.sociedad}
+            options={options.sociedades ?? []}
+            placeholder="Todas"
+            onChange={v => set('sociedad', v)}
+          />
         </div>
 
         {/* UEN */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <BarChart2 className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">UEN (Unidad Estratégica de Negocio)</span>
           </label>
-          <SelectWrapper value={filters.sbu} onChange={v => set('sbu', v)}>
-            <option value="">Todos</option>
-            {options.sbus.map(s => <option key={s} value={s}>{s}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.sbu}
+            options={options.sbus ?? []}
+            placeholder="Todos"
+            onChange={v => set('sbu', v)}
+          />
         </div>
 
         {/* Período */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <CalendarDays className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Período</span>
           </label>
@@ -61,30 +66,32 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
 
         {/* Consultor */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <UserCircle2 className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Consultor</span>
           </label>
-          <SelectWrapper value={filters.consultor} onChange={v => set('consultor', v)}>
-            <option value="">Todos</option>
-            {options.consultores.map(c => <option key={c} value={c}>{c}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.consultor}
+            options={options.consultores ?? []}
+            onChange={v => set('consultor', v)}
+          />
         </div>
 
         {/* Cliente */}
         <div>
-          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1 overflow-hidden">
+          <label className="flex items-center gap-1.5 text-xs font-medium text-[#6B7381] mb-1">
             <Users className="w-3 h-3 text-[#993935] flex-shrink-0" />
             <span className="truncate">Cliente</span>
           </label>
-          <SelectWrapper value={filters.cliente} onChange={v => set('cliente', v)}>
-            <option value="">Todos</option>
-            {(options.clientes ?? []).map(c => <option key={c} value={c}>{c}</option>)}
-          </SelectWrapper>
+          <SingleSelect
+            value={filters.cliente}
+            options={options.clientes ?? []}
+            onChange={v => set('cliente', v)}
+          />
         </div>
       </div>
 
-      {/* Chips + clear */}
+      {/* Active filter chips */}
       {hasActive && (
         <div className="flex flex-wrap items-center gap-2 mt-3 pt-3 border-t border-[#DBE2EB]">
           {filters.sociedad && (
@@ -111,27 +118,6 @@ export default function GerencialFiltersPanel({ filters, options, onChange }: Pr
           </button>
         </div>
       )}
-    </div>
-  );
-}
-
-function SelectWrapper({
-  value, onChange, children,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="relative">
-      <select
-        value={value}
-        onChange={e => onChange(e.target.value)}
-        className="w-full appearance-none text-sm text-[#2B2E35] bg-[#EFF2F6] border border-[#CCCCCC] rounded-[6px] pl-3 pr-9 py-2 focus:outline-none focus:ring-2 focus:ring-[#993935] focus:border-[#993935] transition-colors cursor-pointer"
-      >
-        {children}
-      </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B7381]" />
     </div>
   );
 }

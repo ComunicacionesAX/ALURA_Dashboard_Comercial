@@ -107,7 +107,7 @@ export default function PeriodPicker({ value, periodos, onChange }: Props) {
       />
 
       {open && (
-        <div className="absolute z-50 mt-1 left-0 min-w-full sm:min-w-[220px] bg-white border border-[#DBE2EB] rounded-[8px] shadow-[0_8px_24px_rgba(0,0,0,0.12)] py-1 max-h-72 overflow-y-auto">
+        <div className="absolute z-50 mt-1 left-0 w-full bg-white border border-[#DBE2EB] rounded-[8px] shadow-[0_8px_24px_rgba(0,0,0,0.12)] py-1 max-h-72 overflow-y-auto">
 
           {/* Período actual */}
           <button

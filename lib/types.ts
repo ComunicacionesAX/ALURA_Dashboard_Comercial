@@ -11,10 +11,10 @@ export interface GerencialFilters {
 
 // Comercial view filters (server-side)
 export interface ComercialFilters {
-  consultor: string;  // Consultor_Cliente column (within comercial scope)
-  cliente:   string;  // Cliente column
-  producto:  string;  // Producto Único column
-  periodo:   string;  // "YYYY-mmm"
+  consultor: string;    // Consultor_Cliente column (within comercial scope)
+  cliente:   string;    // Cliente column
+  productos: string[];  // Producto Único column — multi-select
+  periodo:   string;    // "YYYY-mmm"
 }
 
 // Options available for comercial filter dropdowns
