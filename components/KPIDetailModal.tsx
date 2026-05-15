@@ -14,7 +14,13 @@ interface KPIDetailModalProps {
 
 export default function KPIDetailModal({ metric, onClose, historicalData, otifCausalPorMes }: KPIDetailModalProps) {
   const [chartType, setChartType] = useState<'line' | 'bar'>('line');
-  const [selectedMesOtif, setSelectedMesOtif] = useState<string>('Mayo');
+
+  const defaultMes = otifCausalPorMes && otifCausalPorMes.length > 0
+    ? otifCausalPorMes[otifCausalPorMes.length - 1].mes
+    : historicalData && historicalData.length > 0
+    ? historicalData[historicalData.length - 1].mes
+    : 'Mayo';
+  const [selectedMesOtif, setSelectedMesOtif] = useState<string>(defaultMes);
 
   if (!metric) return null;
 
@@ -76,7 +82,7 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
               <p className="text-sm text-[#6B7381] mb-2">Valor Actual{isOtifMetric ? ` - ${selectedMesOtif}` : ''}</p>
               <p className="text-3xl font-bold text-[#2B2E35]">
                 {metric.unit === 'currency'
-                  ? `$${(displayValue / 1000000000).toFixed(1)}M`
+                  ? `$${(displayValue / 1_000_000).toFixed(0)}M`
                   : metric.unit === 'percentage'
                   ? `${displayValue.toFixed(1)}%`
                   : displayValue.toFixed(0)
@@ -90,7 +96,7 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
                 {displayPreviousValue === 0 ? (
                   <span className="text-[#8B8B8D] text-lg">Sin mes anterior</span>
                 ) : metric.unit === 'currency'
-                  ? `$${(displayPreviousValue / 1000000000).toFixed(1)}M`
+                  ? `$${(displayPreviousValue / 1_000_000).toFixed(0)}M`
                   : metric.unit === 'percentage'
                   ? `${displayPreviousValue.toFixed(1)}%`
                   : displayPreviousValue.toFixed(0)
@@ -141,18 +147,32 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
 
           {/* Chart */}
           <div className="bg-[#F5F7FB] rounded-lg p-6 border border-[#DBE2EB]">
-            <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Tendencia (Últimos 5 meses)</h3>
+            <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Tendencia mensual</h3>
             <ResponsiveContainer width="100%" height={300}>
               {chartType === 'line' ? (
                 <LineChart data={mockHistoricalData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#DBE2EB" />
-                  <XAxis dataKey="mes" stroke="#6B7381" />
-                  <YAxis stroke="#6B7381" />
+                  <XAxis dataKey="mes" stroke="#6B7381" tick={{ fontSize: 11 }} />
+                  <YAxis
+                    stroke="#6B7381"
+                    tick={{ fontSize: 11 }}
+                    tickFormatter={metric.unit === 'currency'
+                      ? (v) => `$${(v / 1_000_000).toFixed(0)}M`
+                      : metric.unit === 'percentage'
+                      ? (v) => `${v.toFixed(0)}%`
+                      : (v) => String(v)
+                    }
+                  />
                   <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #DBE2EB',
-                      borderRadius: '8px',
+                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #DBE2EB', borderRadius: '8px' }}
+                    formatter={(value) => {
+                      const v = Number(value);
+                      const label = metric.unit === 'currency'
+                        ? `$${(v / 1_000_000).toFixed(0)}M`
+                        : metric.unit === 'percentage'
+                        ? `${v.toFixed(1)}%`
+                        : String(v);
+                      return [label, metric.label];
                     }}
                   />
                   <Legend />
@@ -169,13 +189,27 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
               ) : (
                 <BarChart data={mockHistoricalData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#DBE2EB" />
-                  <XAxis dataKey="mes" stroke="#6B7381" />
-                  <YAxis stroke="#6B7381" />
+                  <XAxis dataKey="mes" stroke="#6B7381" tick={{ fontSize: 11 }} />
+                  <YAxis
+                    stroke="#6B7381"
+                    tick={{ fontSize: 11 }}
+                    tickFormatter={metric.unit === 'currency'
+                      ? (v) => `$${(v / 1_000_000).toFixed(0)}M`
+                      : metric.unit === 'percentage'
+                      ? (v) => `${v.toFixed(0)}%`
+                      : (v) => String(v)
+                    }
+                  />
                   <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#fff',
-                      border: '1px solid #DBE2EB',
-                      borderRadius: '8px',
+                    contentStyle={{ backgroundColor: '#fff', border: '1px solid #DBE2EB', borderRadius: '8px' }}
+                    formatter={(value) => {
+                      const v = Number(value);
+                      const label = metric.unit === 'currency'
+                        ? `$${(v / 1_000_000).toFixed(0)}M`
+                        : metric.unit === 'percentage'
+                        ? `${v.toFixed(1)}%`
+                        : String(v);
+                      return [label, metric.label];
                     }}
                   />
                   <Legend />
@@ -188,42 +222,38 @@ export default function KPIDetailModal({ metric, onClose, historicalData, otifCa
           {/* Stats - Only show for non-OTIF metrics */}
           {metric.label !== 'OTIF' && (
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
-                <p className="text-xs text-[#6B7381] mb-1">Máximo</p>
-                <p className="text-lg font-bold text-[#2B2E35]">
-                  {metric.unit === 'currency'
-                    ? `$${(Math.max(...mockHistoricalData.map(d => d.valor)) / 1000000000).toFixed(1)}M`
-                    : `${Math.max(...mockHistoricalData.map(d => d.valor)).toFixed(1)}`
-                  }
-                </p>
-              </div>
-              <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
-                <p className="text-xs text-[#6B7381] mb-1">Mínimo</p>
-                <p className="text-lg font-bold text-[#2B2E35]">
-                  {metric.unit === 'currency'
-                    ? `$${(Math.min(...mockHistoricalData.map(d => d.valor)) / 1000000000).toFixed(1)}M`
-                    : `${Math.min(...mockHistoricalData.map(d => d.valor)).toFixed(1)}`
-                  }
-                </p>
-              </div>
-              <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
-                <p className="text-xs text-[#6B7381] mb-1">Promedio</p>
-                <p className="text-lg font-bold text-[#2B2E35]">
-                  {metric.unit === 'currency'
-                    ? `$${(mockHistoricalData.reduce((a, b) => a + b.valor, 0) / mockHistoricalData.length / 1000000000).toFixed(1)}M`
-                    : `${(mockHistoricalData.reduce((a, b) => a + b.valor, 0) / mockHistoricalData.length).toFixed(1)}`
-                  }
-                </p>
-              </div>
-              <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
-                <p className="text-xs text-[#6B7381] mb-1">Total</p>
-                <p className="text-lg font-bold text-[#2B2E35]">
-                  {metric.unit === 'currency'
-                    ? `$${(mockHistoricalData.reduce((a, b) => a + b.valor, 0) / 1000000000).toFixed(1)}M`
-                    : `${mockHistoricalData.reduce((a, b) => a + b.valor, 0).toFixed(0)}`
-                  }
-                </p>
-              </div>
+              {(() => {
+                const vals = mockHistoricalData.map(d => d.valor);
+                const fmt = (v: number) =>
+                  metric.unit === 'currency'
+                    ? `$${(v / 1_000_000).toFixed(0)}M`
+                    : metric.unit === 'percentage'
+                    ? `${v.toFixed(1)}%`
+                    : v.toFixed(0);
+                const sum = vals.reduce((a, b) => a + b, 0);
+                return (
+                  <>
+                    <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
+                      <p className="text-xs text-[#6B7381] mb-1">Máximo</p>
+                      <p className="text-lg font-bold text-[#2B2E35]">{fmt(Math.max(...vals))}</p>
+                    </div>
+                    <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
+                      <p className="text-xs text-[#6B7381] mb-1">Mínimo</p>
+                      <p className="text-lg font-bold text-[#2B2E35]">{fmt(Math.min(...vals))}</p>
+                    </div>
+                    <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
+                      <p className="text-xs text-[#6B7381] mb-1">Promedio</p>
+                      <p className="text-lg font-bold text-[#2B2E35]">{fmt(sum / vals.length)}</p>
+                    </div>
+                    <div className="bg-[#F5F7FB] rounded-lg p-4 border border-[#DBE2EB]">
+                      <p className="text-xs text-[#6B7381] mb-1">{metric.unit === 'currency' ? 'Total acum.' : 'Actual'}</p>
+                      <p className="text-lg font-bold text-[#2B2E35]">
+                        {metric.unit === 'currency' ? fmt(sum) : fmt(vals[vals.length - 1] ?? 0)}
+                      </p>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           )}
 

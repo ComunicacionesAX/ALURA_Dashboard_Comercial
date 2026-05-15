@@ -18,8 +18,13 @@ import ClientsTable from './ClientsTable';
 import ViewToggle from './ViewToggle';
 import ChatBot from './ChatBot';
 import DashboardSkeleton from './DashboardSkeleton';
+import KPIDetailModal from './KPIDetailModal';
+import ParetoChart from './ParetoChart';
+import ProductDonutChart from './ProductDonutChart';
+import AreaTrendChart from './AreaTrendChart';
+import PerformanceHeatmap from './PerformanceHeatmap';
 import Image from 'next/image';
-import { TrendingUp, Package, Users, RefreshCw, AlertCircle, ChevronRight, ChevronLeft, X } from 'lucide-react';
+import { TrendingUp, Package, RefreshCw, AlertCircle, ChevronRight, ChevronLeft, X } from 'lucide-react';
 
 const emptyData: DashboardData = {
   kpis: mockData.kpis,
@@ -89,6 +94,7 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [alertsOpen, setAlertsOpen] = useState(false);
+  const [selectedKPI, setSelectedKPI] = useState<DashboardData['kpis']['ventaMes'] | null>(null);
 
   // Debounce gerencial filter changes so we don't fire on every keystroke
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -183,6 +189,18 @@ export default function Dashboard() {
 
   const renderMargen = (margen: number) => formatPct(margen);
 
+  const buildKpiHistory = (metric: DashboardData['kpis']['ventaMes']) => {
+    if (!data.resumenMensual || data.resumenMensual.length === 0) return undefined;
+    if (metric.label.includes('Venta') || metric.label.includes('año')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.ventaTotal }));
+    if (metric.label.includes('Margen') || metric.label.includes('Cumplimiento')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.margenBruto }));
+    if (metric.label === 'OTIF')                 return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.otif }));
+    if (metric.label.includes('sin movimiento')) return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.clientesSinMovimiento }));
+    if (metric.label.includes('nuevos'))         return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.clientesNuevos }));
+    if (metric.label === 'Quejas')               return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.quejas }));
+    if (metric.label.includes('crédito'))        return data.resumenMensual.map(i => ({ mes: i.mes, valor: i.notasCredito }));
+    return undefined;
+  };
+
   return (
     <div className="min-h-screen bg-[#EFF2F6]">
       <header className="bg-[#993935] border-b border-[#CCCCCC] sticky top-0 z-10">
@@ -274,97 +292,93 @@ export default function Dashboard() {
             alertas={filteredAlertas}
             currentView={currentView}
             onOpenAlerts={() => setAlertsOpen(true)}
+            onKPIClick={setSelectedKPI}
           />
           {alertsOpen && (
             <AlertsModal alertas={filteredAlertas} onClose={() => setAlertsOpen(false)} />
           )}
         </section>
 
+        {/* Row 1 — Main bar/line chart */}
         <SalesChart
           data={chartData}
           chartTitle={chartTitle}
           isMonthly={isFullYear}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+        {/* Row 2 — Monthly trend + Performance heatmap */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <AreaTrendChart
+            data={data.resumenMensual}
+            title="Tendencia mensual: Venta vs Presupuesto"
+          />
+          <PerformanceHeatmap
+            data={data.ventasPorZona}
+            title={currentView === 'consultor' ? 'Desempeño por Consultor' : 'Desempeño por Zona / Equipo'}
+          />
+        </div>
+
+        {/* Row 3 — Pareto de clientes + Distribución de productos */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          <ParetoChart
+            data={clientesParetoDisplay}
+            title="Pareto de Clientes (Top 10)"
+          />
+          <ProductDonutChart
+            data={ventasPorProductoDisplay}
+            title="Distribución de Ventas por Producto"
+          />
+        </div>
+
+        {/* Row 4 — Products detail list */}
+        {ventasPorProductoDisplay.length > 0 && (
+          <div className="bg-white rounded-[12px] border border-[#DBE2EB] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
               <Package className="w-4 h-4 text-[#993935]" />
-              Ventas por Producto (Pareto)
+              Detalle de Productos
             </h3>
-            {ventasPorProductoDisplay.length === 0 ? (
-              <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
-            ) : (
-              <div className="space-y-3">
-                {ventasPorProductoDisplay.slice(0, 6).map((producto, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
-                    <div className="flex-1 min-w-0">
+            <div className="space-y-2">
+              {ventasPorProductoDisplay.slice(0, 8).map((producto, index) => (
+                <div key={index} className="flex items-center justify-between py-2 px-2 hover:bg-[#EFF2F6] rounded-[6px] transition-colors">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <span className="text-xs font-bold text-[#8B8B8D] w-4 flex-shrink-0">{index + 1}</span>
+                    <div className="min-w-0">
                       <p className="text-sm font-medium text-[#2B2E35] truncate">{producto.producto}</p>
                       <p className="text-xs text-[#8B8B8D] truncate">{producto.presentacion || '—'}</p>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="text-sm font-bold text-[#2B2E35]">
-                          {formatCOP(producto.venta)}
-                        </p>
-                        <p className={`text-xs ${producto.cumplimiento >= 100 ? 'text-[#73DEA9]' : 'text-[#EB5852]'}`}>
-                          {producto.cumplimiento > 0 ? formatPct(producto.cumplimiento) : '—'}
-                        </p>
-                      </div>
-                      {currentView === 'gerencial' && producto.margen > 0 && (
-                        <span className={`text-sm font-bold px-2 py-1 rounded-[6px] ${
-                          producto.categoria === 'A' ? 'bg-[#73DEA9]/20 text-[#2B2E35]' :
-                          producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#2B2E35]' :
-                          producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#2B2E35]' :
-                          'bg-[#EB5852]/20 text-[#EB5852]'
-                        }`}>
-                          {renderMargen(producto.margen)}
-                        </span>
-                      )}
-                      {currentView === 'consultor' && (
-                        <span className={`text-sm font-bold px-2 py-1 rounded-[6px] ${
-                          producto.categoria === 'A' ? 'bg-[#73DEA9]/20 text-[#2B2E35]' :
-                          producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#2B2E35]' :
-                          producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#2B2E35]' :
-                          'bg-[#EB5852]/20 text-[#EB5852]'
-                        }`}>
-                          {producto.categoria}
-                        </span>
-                      )}
-                    </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
-            <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#993935]" />
-              Clientes Pareto (80/20)
-            </h3>
-            {clientesParetoDisplay.length === 0 ? (
-              <p className="text-sm text-[#8B8B8D] text-center py-6">Sin datos para el filtro seleccionado</p>
-            ) : (
-              <div className="space-y-3">
-                {clientesParetoDisplay.slice(0, 6).map((cliente, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 hover:bg-[#DBE2EB] rounded-[6px] transition-colors">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#2B2E35] truncate">{cliente.nombre}</p>
-                      <p className="text-xs text-[#8B8B8D]">{cliente.zona}</p>
-                    </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
                     <div className="text-right">
-                      <p className="text-sm font-bold text-[#2B2E35]">
-                        {formatCOP(cliente.venta)}
+                      <p className="text-sm font-bold text-[#2B2E35]">{formatCOP(producto.venta)}</p>
+                      <p className={`text-xs ${producto.cumplimiento >= 100 ? 'text-[#27ae60]' : 'text-[#EB5852]'}`}>
+                        {producto.cumplimiento > 0 ? formatPct(producto.cumplimiento) : '—'}
                       </p>
-                      <p className="text-xs text-[#8B8B8D]">{formatPct(cliente.porcentaje)}</p>
                     </div>
+                    {currentView === 'gerencial' && producto.margen > 0 ? (
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-[6px] min-w-[52px] text-center ${
+                        producto.categoria === 'A' ? 'bg-[#27ae60]/15 text-[#1a7a44]' :
+                        producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#0066CC]' :
+                        producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#7a4d00]' :
+                        'bg-[#EB5852]/15 text-[#9B2A1C]'
+                      }`}>
+                        {renderMargen(producto.margen)}
+                      </span>
+                    ) : (
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-[6px] min-w-[32px] text-center ${
+                        producto.categoria === 'A' ? 'bg-[#27ae60]/15 text-[#1a7a44]' :
+                        producto.categoria === 'B' ? 'bg-[#82BDFF]/20 text-[#0066CC]' :
+                        producto.categoria === 'C' ? 'bg-[#FFA600]/20 text-[#7a4d00]' :
+                        'bg-[#EB5852]/15 text-[#9B2A1C]'
+                      }`}>
+                        {producto.categoria}
+                      </span>
+                    )}
                   </div>
-                ))}
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {data.clientesSinMovimiento.length > 0 && (
           <ClientsTable
@@ -385,7 +399,7 @@ export default function Dashboard() {
         )}
 
         {currentView === 'gerencial' && data.gastosPorZona.length > 0 && (
-          <div className="bg-white rounded-lg border border-[#DBE2EB] p-4 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
+          <div className="bg-white rounded-[12px] border border-[#DBE2EB] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Gastos por Zona</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
@@ -399,13 +413,13 @@ export default function Dashboard() {
                 </thead>
                 <tbody>
                   {data.gastosPorZona.map((gasto, index) => (
-                    <tr key={index} className="border-b border-[#DBE2EB] hover:bg-[#DBE2EB]">
+                    <tr key={index} className="border-b border-[#DBE2EB] hover:bg-[#EFF2F6]">
                       <td className="py-2 px-2 font-medium text-[#2B2E35]">{gasto.zona}</td>
                       <td className="py-2 px-2 text-right text-[#2B2E35]">{formatCOP(gasto.gasto)}</td>
                       <td className="py-2 px-2 text-right text-[#8B8B8D]">{formatCOP(gasto.presupuesto)}</td>
                       <td className="py-2 px-2 text-center">
-                        <span className={`text-xs px-2 py-1 rounded-[999px] ${
-                          gasto.variacion > 0 ? 'bg-[#EB5852]/10 text-[#EB5852]' : 'bg-[#73DEA9]/10 text-[#2B2E35]'
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${
+                          gasto.variacion > 0 ? 'bg-[#EB5852]/10 text-[#9B2A1C]' : 'bg-[#27ae60]/10 text-[#1a7a44]'
                         }`}>
                           {gasto.variacion > 0 ? '+' : ''}{formatPct(gasto.variacion)}
                         </span>
@@ -417,7 +431,16 @@ export default function Dashboard() {
             </div>
           </div>
         )}
+
       </main>
+
+      <KPIDetailModal
+        metric={selectedKPI}
+        onClose={() => setSelectedKPI(null)}
+        historicalData={selectedKPI ? buildKpiHistory(selectedKPI) : undefined}
+        otifCausalPorMes={selectedKPI?.label === 'OTIF' ? data.otifCausalPorMes : undefined}
+      />
+
       <ChatBot data={loading ? null : data} view={currentView} />
     </div>
   );
@@ -432,11 +455,13 @@ function KPIGrid({
   alertas,
   currentView,
   onOpenAlerts,
+  onKPIClick,
 }: {
   kpis: DashboardData['kpis'];
   alertas: DashboardData['alertas'];
   currentView: UserRole;
   onOpenAlerts: () => void;
+  onKPIClick: (metric: DashboardData['kpis']['ventaMes']) => void;
 }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -457,11 +482,11 @@ function KPIGrid({
           ? 'grid-cols-2 sm:grid-cols-4 lg:grid-cols-8'
           : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6'
       }`}>
-        <KPICard metric={kpis.ventaMes} />
-        <KPICard metric={margenMetric} />
-        <KPICard metric={kpis.otif} />
-        <KPICard metric={kpis.clientesSinMovimiento} />
-        <KPICard metric={kpis.clientesNuevos} />
+        <KPICard metric={kpis.ventaMes} onClick={() => onKPIClick(kpis.ventaMes)} />
+        <KPICard metric={margenMetric} onClick={() => onKPIClick(margenMetric)} />
+        <KPICard metric={kpis.otif} onClick={() => onKPIClick(kpis.otif)} />
+        <KPICard metric={kpis.clientesSinMovimiento} onClick={() => onKPIClick(kpis.clientesSinMovimiento)} />
+        <KPICard metric={kpis.clientesNuevos} onClick={() => onKPIClick(kpis.clientesNuevos)} />
         <KPICard metric={kpis.alertasInventario} onClick={onOpenAlerts} accent={alertAccent} />
         {expanded && (
           <Fragment>
