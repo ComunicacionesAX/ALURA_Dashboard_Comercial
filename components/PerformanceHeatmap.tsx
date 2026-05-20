@@ -2,6 +2,14 @@
 
 import { VentaPorZona } from '@/lib/types';
 
+const LEGEND = [
+  { color: 'bg-[#27ae60]', label: '≥100%' },
+  { color: 'bg-[#73DEA9]', label: '90–99%' },
+  { color: 'bg-[#82BDFF]', label: '80–89%' },
+  { color: 'bg-[#FFA600]', label: '70–79%' },
+  { color: 'bg-[#EB5852]', label: '<70%' },
+] as const;
+
 interface PerformanceHeatmapProps {
   data: VentaPorZona[];
   title?: string;
@@ -79,13 +87,7 @@ export default function PerformanceHeatmap({ data, title = 'Mapa de Desempeño p
 
       {/* Legend */}
       <div className="mt-4 pt-3 border-t border-[#DBE2EB] grid grid-cols-5 gap-1">
-        {[
-          { color: 'bg-[#27ae60]', label: '≥100%' },
-          { color: 'bg-[#73DEA9]', label: '90–99%' },
-          { color: 'bg-[#82BDFF]', label: '80–89%' },
-          { color: 'bg-[#FFA600]', label: '70–79%' },
-          { color: 'bg-[#EB5852]', label: '<70%' },
-        ].map(({ color, label }) => (
+        {LEGEND.map(({ color, label }) => (
           <div key={label} className="text-center">
             <div className={`mb-1 h-2 rounded-full ${color}`} />
             <p className="text-[10px] text-[#8B8B8D]">{label}</p>

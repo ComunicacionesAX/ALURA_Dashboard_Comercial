@@ -112,20 +112,10 @@ const barColor = (pct: number) =>
   pct >= 100 ? '#27ae60' : pct >= 80 ? '#FFA600' : '#993935';
 
 export default function SalesChart({ data, chartTitle, isMonthly = false }: SalesChartProps) {
-  // Zone view: pass full names — CustomXTick handles wrapping, no truncation needed.
-  const chartData = data.map(item => ({
-    zona:         item.zona,
-    venta:        item.venta,
-    presupuesto:  item.presupuesto,
-    cumplimiento: item.cumplimiento,
-  }));
-
-  // Height scales with bar count for zone view; fixed for monthly.
   const chartHeight = isMonthly
     ? 270
-    : Math.max(260, Math.min(460, chartData.length * 52 + 80));
+    : Math.max(260, Math.min(460, data.length * 52 + 80));
 
-  // Two-line wrapped labels need more bottom room (~68px covers the tallest combos).
   const bottomMargin = isMonthly ? 8 : 68;
   const xAxisHeight  = isMonthly ? 22 : 68;
 
@@ -135,7 +125,7 @@ export default function SalesChart({ data, chartTitle, isMonthly = false }: Sale
         {chartTitle ?? 'Venta por Zona'}
       </h3>
 
-      {!isMonthly && <CustomLegend data={chartData} />}
+      {!isMonthly && <CustomLegend data={data} />}
 
       {data.length === 0 ? (
         <div className="h-[200px] flex items-center justify-center text-sm text-[#8B8B8D]">
@@ -144,7 +134,7 @@ export default function SalesChart({ data, chartTitle, isMonthly = false }: Sale
       ) : (
         <ResponsiveContainer width="100%" height={chartHeight}>
           <BarChart
-            data={chartData}
+            data={data}
             margin={{ top: 8, right: 8, left: 0, bottom: bottomMargin }}
             barCategoryGap="22%"
             barGap={3}
@@ -171,7 +161,7 @@ export default function SalesChart({ data, chartTitle, isMonthly = false }: Sale
             <Legend wrapperStyle={{ display: 'none' }} />
 
             <Bar dataKey="venta" name="Venta" radius={[4, 4, 0, 0]} maxBarSize={44}>
-              {chartData.map((entry, i) => (
+              {data.map((entry, i) => (
                 <Cell key={i} fill={isMonthly ? '#993935' : barColor(entry.cumplimiento)} />
               ))}
             </Bar>

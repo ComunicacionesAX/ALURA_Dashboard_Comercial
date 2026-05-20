@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
+import { useState, useEffect, useCallback, useRef, useTransition, memo, Fragment } from 'react';
+import dynamic from 'next/dynamic';
 import {
   DashboardData, UserRole,
   GerencialFilters, GerencialFilterOptions,
@@ -11,20 +12,21 @@ import { formatCOP, formatPct } from '@/lib/format';
 import KPICard from './KPICard';
 import GerencialFiltersPanel from './GerencialFilters';
 import ComercialFiltersPanel from './ComercialFilters';
-import SalesChart from './SalesChart';
 import Alerts from './Alerts';
-import InventoryTable from './InventoryTable';
-import ClientsTable from './ClientsTable';
 import ViewToggle from './ViewToggle';
-import ChatBot from './ChatBot';
 import DashboardSkeleton from './DashboardSkeleton';
-import KPIDetailModal from './KPIDetailModal';
-import ParetoChart from './ParetoChart';
-import ProductDonutChart from './ProductDonutChart';
-import AreaTrendChart from './AreaTrendChart';
-import PerformanceHeatmap from './PerformanceHeatmap';
 import Image from 'next/image';
 import { TrendingUp, Package, RefreshCw, AlertCircle, ChevronRight, ChevronLeft, X } from 'lucide-react';
+
+const SalesChart      = dynamic(() => import('./SalesChart'),      { ssr: false });
+const InventoryTable  = dynamic(() => import('./InventoryTable'),  { ssr: false });
+const ClientsTable    = dynamic(() => import('./ClientsTable'),    { ssr: false });
+const ChatBot         = dynamic(() => import('./ChatBot'),         { ssr: false });
+const KPIDetailModal  = dynamic(() => import('./KPIDetailModal'),  { ssr: false });
+const ParetoChart     = dynamic(() => import('./ParetoChart'),     { ssr: false });
+const ProductDonutChart = dynamic(() => import('./ProductDonutChart'), { ssr: false });
+const AreaTrendChart  = dynamic(() => import('./AreaTrendChart'),  { ssr: false });
+const PerformanceHeatmap = dynamic(() => import('./PerformanceHeatmap'), { ssr: false });
 
 const emptyData: DashboardData = {
   kpis: mockData.kpis,
@@ -91,16 +93,16 @@ export default function Dashboard() {
   const [currentView, setCurrentView] = useState<UserRole>('gerencial');
   const [data, setData] = useState<DashboardData>(emptyData);
   const [loading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [alertsOpen, setAlertsOpen] = useState(false);
   const [selectedKPI, setSelectedKPI] = useState<DashboardData['kpis']['ventaMes'] | null>(null);
 
-  // Debounce gerencial filter changes so we don't fire on every keystroke
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const fetchGerencial = useCallback(async (f: GerencialFilters) => {
-    setLoading(true);
+  const fetchGerencial = useCallback(async (f: GerencialFilters, isInitial = false) => {
+    if (isInitial) setLoading(true);
     setError(null);
     try {
       const qs = buildGerencialQuery(f);
@@ -115,20 +117,20 @@ export default function Dashboard() {
       setError('No se pudieron cargar los datos del servidor.');
       setData(emptyData);
     } finally {
-      setLoading(false);
+      if (isInitial) setLoading(false);
     }
   }, []);
 
-  const fetchComercial = useCallback(async (f: ComercialFilters) => {
-    setLoading(true);
+  const fetchComercial = useCallback(async (f: ComercialFilters, isInitial = false) => {
+    if (isInitial) setLoading(true);
     setError(null);
     try {
       const p = new URLSearchParams();
-      if (f.sociedad)           p.set('sociedad',  f.sociedad);
-      if (f.consultor)          p.set('consultor', f.consultor);
-      if (f.cliente)            p.set('cliente',   f.cliente);
-      if (f.division)           p.set('division',  f.division);
-      if (f.periodo)            p.set('periodo',   f.periodo);
+      if (f.sociedad)  p.set('sociedad',  f.sociedad);
+      if (f.consultor) p.set('consultor', f.consultor);
+      if (f.cliente)   p.set('cliente',   f.cliente);
+      if (f.division)  p.set('division',  f.division);
+      if (f.periodo)   p.set('periodo',   f.periodo);
       f.productos?.forEach(pr => p.append('producto', pr));
       const qs = p.toString();
       const res = await fetch(`/api/data/comercial${qs ? `?${qs}` : ''}`);
@@ -142,28 +144,31 @@ export default function Dashboard() {
       setError('No se pudieron cargar los datos del servidor.');
       setData(emptyData);
     } finally {
-      setLoading(false);
+      if (isInitial) setLoading(false);
     }
   }, []);
 
-  // Initial load
+  // Initial load — uses loading state for skeleton
   useEffect(() => {
-    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
-    else fetchComercial(comercialFilters);
+    if (currentView === 'gerencial') fetchGerencial(gerencialFilters, true);
+    else fetchComercial(comercialFilters, true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentView]);
 
+  // Filter changes — non-urgent, keep stale UI interactive while fetching
   const handleGerencialFilterChange = useCallback((f: GerencialFilters) => {
     setGerencialFilters(f);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => fetchGerencial(f), 300);
+    debounceRef.current = setTimeout(() => startTransition(() => { fetchGerencial(f); }), 300);
   }, [fetchGerencial]);
 
   const handleComercialFilterChange = useCallback((f: ComercialFilters) => {
     setComercialFilters(f);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => fetchComercial(f), 300);
+    debounceRef.current = setTimeout(() => startTransition(() => { fetchComercial(f); }), 300);
   }, [fetchComercial]);
+
+  const handleOpenAlerts = useCallback(() => setAlertsOpen(true), []);
 
   const handleViewChange = (view: UserRole) => {
     setCurrentView(view);
@@ -172,8 +177,10 @@ export default function Dashboard() {
   };
 
   const handleRefresh = () => {
-    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
-    else fetchComercial(comercialFilters);
+    startTransition(() => {
+      if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
+      else fetchComercial(comercialFilters);
+    });
   };
 
   // All filtering is server-side for both views — data is already filtered
@@ -229,11 +236,11 @@ export default function Dashboard() {
               )}
               <button
                 onClick={handleRefresh}
-                disabled={loading}
+                disabled={loading || isPending}
                 className="p-2 rounded-[6px] text-white/80 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-50"
                 title="Refrescar datos"
               >
-                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-4 h-4 ${(loading || isPending) ? 'animate-spin' : ''}`} />
               </button>
               <ViewToggle currentView={currentView} onViewChange={handleViewChange} />
             </div>
@@ -255,7 +262,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 ${loading ? 'hidden' : ''}`}>
+      <main className={`max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6 transition-opacity ${loading ? 'hidden' : isPending ? 'opacity-60 pointer-events-none' : ''}`}>
 
         {/* Filters — different per view */}
         {currentView === 'gerencial' ? (
@@ -293,7 +300,7 @@ export default function Dashboard() {
             kpis={data.kpis}
             alertas={filteredAlertas}
             currentView={currentView}
-            onOpenAlerts={() => setAlertsOpen(true)}
+            onOpenAlerts={handleOpenAlerts}
             onKPIClick={setSelectedKPI}
           />
           {alertsOpen && (
@@ -333,7 +340,7 @@ export default function Dashboard() {
         </div>
 
         {/* Row 4 — Products detail list */}
-        {ventasPorProductoDisplay.length > 0 && (
+        {ventasPorProductoDisplay.length > 0 ? (
           <div className="bg-white rounded-[12px] border border-[#DBE2EB] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4 flex items-center gap-2">
               <Package className="w-4 h-4 text-[#993935]" />
@@ -380,27 +387,27 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-        )}
+        ) : null}
 
-        {data.clientesSinMovimiento.length > 0 && (
+        {data.clientesSinMovimiento.length > 0 ? (
           <ClientsTable
             tipo="sin-movimiento"
             clientes={data.clientesSinMovimiento}
           />
-        )}
+        ) : null}
 
-        {data.clientesNuevos.length > 0 && (
+        {data.clientesNuevos.length > 0 ? (
           <ClientsTable
             tipo="nuevos"
             clientes={data.clientesNuevos}
           />
-        )}
+        ) : null}
 
-        {data.inventario.length > 0 && (
+        {data.inventario.length > 0 ? (
           <InventoryTable inventario={data.inventario} />
-        )}
+        ) : null}
 
-        {currentView === 'gerencial' && data.gastosPorZona.length > 0 && (
+        {currentView === 'gerencial' && data.gastosPorZona.length > 0 ? (
           <div className="bg-white rounded-[12px] border border-[#DBE2EB] p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
             <h3 className="text-sm font-bold text-[#2B2E35] mb-4">Gastos por Zona</h3>
             <div className="overflow-x-auto">
@@ -432,7 +439,7 @@ export default function Dashboard() {
               </table>
             </div>
           </div>
-        )}
+        ) : null}
 
       </main>
 
@@ -448,11 +455,7 @@ export default function Dashboard() {
   );
 }
 
-function Alertas({ alertas }: { alertas: DashboardData['alertas'] }) {
-  return <Alerts alertas={alertas} />;
-}
-
-function KPIGrid({
+const KPIGrid = memo(function KPIGrid({
   kpis,
   alertas,
   currentView,
@@ -514,7 +517,7 @@ function KPIGrid({
       </button>
     </div>
   );
-}
+});
 
 function AlertsModal({
   alertas,
@@ -542,7 +545,7 @@ function AlertsModal({
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
-          <Alertas alertas={alertas} />
+          <Alerts alertas={alertas} />
         </div>
       </div>
     </div>
