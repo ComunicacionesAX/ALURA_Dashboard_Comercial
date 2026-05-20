@@ -29,8 +29,9 @@ function abbr(v: number): string {
 
 const pct = (v: number) => `${v.toFixed(1)}%`;
 
+const DIACRITIC_RE = /[̀-ͯ]/g;
 const norm = (s: string) =>
-  s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  s.toLowerCase().normalize('NFD').replace(DIACRITIC_RE, '');
 
 async function simulateStream(
   text: string,

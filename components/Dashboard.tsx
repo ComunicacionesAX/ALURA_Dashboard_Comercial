@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useTransition, Fragment } from 'react';
+import { useState, useEffect, useCallback, useRef, useTransition, memo, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import {
   DashboardData, UserRole,
@@ -168,6 +168,8 @@ export default function Dashboard() {
     debounceRef.current = setTimeout(() => startTransition(() => { fetchComercial(f); }), 300);
   }, [fetchComercial]);
 
+  const handleOpenAlerts = useCallback(() => setAlertsOpen(true), []);
+
   const handleViewChange = (view: UserRole) => {
     setCurrentView(view);
     setGerencialFilters(defaultGerencialFilters);
@@ -298,7 +300,7 @@ export default function Dashboard() {
             kpis={data.kpis}
             alertas={filteredAlertas}
             currentView={currentView}
-            onOpenAlerts={() => setAlertsOpen(true)}
+            onOpenAlerts={handleOpenAlerts}
             onKPIClick={setSelectedKPI}
           />
           {alertsOpen && (
@@ -453,7 +455,7 @@ export default function Dashboard() {
   );
 }
 
-function KPIGrid({
+const KPIGrid = memo(function KPIGrid({
   kpis,
   alertas,
   currentView,
@@ -515,7 +517,7 @@ function KPIGrid({
       </button>
     </div>
   );
-}
+});
 
 function AlertsModal({
   alertas,

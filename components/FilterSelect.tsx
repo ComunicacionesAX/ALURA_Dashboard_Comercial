@@ -15,14 +15,17 @@ const ITEM_BASE =
 
 // ── Hook: close on outside click ──────────────────────────────────────────────
 function useOutsideClose(ref: React.RefObject<HTMLElement | null>, open: boolean, onClose: () => void) {
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+      if (ref.current && !ref.current.contains(e.target as Node)) onCloseRef.current();
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, [open, ref, onClose]);
+  }, [open, ref]);
 }
 
 // ── SingleSelect ──────────────────────────────────────────────────────────────

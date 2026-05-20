@@ -60,13 +60,16 @@ if (!global.__sheetsCache) {
 }
 const store = global.__sheetsCache;
 
+let _auth: InstanceType<typeof google.auth.GoogleAuth> | null = null;
 function getAuth() {
+  if (_auth) return _auth;
   const credsPath = path.join(process.cwd(), 'gsheets_credentials.json');
   const creds = JSON.parse(fs.readFileSync(credsPath, 'utf-8'));
-  return new google.auth.GoogleAuth({
+  _auth = new google.auth.GoogleAuth({
     credentials: creds,
     scopes: ['https://www.googleapis.com/auth/drive'],
   });
+  return _auth;
 }
 
 async function getBuffer(): Promise<Buffer> {
