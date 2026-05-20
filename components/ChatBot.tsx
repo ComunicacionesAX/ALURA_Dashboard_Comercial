@@ -69,7 +69,7 @@ function generateResponse(
     if (v.previousValue > 0) resp += `\nMes anterior: ${abbr(v.previousValue)}.`;
 
     if (data.ventasPorZona.length > 0) {
-      const sorted = [...data.ventasPorZona].sort((a, b) => b.venta - a.venta);
+      const sorted = data.ventasPorZona.toSorted((a, b) => b.venta - a.venta);
       const label = view === 'consultor' ? 'consultores' : 'zonas';
       resp += `\n\nTop ${label} por venta:\n` +
         sorted.slice(0, 5).map((z, i) =>
@@ -86,7 +86,7 @@ function generateResponse(
 
     if (has('peor', 'menor', 'bajo', 'critico', 'critica', 'minimo', 'peores')) {
       if (zonas.length > 0) {
-        const sorted = [...zonas].sort((a, b) => a.margen - b.margen);
+        const sorted = zonas.toSorted((a, b) => a.margen - b.margen);
         let resp = `Zona con peor margen: ${sorted[0].zona} con ${pct(sorted[0].margen)}.`;
         if (sorted.length > 1) {
           resp += `\nZona con mejor margen: ${sorted[sorted.length - 1].zona} con ${pct(sorted[sorted.length - 1].margen)}.`;
@@ -106,7 +106,7 @@ function generateResponse(
     resp += '.';
 
     if (zonas.length > 0) {
-      const sorted = [...zonas].sort((a, b) => a.margen - b.margen);
+      const sorted = zonas.toSorted((a, b) => a.margen - b.margen);
       resp += `\n\nZona con menor margen: ${sorted[0].zona} (${pct(sorted[0].margen)}).`;
       resp += `\nZona con mayor margen: ${sorted[sorted.length - 1].zona} (${pct(sorted[sorted.length - 1].margen)}).`;
     }
@@ -127,7 +127,7 @@ function generateResponse(
 
     if (has('peor', 'menor', 'bajo', 'minimo', 'menos')) {
       if (conPpto.length > 0) {
-        const sorted = [...conPpto].sort((a, b) => a.cumplimiento - b.cumplimiento);
+        const sorted = conPpto.toSorted((a, b) => a.cumplimiento - b.cumplimiento);
         let resp = `${entityLabel} con menor cumplimiento: ${sorted[0].zona} con ${pct(sorted[0].cumplimiento)}.`;
         resp += `\n\nRanking (menor a mayor):\n` +
           sorted.slice(0, 6).map(z => {
@@ -142,7 +142,7 @@ function generateResponse(
     if (conPpto.length > 0) {
       const cumpliendo = conPpto.filter(z => z.cumplimiento >= 100).length;
       resp += `\n${cumpliendo} de ${conPpto.length} ${view === 'consultor' ? 'consultores' : 'zonas'} están al 100% o más.`;
-      const sorted = [...conPpto].sort((a, b) => a.cumplimiento - b.cumplimiento);
+      const sorted = conPpto.toSorted((a, b) => a.cumplimiento - b.cumplimiento);
       resp += `\n\nMayor oportunidad: ${sorted[0].zona} (${pct(sorted[0].cumplimiento)}).`;
       resp += `\nMejor desempeño: ${sorted[sorted.length - 1].zona} (${pct(sorted[sorted.length - 1].cumplimiento)}).`;
     }
@@ -178,7 +178,7 @@ function generateResponse(
     if (k.value === 0 || data.clientesSinMovimiento.length === 0) {
       return `No hay clientes sin movimiento en el período actual. ¡Todo en orden!`;
     }
-    const sorted = [...data.clientesSinMovimiento].sort((a, b) => b.diasSinCompra - a.diasSinCompra);
+    const sorted = data.clientesSinMovimiento.toSorted((a, b) => b.diasSinCompra - a.diasSinCompra);
     return `Hay ${k.value} cliente(s) sin compra en el período actual.\n\nMayor inactividad:\n` +
       sorted.slice(0, 6).map((c, i) =>
         `${i + 1}. ${c.nombre} (${c.zona}): ${c.diasSinCompra} días sin compra`
