@@ -20,7 +20,14 @@
       "Bash(dir C:\\\\Users\\\\adesarrollo1\\\\Documents\\\\nuevo-proyecto\\\\ALURA_Dashboard_Comercial\\\\data *)",
       "Bash(curl -s \"http://localhost:3000/api/data/gerencial\")",
       "Bash(curl *)",
-      "PowerShell(Get-Process *)"
+      "PowerShell(Get-Process *)",
+      "PowerShell(cd \"C:\\\\Users\\\\adesarrollo1\\\\Desktop\\\\proyecto_5\\\\ALURA_Dashboard_Comercial\"; Get-ChildItem -Name | Where-Object { $_ -match \"credentials\" })",
+      "Bash(npx tsc *)",
+      "Bash(npx -y typescript --version)",
+      "Bash(npx -y typescript --noEmit --skipLibCheck)",
+      "PowerShell(taskkill *)",
+      "Bash(curl -s 'http://localhost:3000/api/data/comercial')",
+      "Read(//tmp/**)"
     ]
   }
 }

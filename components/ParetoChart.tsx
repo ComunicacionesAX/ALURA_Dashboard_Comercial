@@ -20,7 +20,7 @@ interface ParetoChartProps {
 
 const TICK_STYLE = { fontSize: 11, fill: '#6B7381', fontFamily: 'system-ui,-apple-system,sans-serif' };
 
-export default function ParetoChart({ data, title = 'Análisis Pareto de Clientes' }: ParetoChartProps) {
+export default function ParetoChart({ data, title = 'AnÃ¡lisis Pareto de Clientes' }: ParetoChartProps) {
   if (data.length === 0) {
     return (
       <div className="rounded-[12px] border border-[#DBE2EB] bg-white p-5 shadow-[0_4px_12px_rgba(0,0,0,0.10)]">
@@ -31,16 +31,25 @@ export default function ParetoChart({ data, title = 'Análisis Pareto de Cliente
   }
 
   const top10 = data.slice(0, 10);
-  let cumulative = 0;
-  const chartData = top10.map((cliente) => {
-    cumulative += cliente.porcentaje;
-    return {
-      nombre: cliente.nombre.length > 9 ? cliente.nombre.substring(0, 9) + '…' : cliente.nombre,
-      venta: cliente.venta / 1_000_000,
-      porcentaje: cliente.porcentaje,
-      cumulative: Math.min(cumulative, 100),
-    };
-  });
+  const chartData = top10.reduce<Array<{
+    nombre: string;
+    venta: number;
+    porcentaje: number;
+    cumulative: number;
+  }>>((acc, cliente) => {
+    const previousCumulative = acc[acc.length - 1]?.cumulative ?? 0;
+    const cumulative = Math.min(previousCumulative + cliente.porcentaje, 100);
+
+    return [
+      ...acc,
+      {
+        nombre: cliente.nombre.length > 9 ? cliente.nombre.substring(0, 9) + 'â€¦' : cliente.nombre,
+        venta: cliente.venta / 1_000_000,
+        porcentaje: cliente.porcentaje,
+        cumulative,
+      },
+    ];
+  }, []);
 
   const barColor = (pct: number) =>
     pct >= 20 ? '#993935' : pct >= 10 ? '#B85150' : '#D4748A';

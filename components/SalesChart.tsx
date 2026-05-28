@@ -13,6 +13,25 @@ interface SalesChartProps {
   isMonthly?: boolean;
 }
 
+interface CustomXTickProps {
+  x?: number;
+  y?: number;
+  payload?: {
+    value?: string;
+  };
+}
+
+interface TooltipPayloadEntry {
+  dataKey?: string;
+  value?: number;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipPayloadEntry[];
+  label?: string;
+}
+
 // Compact axis formatter: 1.200.000.000 → "1,2B" · 500.000.000 → "500M" · 1.500.000 → "1,5M"
 function formatY(v: number): string {
   if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1).replace('.', ',')}B`;
@@ -23,7 +42,7 @@ function formatY(v: number): string {
 
 // Word-wrap X-axis tick: splits the label at word boundaries into up to 2 lines,
 // rotated -38° so there is no truncation and names stay fully readable.
-function CustomXTick({ x, y, payload }: any) {
+function CustomXTick({ x = 0, y = 0, payload }: CustomXTickProps) {
   const name: string = payload.value ?? '';
   const words = name.split(' ');
   let line1 = name;
@@ -73,10 +92,10 @@ function CustomLegend({ data }: { data: { cumplimiento: number }[] }) {
   );
 }
 
-function CustomTooltip({ active, payload, label }: any) {
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   if (!active || !payload?.length) return null;
-  const venta = payload.find((p: any) => p.dataKey === 'venta');
-  const ppto  = payload.find((p: any) => p.dataKey === 'presupuesto');
+  const venta = payload.find((p) => p.dataKey === 'venta');
+  const ppto  = payload.find((p) => p.dataKey === 'presupuesto');
   const cumpl = venta?.value && ppto?.value
     ? ((venta.value / ppto.value) * 100).toFixed(1)
     : null;

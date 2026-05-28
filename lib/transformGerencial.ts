@@ -15,6 +15,9 @@ const MES_LABEL: Record<string, string> = {
   sep: 'Septiembre', oct: 'Octubre', nov: 'Noviembre', dic: 'Diciembre',
 };
 
+type OrderedResumenMensual = ResumenMensual & { _ord: number };
+type OrderedVentaPorZona = VentaPorZona & { _ord: number };
+
 function n(v: unknown): number {
   const x = Number(v);
   return isNaN(x) ? 0 : x;
@@ -24,6 +27,12 @@ const money = (v: unknown) => n(v) * 1_000_000;
 
 function kpi(label: string, value: number, prev: number, unit: KPIMetric['unit']): KPIMetric {
   return { label, value, previousValue: prev, unit };
+}
+
+function omitOrd<T extends { _ord: number }>(value: T): Omit<T, '_ord'> {
+  const { _ord, ...rest } = value;
+  void _ord;
+  return rest;
 }
 
 function margenLetra(pct: number): 'A' | 'B' | 'C' | 'D' {
@@ -426,10 +435,10 @@ export function transformGerencial(
         utilidadBrutaPresupuesto: mesUbPptoMap.get(mes) ?? 0,
         margenBruto: v.ventaTotal > 0 ? (v.ub / v.ventaTotal) * 100 : 0,
         otif: 0, clientesNuevos: 0, clientesSinMovimiento: 0, quejas: 0, notasCredito: 0,
-      };
+      } satisfies OrderedResumenMensual;
     })
-    .sort((a, b) => (a as any)._ord - (b as any)._ord)
-    .map(({ _ord: _, ...rest }) => rest as ResumenMensual);
+    .sort((a, b) => a._ord - b._ord)
+    .map(omitOrd);
 
   // ── ventasPorMes — for full-year chart (months as X-axis) ────────────────
   const ventasPorMes: VentaPorZona[] = [...new Set([...mesVentaMap.keys(), ...mesPptoMap.keys()])]
@@ -445,10 +454,10 @@ export function transformGerencial(
         cumplimiento: ppto > 0 ? (venta / ppto) * 100 : 0,
         margen: venta > 0 ? (v.ub / venta) * 100 : 0,
         clientsCount: 0,
-      };
+      } satisfies OrderedVentaPorZona;
     })
-    .sort((a, b) => (a as any)._ord - (b as any)._ord)
-    .map(({ _ord: _, ...rest }) => rest as VentaPorZona);
+    .sort((a, b) => a._ord - b._ord)
+    .map(omitOrd);
 
   // ── Alerts — derived from same data as KPIs and chart ───────────────────
   const alertasFecha = refDate.toISOString().slice(0, 10);

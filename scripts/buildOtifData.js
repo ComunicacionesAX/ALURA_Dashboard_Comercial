@@ -4,6 +4,8 @@
  * Ejecutar con: node scripts/buildOtifData.js
  */
 
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const XLSX = require('xlsx');
 const path = require('path');
 const fs = require('fs');
@@ -183,8 +185,8 @@ function buildOtifData() {
             continue;
           }
 
-          let numeros = [];
-          for (const [col, val] of Object.entries(row)) {
+          const numeros = [];
+          for (const val of Object.values(row)) {
             const num = Number(val);
             if (!isNaN(num) && num > 0) {
               numeros.push(num);

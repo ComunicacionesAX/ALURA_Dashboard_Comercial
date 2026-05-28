@@ -43,3 +43,7 @@ gsheets_credentials.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+devserver.err.log
+devserver.out.log
+.claude/settings.local.json

@@ -79,7 +79,11 @@ function buildGerencialQuery(f: GerencialFilters): string {
   return qs ? `?${qs}` : '';
 }
 
-export default function Dashboard() {
+export default function Dashboard({
+  currentUserEmail,
+}: {
+  currentUserEmail?: string | null;
+}) {
   // Gerencial view filters (server-side)
   const [gerencialFilters, setGerencialFilters] = useState<GerencialFilters>(defaultGerencialFilters);
   const [gerencialFilterOptions, setGerencialFilterOptions] = useState<GerencialFilterOptions>(emptyGerencialFilterOptions);
@@ -98,6 +102,14 @@ export default function Dashboard() {
 
   // Debounce gerencial filter changes so we don't fire on every keystroke
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const gerencialFiltersRef = useRef(defaultGerencialFilters);
+  const comercialFiltersRef = useRef(defaultComercialFilters);
+
+  const redirectToLogin = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    const nextPath = `${window.location.pathname}${window.location.search}`;
+    window.location.href = `/login?next=${encodeURIComponent(nextPath)}`;
+  }, []);
 
   const fetchGerencial = useCallback(async (f: GerencialFilters) => {
     setLoading(true);
@@ -105,6 +117,10 @@ export default function Dashboard() {
     try {
       const qs = buildGerencialQuery(f);
       const res = await fetch(`/api/data/gerencial${qs}`);
+      if (res.status === 401 || res.status === 503) {
+        redirectToLogin();
+        return;
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
       const { filterOptions, ...live } = json;
@@ -117,7 +133,7 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [redirectToLogin]);
 
   const fetchComercial = useCallback(async (f: ComercialFilters) => {
     setLoading(true);
@@ -132,6 +148,10 @@ export default function Dashboard() {
       f.productos?.forEach(pr => p.append('producto', pr));
       const qs = p.toString();
       const res = await fetch(`/api/data/comercial${qs ? `?${qs}` : ''}`);
+      if (res.status === 401 || res.status === 503) {
+        redirectToLogin();
+        return;
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
       const { filterOptions, ...live } = json;
@@ -144,23 +164,36 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [redirectToLogin]);
+
+  const loadViewData = useCallback((view: UserRole) => {
+    if (view === 'gerencial') {
+      void fetchGerencial(gerencialFiltersRef.current);
+      return;
+    }
+
+    void fetchComercial(comercialFiltersRef.current);
+  }, [fetchComercial, fetchGerencial]);
 
   // Initial load
   useEffect(() => {
-    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
-    else fetchComercial(comercialFilters);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentView]);
+    const timer = window.setTimeout(() => {
+      loadViewData(currentView);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [currentView, loadViewData]);
 
   const handleGerencialFilterChange = useCallback((f: GerencialFilters) => {
     setGerencialFilters(f);
+    gerencialFiltersRef.current = f;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchGerencial(f), 300);
   }, [fetchGerencial]);
 
   const handleComercialFilterChange = useCallback((f: ComercialFilters) => {
     setComercialFilters(f);
+    comercialFiltersRef.current = f;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => fetchComercial(f), 300);
   }, [fetchComercial]);
@@ -169,15 +202,15 @@ export default function Dashboard() {
     setCurrentView(view);
     setGerencialFilters(defaultGerencialFilters);
     setComercialFilters(defaultComercialFilters);
+    gerencialFiltersRef.current = defaultGerencialFilters;
+    comercialFiltersRef.current = defaultComercialFilters;
   };
 
   const handleRefresh = () => {
-    if (currentView === 'gerencial') fetchGerencial(gerencialFilters);
-    else fetchComercial(comercialFilters);
+    loadViewData(currentView);
   };
 
   // All filtering is server-side for both views — data is already filtered
-  const ventasPorZonaDisplay     = data.ventasPorZona;
   const ventasPorProductoDisplay = data.ventasPorProducto;
   const clientesParetoDisplay    = data.clientesPareto;
   const filteredAlertas          = data.alertas;
@@ -227,6 +260,11 @@ export default function Dashboard() {
                   Actualizado: {lastUpdated.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' })}
                 </span>
               )}
+              {currentUserEmail && (
+                <span className="hidden xl:inline-flex rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs text-white/90">
+                  {currentUserEmail}
+                </span>
+              )}
               <button
                 onClick={handleRefresh}
                 disabled={loading}
@@ -236,6 +274,16 @@ export default function Dashboard() {
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
               <ViewToggle currentView={currentView} onViewChange={handleViewChange} />
+              {currentUserEmail && (
+                <form action="/api/auth/logout" method="post">
+                  <button
+                    type="submit"
+                    className="rounded-[6px] border border-white/20 px-3 py-2 text-xs font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+                  >
+                    Cerrar sesion
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

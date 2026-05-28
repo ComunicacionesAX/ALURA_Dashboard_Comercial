@@ -15,7 +15,11 @@ const MES_LABEL: Record<string, string> = {
   sep: 'Septiembre', oct: 'Octubre', nov: 'Noviembre', dic: 'Diciembre',
 };
 
+type OrderedResumenMensual = ResumenMensual & { _ord: number };
+type OrderedVentaPorZona = VentaPorZona & { _ord: number };
+
 const EQUIPOS_VALIDOS = new Set(['Porcicultura', 'Avicultura', 'Plantas ABA']);
+const SOCIEDADES_PERMITIDAS = new Set(['Alura SAS', 'Alura Business']); // Solo estas sociedades
 
 function n(v: unknown): number {
   const x = Number(v);
@@ -28,10 +32,23 @@ function kpi(label: string, value: number, prev: number, unit: KPIMetric['unit']
   return { label, value, previousValue: prev, unit };
 }
 
+function omitOrd<T extends { _ord: number }>(value: T): Omit<T, '_ord'> {
+  const { _ord, ...rest } = value;
+  void _ord;
+  return rest;
+}
+
 function isComercial(r: RawRow): boolean {
   const consultor = String(r['Consultor_Cliente'] ?? '').trim();
   const producto  = String(r['Producto Único']    ?? '').trim();
   const equipo    = String(r['Equipo_Actual']      ?? '').trim();
+  const sociedad  = String(r['Sociedad']           ?? '').trim();
+
+  // Excluir explícitamente AFA y otras sociedades no permitidas
+  if (sociedad && sociedad !== '-' && !SOCIEDADES_PERMITIDAS.has(sociedad)) {
+    return false;
+  }
+
   const tieneConsultor = consultor !== '' && consultor !== 'ALIADOS' && consultor !== '-';
   return tieneConsultor || producto === 'Accuremax' || EQUIPOS_VALIDOS.has(equipo);
 }
@@ -46,12 +63,16 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
   const divisiones  = new Set<string>();
   const periodos    = new Set<string>();
 
-  for (const r of rows) {
-    if (r['Es_Ppto'] !== 'Es ERP') continue;
-    if (!isComercial(r)) continue;
+  // Filtrar primero solo los datos que son comerciales y de sociedades permitidas
+  const rowesFiltrados = rows.filter(r => {
+    if (r['Es_Ppto'] !== 'Es ERP') return false;
+    if (!isComercial(r)) return false;
     const venta = money(r['Venta']);
-    if (venta <= 0) continue;
+    if (venta <= 0) return false;
+    return true;
+  });
 
+  for (const r of rowesFiltrados) {
     const soc  = String(r['Sociedad']           ?? '').trim();
     const con  = String(r['Consultor_Cliente']  ?? '').trim();
     const cli  = String(r['Cliente']            ?? '').trim();
@@ -60,7 +81,8 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
     const mes  = String(r['Mes']                ?? '').toLowerCase().trim();
     const year = n(r['Año']);
 
-    if (soc  && soc  !== '-') sociedades.add(soc);
+    // Solo incluir sociedades permitidas (Alura SAS y Alura Business)
+    if (soc  && soc  !== '-' && SOCIEDADES_PERMITIDAS.has(soc)) sociedades.add(soc);
     if (con  && con  !== '-' && con !== 'ALIADOS') consultores.add(con);
     if (div  && div  !== '-') divisiones.add(div);
     if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
@@ -117,6 +139,11 @@ export function transformComercial(
 
   for (const r of rows) {
     const y = n(r['Año']);
+    const soc = String(r['Sociedad'] ?? '').trim();
+
+    // Excluir AFA y otras sociedades no permitidas
+    if (soc && soc !== '-' && !SOCIEDADES_PERMITIDAS.has(soc)) continue;
+
     if (r['Es_Ppto'] === 'Es ERP') {
       if (!isComercial(r)) continue;
       if (periodoFilter && y !== periodoFilter.year) continue;
@@ -255,6 +282,10 @@ export function transformComercial(
     const year = n(r['Año']);
     const ppto = money(r['Ppto']);
     const mes  = String(r['Mes']).toLowerCase();
+    const soc  = String(r['Sociedad'] ?? '').trim();
+
+    // Excluir AFA y otras sociedades no permitidas
+    if (soc && soc !== '-' && !SOCIEDADES_PERMITIDAS.has(soc)) continue;
 
     if (fSociedad              && String(r['Sociedad']          ?? '').trim() !== fSociedad)                    continue;
     if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   continue;
@@ -378,10 +409,10 @@ export function transformComercial(
         utilidadBrutaPresupuesto: 0,
         margenBruto: 0,
         otif: 0, clientesNuevos: 0, clientesSinMovimiento: 0, quejas: 0, notasCredito: 0,
-      };
+      } satisfies OrderedResumenMensual;
     })
-    .sort((a, b) => (a as any)._ord - (b as any)._ord)
-    .map(({ _ord: _, ...rest }) => rest as ResumenMensual);
+    .sort((a, b) => a._ord - b._ord)
+    .map(omitOrd);
 
   // ── ventasPorMes — for full-year chart (months as X-axis) ────────────────
   const ventasPorMes: VentaPorZona[] = [...new Set([...mesVentaMap.keys(), ...mesPptoMap.keys()])]
@@ -397,10 +428,10 @@ export function transformComercial(
         cumplimiento: ppto > 0 ? (venta / ppto) * 100 : 0,
         margen: 0,
         clientsCount: 0,
-      };
+      } satisfies OrderedVentaPorZona;
     })
-    .sort((a, b) => (a as any)._ord - (b as any)._ord)
-    .map(({ _ord: _, ...rest }) => rest as VentaPorZona);
+    .sort((a, b) => a._ord - b._ord)
+    .map(omitOrd);
 
   // ── Alerts — derived from same data as KPIs and chart ───────────────────
   const alertasFecha = refDate.toISOString().slice(0, 10);

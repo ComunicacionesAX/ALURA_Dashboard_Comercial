@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { CalendarDays, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import { ChevronDown, ChevronRight, Check } from 'lucide-react';
 
 const MESES_ORD: Record<string, number> = {
   ene: 1, feb: 2, mar: 3, abr: 4, may: 5, jun: 6,
@@ -56,19 +56,9 @@ export default function PeriodPicker({ value, periodos, onChange }: Props) {
   const firstYear = groups[0]?.year ?? String(new Date().getFullYear());
 
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set([firstYear]));
+  const [expanded, setExpanded] = useState<Set<string> | null>(null);
   const ref = useRef<HTMLDivElement>(null);
-
-  // Auto-expand the most recent year when data first loads
-  useEffect(() => {
-    if (groups.length > 0) {
-      setExpanded(prev => {
-        if (prev.has(groups[0].year)) return prev;
-        return new Set([groups[0].year, ...prev]);
-      });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [periodos.length]);
+  const expandedYears = expanded ?? new Set([firstYear]);
 
   useEffect(() => {
     if (!open) return;
@@ -86,7 +76,7 @@ export default function PeriodPicker({ value, periodos, onChange }: Props) {
 
   const toggleYear = (y: string) => {
     setExpanded(prev => {
-      const next = new Set(prev);
+      const next = new Set(prev ?? [firstYear]);
       if (next.has(y)) next.delete(y);
       else next.add(y);
       return next;
@@ -133,13 +123,13 @@ export default function PeriodPicker({ value, periodos, onChange }: Props) {
                 onClick={() => toggleYear(year)}
                 className="w-full flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#6B7381] uppercase tracking-wide hover:bg-[#EFF2F6] transition-colors"
               >
-                {expanded.has(year)
+                {expandedYears.has(year)
                   ? <ChevronDown className="w-3 h-3 flex-shrink-0" />
                   : <ChevronRight className="w-3 h-3 flex-shrink-0" />}
                 {year}
               </button>
 
-              {expanded.has(year) && (
+              {expandedYears.has(year) && (
                 <>
                   {/* Full-year option */}
                   {(() => {

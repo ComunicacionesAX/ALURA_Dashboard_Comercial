@@ -1,9 +1,9 @@
 import { google } from 'googleapis';
 import * as XLSX from 'xlsx';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 
-const FILE_ID = '1c8vJpVXrVZhSbcDHOX1I18aDEZlsM2fm';
+const FILE_ID = process.env.GSHEETS_FILE_ID || '1c8vJpVXrVZhSbcDHOX1I18aDEZlsM2fm';
 
 export type RawRow = Record<string, string | number | boolean>;
 
@@ -41,7 +41,6 @@ function isCacheStale(ts: number): boolean {
 // ── Persistent global cache ───────────────────────────────────────────────────
 
 declare global {
-  // eslint-disable-next-line no-var
   var __sheetsCache: {
     buf: { data: Buffer; ts: number } | null;
     rows: Map<string, RawRow[]>;
@@ -60,9 +59,37 @@ if (!global.__sheetsCache) {
 }
 const store = global.__sheetsCache;
 
+function getCredentialsPath(): string {
+  return path.join(process.cwd(), 'gsheets_credentials.json');
+}
+
+function readCredentialsSource(): string | null {
+  const envJson = process.env.GSHEETS_CREDENTIALS_JSON?.trim();
+  if (envJson) {
+    return envJson;
+  }
+
+  const credsPath = getCredentialsPath();
+  if (!fs.existsSync(credsPath)) {
+    return null;
+  }
+
+  return fs.readFileSync(credsPath, 'utf-8');
+}
+
+export function hasSheetsCredentials(): boolean {
+  return Boolean(process.env.GSHEETS_CREDENTIALS_JSON?.trim()) || fs.existsSync(getCredentialsPath());
+}
+
 function getAuth() {
-  const credsPath = path.join(process.cwd(), 'gsheets_credentials.json');
-  const creds = JSON.parse(fs.readFileSync(credsPath, 'utf-8'));
+  const rawCredentials = readCredentialsSource();
+  if (!rawCredentials) {
+    throw new Error(
+      'No se encontraron credenciales de Google Sheets. Usa GSHEETS_CREDENTIALS_JSON o gsheets_credentials.json.'
+    );
+  }
+
+  const creds = JSON.parse(rawCredentials);
   return new google.auth.GoogleAuth({
     credentials: creds,
     scopes: ['https://www.googleapis.com/auth/drive'],

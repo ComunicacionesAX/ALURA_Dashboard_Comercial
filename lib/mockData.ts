@@ -121,7 +121,7 @@ export const mockData: DashboardData = {
   otifCausalPorMes: [],
 };
 
-export const zonas = ['Todas', 'AFA', 'Avicultura', 'Oficina Aliados', 'Oficina Allius', 'Oficina Directos', 'Plantas ABA', 'Porcicultura'];
+export const zonas = ['Todas', 'Avicultura', 'Oficina Aliados', 'Oficina Allius', 'Oficina Directos', 'Plantas ABA', 'Porcicultura'];
 
 export const productos = ['Todos', 'Accuremax', 'Amoxin', 'Avinova', 'Bimmu', 'Celmanax', 'Clortetraciclina', 'Dinamix', 'Exolution', 'Halquinox', 'Roflox', 'Tilvasyn'];
 

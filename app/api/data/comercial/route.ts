@@ -1,3 +1,4 @@
+import { requireApiSession } from '@/lib/auth-core';
 import { readSheet } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
@@ -22,6 +23,11 @@ function buildComercialFallback(data: DashboardData): DashboardData {
 }
 
 export async function GET(request: Request) {
+  const authError = await requireApiSession(request);
+  if (authError) {
+    return authError;
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const filters: Partial<ComercialFilters> = {

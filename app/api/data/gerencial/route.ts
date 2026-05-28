@@ -1,3 +1,4 @@
+import { requireApiSession } from '@/lib/auth-core';
 import { readSheet } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
@@ -8,6 +9,11 @@ import type { GerencialFilters } from '@/lib/types';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  const authError = await requireApiSession(request);
+  if (authError) {
+    return authError;
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const filters: Partial<GerencialFilters> = {
