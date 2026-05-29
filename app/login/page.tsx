@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
+import Image from 'next/image';
 
 import {
   getSessionFromCookies,
-  isAuthConfigured,
+  hasPasswordlessAllowedUsers,
   sanitizeRedirectPath,
 } from '@/lib/auth';
 
@@ -24,7 +25,6 @@ function getMessage(error: string | undefined, notice: string | undefined) {
       body: 'Tu acceso fue cerrado correctamente.',
     };
   }
-
   if (error === 'credentials') {
     return {
       tone: 'error' as const,
@@ -32,15 +32,13 @@ function getMessage(error: string | undefined, notice: string | undefined) {
       body: 'Verifica el correo y la clave asignada para este dashboard.',
     };
   }
-
   if (error === 'config') {
     return {
       tone: 'warning' as const,
-      title: 'Configuracion pendiente',
-      body: 'Faltan AUTH_SECRET o AUTH_ALLOWED_USERS en el entorno de despliegue.',
+      title: 'Acceso no disponible',
+      body: 'El sistema no esta disponible en este momento. Contacta al administrador.',
     };
   }
-
   return null;
 }
 
@@ -51,131 +49,163 @@ export default async function LoginPage({
 }) {
   const params = await searchParams;
   const nextPath = sanitizeRedirectPath(takeFirst(params.next));
-  const message = getMessage(
-    takeFirst(params.error),
-    takeFirst(params.notice)
-  );
+  const message = getMessage(takeFirst(params.error), takeFirst(params.notice));
   const session = await getSessionFromCookies();
-  const authConfigured = isAuthConfigured();
-  const blockForm = !authConfigured;
+  const passwordRequired = !hasPasswordlessAllowedUsers();
 
   if (session) {
     redirect(nextPath);
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#f6d2cf_0%,#f3f4f6_38%,#e7ebf0_100%)] px-4 py-10">
-      <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl items-center justify-center">
-        <div className="grid w-full overflow-hidden rounded-[28px] border border-white/60 bg-white shadow-[0_28px_90px_rgba(43,46,53,0.18)] lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="flex flex-col justify-between bg-[#993935] px-8 py-10 text-white sm:px-10">
-            <div className="space-y-5">
-              <span className="inline-flex w-fit rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em]">
-                Acceso privado
-              </span>
-              <div className="space-y-3">
-                <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
-                  Dashboard Comercial CTC
-                </h1>
-                <p className="max-w-md text-sm leading-6 text-white/82 sm:text-base">
-                  El ingreso esta restringido solo a las personas autorizadas. Inicia sesion con el usuario y clave que definas en Vercel.
-                </p>
-              </div>
-            </div>
+    <main className="min-h-screen flex">
 
-            <div className="mt-8 grid gap-3 text-sm text-white/82">
-              <div className="rounded-[16px] border border-white/14 bg-white/8 px-4 py-4">
-                Protege la interfaz y tambien las rutas <code>/api/data/*</code>.
-              </div>
-              <div className="rounded-[16px] border border-white/14 bg-white/8 px-4 py-4">
-                Soporta una lista cerrada de usuarios sin necesidad de base de datos.
-              </div>
-              <div className="rounded-[16px] border border-white/14 bg-white/8 px-4 py-4">
-                En Vercel puedes mantener las credenciales fuera del repositorio.
-              </div>
-            </div>
-          </section>
+      {/* ── Panel izquierdo ─────────────────────────────────────────────────── */}
+      <div className="hidden lg:flex lg:w-[52%] relative bg-[#993935] overflow-hidden flex-col justify-between px-14 py-12">
 
-          <section className="px-6 py-8 sm:px-8 sm:py-10">
-            <div className="mx-auto flex h-full max-w-md flex-col justify-center">
-              <div className="mb-8 space-y-2">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#993935]">
-                  Ingreso
-                </p>
-                <h2 className="text-2xl font-bold text-[#2B2E35]">
-                  Accede con tus credenciales
-                </h2>
-                <p className="text-sm leading-6 text-[#6B7381]">
-                  Si mas adelante quieres cuentas con Google o Microsoft, esta base ya queda lista para escalar.
-                </p>
-              </div>
+        {/* Círculos decorativos de fondo */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5" />
+        <div className="absolute top-1/3 -right-16 w-64 h-64 rounded-full bg-white/5" />
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-black/10" />
+        <div className="absolute bottom-1/4 right-10 w-40 h-40 rounded-full bg-white/5" />
 
-              {message && (
-                <div
-                  className={`mb-6 rounded-[16px] border px-4 py-3 text-sm ${
-                    message.tone === 'error'
-                      ? 'border-[#EB5852]/30 bg-[#EB5852]/8 text-[#7A231A]'
-                      : message.tone === 'warning'
-                        ? 'border-[#FFA600]/35 bg-[#FFA600]/10 text-[#7A5200]'
-                        : 'border-[#82BDFF]/40 bg-[#82BDFF]/12 text-[#174273]'
-                  }`}
-                >
-                  <p className="font-semibold">{message.title}</p>
-                  <p className="mt-1">{message.body}</p>
+        {/* Logo */}
+        <div className="relative z-10">
+          <Image
+            src="https://latam.alura.bio/wp-content/uploads/2024/01/logo.svg"
+            alt="Alura"
+            width={120}
+            height={42}
+            className="brightness-0 invert"
+          />
+        </div>
+
+        {/* Contenido central */}
+        <div className="relative z-10 space-y-8">
+          <div className="space-y-4">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-white/60">
+              Dashboard Comercial
+            </span>
+            <h1 className="text-4xl font-bold text-white leading-tight">
+              Toma decisiones<br />con datos en<br />tiempo real.
+            </h1>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              'Ventas y cumplimiento de presupuesto por consultor',
+              'Seguimiento de clientes nuevos y sin movimiento',
+              'Indicadores de desempeno para el equipo CTC',
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <div className="mt-0.5 flex-shrink-0 w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                  <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 10 8" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M1 4l2.5 2.5L9 1" />
+                  </svg>
                 </div>
-              )}
-
-              <form action="/api/auth/login" method="post" className="space-y-5">
-                <input type="hidden" name="next" value={nextPath} />
-
-                <label className="block space-y-2">
-                  <span className="text-sm font-medium text-[#2B2E35]">Correo</span>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    autoComplete="username"
-                    disabled={blockForm}
-                    className="w-full rounded-[14px] border border-[#D7DEE8] bg-[#F7F9FC] px-4 py-3 text-sm text-[#2B2E35] outline-none transition focus:border-[#993935] focus:bg-white focus:ring-2 focus:ring-[#993935]/10 disabled:cursor-not-allowed disabled:opacity-60"
-                    placeholder="nombre@empresa.com"
-                  />
-                </label>
-
-                <label className="block space-y-2">
-                  <span className="text-sm font-medium text-[#2B2E35]">Clave</span>
-                  <input
-                    type="password"
-                    name="password"
-                    required
-                    autoComplete="current-password"
-                    disabled={blockForm}
-                    className="w-full rounded-[14px] border border-[#D7DEE8] bg-[#F7F9FC] px-4 py-3 text-sm text-[#2B2E35] outline-none transition focus:border-[#993935] focus:bg-white focus:ring-2 focus:ring-[#993935]/10 disabled:cursor-not-allowed disabled:opacity-60"
-                    placeholder="Tu clave"
-                  />
-                </label>
-
-                <button
-                  type="submit"
-                  disabled={blockForm}
-                  className="w-full rounded-[14px] bg-[#993935] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#7A2E2B] disabled:cursor-not-allowed disabled:bg-[#C9B5B3]"
-                >
-                  Entrar al dashboard
-                </button>
-              </form>
-
-              <div className="mt-6 rounded-[16px] border border-[#DBE2EB] bg-[#F7F9FC] px-4 py-4 text-sm text-[#5C6572]">
-                <p className="font-semibold text-[#2B2E35]">Variables necesarias</p>
-                <p className="mt-1">
-                  <code>AUTH_SECRET</code> y <code>AUTH_ALLOWED_USERS</code>.
-                  {` `}
-                  {authConfigured
-                    ? 'La autenticacion ya esta configurada en este entorno.'
-                    : 'Todavia no estan disponibles en este entorno.'}
-                </p>
+                <span className="text-sm text-white/75 leading-5">{item}</span>
               </div>
-            </div>
-          </section>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer del panel */}
+        <div className="relative z-10">
+          <p className="text-xs text-white/40">
+            &copy; {new Date().getFullYear()} Alura &middot; Iluma Alliance
+          </p>
         </div>
       </div>
+
+      {/* ── Panel derecho / formulario ──────────────────────────────────────── */}
+      <div className="flex-1 flex items-center justify-center bg-[#F8F9FB] px-6 py-12">
+        <div className="w-full max-w-sm space-y-8">
+
+          {/* Logo mobile */}
+          <div className="lg:hidden flex justify-center">
+            <Image
+              src="https://latam.alura.bio/wp-content/uploads/2024/01/logo.svg"
+              alt="Alura"
+              width={100}
+              height={35}
+              className="h-8 w-auto"
+            />
+          </div>
+
+          {/* Encabezado */}
+          <div className="space-y-1.5">
+            <h2 className="text-2xl font-bold text-[#111827] tracking-tight">
+              Bienvenido de nuevo
+            </h2>
+            <p className="text-sm text-[#6B7280]">
+              Ingresa tus credenciales para acceder al panel.
+            </p>
+          </div>
+
+          {/* Mensaje de estado */}
+          {message && (
+            <div
+              className={`rounded-xl border px-4 py-3 text-sm ${
+                message.tone === 'error'
+                  ? 'border-red-200 bg-red-50 text-red-700'
+                  : message.tone === 'warning'
+                    ? 'border-amber-200 bg-amber-50 text-amber-700'
+                    : 'border-blue-200 bg-blue-50 text-blue-700'
+              }`}
+            >
+              <p className="font-semibold">{message.title}</p>
+              <p className="mt-0.5 text-xs opacity-90">{message.body}</p>
+            </div>
+          )}
+
+          {/* Formulario */}
+          <form action="/api/auth/login" method="post" className="space-y-5">
+            <input type="hidden" name="next" value={nextPath} />
+
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="block text-sm font-medium text-[#374151]">
+                Correo electronico
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                required
+                autoComplete="username"
+                placeholder="nombre@empresa.com"
+                className="w-full rounded-xl border border-[#E5E7EB] bg-white px-4 py-2.5 text-sm text-[#111827] placeholder-[#9CA3AF] shadow-sm outline-none transition focus:border-[#993935] focus:ring-2 focus:ring-[#993935]/15"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="block text-sm font-medium text-[#374151]">
+                Contrasena
+              </label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                required={passwordRequired}
+                autoComplete="current-password"
+                placeholder="Tu contrasena"
+                className="w-full rounded-xl border border-[#E5E7EB] bg-white px-4 py-2.5 text-sm text-[#111827] placeholder-[#9CA3AF] shadow-sm outline-none transition focus:border-[#993935] focus:ring-2 focus:ring-[#993935]/15"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-[#993935] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#7D2E2B] active:scale-[0.98]"
+            >
+              Iniciar sesion
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-[#9CA3AF]">
+            Si tienes problemas para ingresar, contacta al administrador.
+          </p>
+        </div>
+      </div>
+
     </main>
   );
 }

@@ -5,8 +5,9 @@ const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
 type AllowedUsersInput =
-  | Record<string, string>
-  | Array<{ email: string; password: string }>;
+  | Record<string, string | null>
+  | Array<string>
+  | Array<{ email: string; password?: string }>;
 
 export interface SessionPayload {
   email: string;
@@ -84,36 +85,65 @@ function getSessionDurationSeconds(): number {
   return Math.round(getSessionDurationHours() * 60 * 60);
 }
 
-function parseAllowedUsers(raw: string): Record<string, string> {
+function parseAllowedUsers(raw: string): Record<string, string | null> {
   const parsed = safeJsonParse<AllowedUsersInput>(raw, 'AUTH_ALLOWED_USERS');
 
   if (Array.isArray(parsed)) {
-    return parsed.reduce<Record<string, string>>((acc, user) => {
-      if (!user?.email || !user?.password) {
+    return parsed.reduce<Record<string, string | null>>((acc, user) => {
+      if (typeof user !== 'string' || !user.trim()) {
         throw new Error(
-          'AUTH_ALLOWED_USERS debe incluir email y password en cada usuario.'
+          'AUTH_ALLOWED_USERS debe ser un array de correos válidos cuando se usa lista blanca sin contraseñas.'
         );
       }
-      acc[normalizeEmail(user.email)] = user.password;
+      acc[normalizeEmail(user)] = null;
       return acc;
     }, {});
   }
 
-  return Object.entries(parsed).reduce<Record<string, string>>(
+  return Object.entries(parsed).reduce<Record<string, string | null>>(
     (acc, [email, password]) => {
-      if (typeof password !== 'string' || !password) {
+      const normalizedEmail = normalizeEmail(email);
+
+      if (password === null || password === undefined || password === '') {
+        acc[normalizedEmail] = null;
+        return acc;
+      }
+
+      if (typeof password !== 'string') {
         throw new Error(
-          'AUTH_ALLOWED_USERS debe ser un objeto email -> password con valores string.'
+          'AUTH_ALLOWED_USERS debe ser un objeto email -> password o email -> null.'
         );
       }
-      acc[normalizeEmail(email)] = password;
+
+      acc[normalizedEmail] = password;
       return acc;
     },
     {}
   );
 }
 
-function getAllowedUsers(): Record<string, string> {
+function getEmailDomain(email: string): string | null {
+  const parts = email.split('@');
+  return parts.length === 2 ? parts[1] : null;
+}
+
+function isAllowedEmail(email: string): boolean {
+  const normalized = normalizeEmail(email);
+  const users = getAllowedUsers();
+
+  if (normalized in users) {
+    return true;
+  }
+
+  const domain = getEmailDomain(normalized);
+  if (!domain) {
+    return false;
+  }
+
+  return `@${domain}` in users;
+}
+
+function getAllowedUsers(): Record<string, string | null> {
   const raw = process.env.AUTH_ALLOWED_USERS?.trim();
   if (!raw) {
     throw new Error('Falta la variable AUTH_ALLOWED_USERS.');
@@ -198,6 +228,11 @@ export function isAuthConfigured(): boolean {
   );
 }
 
+export function hasPasswordlessAllowedUsers(): boolean {
+  const users = getAllowedUsers();
+  return Object.values(users).some((value) => value === null);
+}
+
 export function shouldFailClosed(): boolean {
   return (
     process.env.NODE_ENV === 'production' ||
@@ -220,12 +255,34 @@ export function sanitizeRedirectPath(path: string | null | undefined): string {
 
 export function isAllowedCredentials(email: string, password: string): boolean {
   const normalized = normalizeEmail(email);
-  if (!normalized || !password) {
+  if (!normalized) {
     return false;
   }
 
   const users = getAllowedUsers();
-  return users[normalized] === password;
+  const userPassword = users[normalized];
+
+  if (userPassword === null) {
+    return true;
+  }
+
+  if (typeof userPassword === 'string' && userPassword === password) {
+    return true;
+  }
+
+  const domain = getEmailDomain(normalized);
+  if (!domain) {
+    return false;
+  }
+
+  const wildcardKey = `@${domain}`;
+  const wildcardPassword = users[wildcardKey];
+
+  if (wildcardPassword === null) {
+    return true;
+  }
+
+  return typeof wildcardPassword === 'string' && wildcardPassword === password;
 }
 
 export async function createSessionToken(email: string): Promise<string> {
@@ -269,8 +326,7 @@ export async function verifySessionToken(
     return null;
   }
 
-  const allowedUsers = getAllowedUsers();
-  if (!allowedUsers[normalizeEmail(payload.email)]) {
+  if (!isAllowedEmail(payload.email)) {
     return null;
   }
 

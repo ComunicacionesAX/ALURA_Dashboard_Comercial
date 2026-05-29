@@ -34,7 +34,7 @@ export async function POST(request: Request) {
   }
 
   const token = await createSessionToken(email);
-  const response = NextResponse.redirect(new URL(nextPath, request.url));
+  const response = NextResponse.redirect(new URL(nextPath, request.url), 303);
   const sessionCookie = getSessionCookieConfig(token);
   const { name, value, ...options } = sessionCookie;
 
