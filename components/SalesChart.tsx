@@ -106,13 +106,13 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
       {venta && (
         <div className="flex justify-between gap-4">
           <span className="text-[#6B7381]">Venta</span>
-          <span className="font-medium text-[#2B2E35]">{formatCOP(venta.value)}</span>
+          <span className="font-medium text-[#2B2E35]">{formatCOP(venta.value ?? 0)}</span>
         </div>
       )}
       {ppto && (
         <div className="flex justify-between gap-4">
           <span className="text-[#6B7381]">Presupuesto</span>
-          <span className="font-medium text-[#2B2E35]">{formatCOP(ppto.value)}</span>
+          <span className="font-medium text-[#2B2E35]">{formatCOP(ppto.value ?? 0)}</span>
         </div>
       )}
       {cumpl && (
