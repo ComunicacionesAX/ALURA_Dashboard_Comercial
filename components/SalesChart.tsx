@@ -43,7 +43,7 @@ function formatY(v: number): string {
 // Word-wrap X-axis tick: splits the label at word boundaries into up to 2 lines,
 // rotated -38° so there is no truncation and names stay fully readable.
 function CustomXTick({ x = 0, y = 0, payload }: CustomXTickProps) {
-  const name: string = payload.value ?? '';
+  const name: string = payload?.value ?? '';
   const words = name.split(' ');
   let line1 = name;
   let line2 = '';
