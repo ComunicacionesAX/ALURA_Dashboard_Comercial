@@ -19,6 +19,12 @@ Variables necesarias:
 
 - `AUTH_SECRET`: secreto largo para firmar la sesion.
 - `AUTH_ALLOWED_USERS`: JSON con los usuarios permitidos.
+  - Para lista blanca solo de correos, usa un array de emails:
+    ` ["ana@alura.bio","carlos@alura.bio"] `
+  - Para lista blanca con contraseña, usa objeto email -> password:
+    `{"ana@alura.bio":"ClaveSegura123!"}`
+  - Para permitir un dominio completo con una contraseña, usa `@dominio`:
+    `{"@alura.bio":"ClaveSegura123!"}`
 - `AUTH_SESSION_HOURS`: horas de duracion de la sesion. Opcional.
 - `AUTH_FORCE`: si lo pones en `true`, el login tambien se exige fuera de produccion.
 
@@ -26,7 +32,7 @@ Ejemplo:
 
 ```env
 AUTH_SECRET=pon-aqui-un-secreto-largo-y-unico
-AUTH_ALLOWED_USERS={"ana@empresa.com":"ClaveSegura123!","carlos@empresa.com":"ClaveSegura456!"}
+AUTH_ALLOWED_USERS=["ana@alura.bio","carlos@alura.bio"]
 AUTH_SESSION_HOURS=12
 AUTH_FORCE=false
 ```

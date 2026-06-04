@@ -127,7 +127,7 @@ function getEmailDomain(email: string): string | null {
   return parts.length === 2 ? parts[1] : null;
 }
 
-function isAllowedEmail(email: string): boolean {
+export function isAllowedEmail(email: string): boolean {
   const normalized = normalizeEmail(email);
   const users = getAllowedUsers();
 
@@ -238,6 +238,18 @@ export function shouldFailClosed(): boolean {
     process.env.NODE_ENV === 'production' ||
     process.env.AUTH_FORCE === 'true'
   );
+}
+
+export function getUserRole(email: string): 'gerencial' | 'consultor' {
+  const normalized = normalizeEmail(email);
+  const raw = process.env.AUTH_GERENCIAL_USERS?.trim();
+  if (!raw) return 'consultor';
+  try {
+    const list = safeJsonParse<string[]>(raw, 'AUTH_GERENCIAL_USERS');
+    return list.map(normalizeEmail).includes(normalized) ? 'gerencial' : 'consultor';
+  } catch {
+    return 'consultor';
+  }
 }
 
 export function sanitizeRedirectPath(path: string | null | undefined): string {

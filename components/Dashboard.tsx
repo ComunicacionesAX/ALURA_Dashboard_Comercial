@@ -81,8 +81,10 @@ function buildGerencialQuery(f: GerencialFilters): string {
 
 export default function Dashboard({
   currentUserEmail,
+  userRole = 'consultor',
 }: {
   currentUserEmail?: string | null;
+  userRole?: 'gerencial' | 'consultor';
 }) {
   // Gerencial view filters (server-side)
   const [gerencialFilters, setGerencialFilters] = useState<GerencialFilters>(defaultGerencialFilters);
@@ -92,7 +94,9 @@ export default function Dashboard({
   const [comercialFilters, setComercialFilters] = useState<ComercialFilters>(defaultComercialFilters);
   const [comercialFilterOptions, setComercialFilterOptions] = useState<ComercialFilterOptions>(emptyComercialFilterOptions);
 
-  const [currentView, setCurrentView] = useState<UserRole>('gerencial');
+  const [currentView, setCurrentView] = useState<UserRole>(
+    userRole === 'gerencial' ? 'gerencial' : 'consultor'
+  );
   const [data, setData] = useState<DashboardData>(emptyData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -273,7 +277,13 @@ export default function Dashboard({
               >
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
-              <ViewToggle currentView={currentView} onViewChange={handleViewChange} />
+              {userRole === 'gerencial' ? (
+                <ViewToggle currentView={currentView} onViewChange={handleViewChange} />
+              ) : (
+                <div className="flex items-center gap-2 bg-[#DBE2EB] rounded-[8px] px-4 py-2">
+                  <span className="text-sm font-medium text-[#993935]">Vista Consultor</span>
+                </div>
+              )}
               {currentUserEmail && (
                 <form action="/api/auth/logout" method="post">
                   <button

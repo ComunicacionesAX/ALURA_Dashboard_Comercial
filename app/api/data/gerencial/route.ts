@@ -1,4 +1,4 @@
-import { requireApiSession } from '@/lib/auth-core';
+import { requireApiSession, getSessionFromRequest, getUserRole } from '@/lib/auth-core';
 import { readSheet } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
@@ -10,8 +10,11 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   const authError = await requireApiSession(request);
-  if (authError) {
-    return authError;
+  if (authError) return authError;
+
+  const session = await getSessionFromRequest(request);
+  if (!session || getUserRole(session.email) !== 'gerencial') {
+    return Response.json({ error: 'Acceso denegado.' }, { status: 403 });
   }
 
   try {
