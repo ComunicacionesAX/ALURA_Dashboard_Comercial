@@ -2,7 +2,6 @@ import { google } from 'googleapis';
 import * as XLSX from 'xlsx';
 import fs from 'fs';
 import path from 'path';
-import { unstable_cache } from 'next/cache';
 
 const FILE_ID = process.env.GSHEETS_FILE_ID || '1c8vJpVXrVZhSbcDHOX1I18aDEZlsM2fm';
 
@@ -150,10 +149,3 @@ export async function readSheet(sheetName: string): Promise<RawRow[]> {
   return store.parseInflight.get(sheetName)!;
 }
 
-// Versión con caché persistente de Next.js — sobrevive cold starts en Vercel.
-// Se invalida cada 6 horas, alineado con el ciclo de actualización lunes/viernes.
-export const readSheetCached = unstable_cache(
-  (sheetName: string) => readSheet(sheetName),
-  ['gsheets-rows'],
-  { revalidate: 21600 }
-);

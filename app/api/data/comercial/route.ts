@@ -1,5 +1,5 @@
 import { requireApiSession } from '@/lib/auth-core';
-import { readSheetCached } from '@/lib/sheetsClient';
+import { readSheet } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
 import { applyLocalOtifOverrides } from '@/lib/otifLocalData';
@@ -39,7 +39,7 @@ export async function GET(request: Request) {
       periodo:   searchParams.get('periodo')   || '',
     };
 
-    const rows = await readSheetCached('Informe Comercial Gerencial');
+    const rows = await readSheet('Informe Comercial Gerencial');
     const filterOptions = buildComercialFilterOptions(rows, filters.consultor || '');
     const data = applyLocalOtifOverrides(transformComercial(rows, filters) as DashboardData);
     return Response.json({ ...data, filterOptions });
