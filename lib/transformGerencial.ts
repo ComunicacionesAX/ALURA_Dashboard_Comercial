@@ -418,6 +418,7 @@ export function transformGerencial(
       zona: c.zona,
       venta: c.venta,
       porcentaje: ventaCur > 0 ? (c.venta / ventaCur) * 100 : 0,
+      margen: 0,
       diasSinCompra: 0,
     }))
     .sort((a, b) => b.venta - a.venta)

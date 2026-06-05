@@ -1,5 +1,5 @@
 import { requireApiSession, getSessionFromRequest, getUserRole } from '@/lib/auth-core';
-import { readSheet } from '@/lib/sheetsClient';
+import { readSheetCached } from '@/lib/sheetsClient';
 import { loadDashboardData } from '@/lib/excelData';
 import { mockData } from '@/lib/mockData';
 import { applyLocalOtifOverrides } from '@/lib/otifLocalData';
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
       cliente:   searchParams.get('cliente')   || '',
     };
 
-    const rows = await readSheet('Informe Comercial Gerencial');
+    const rows = await readSheetCached('Informe Comercial Gerencial');
     const filterOptions = buildGerencialFilterOptions(rows, filters.consultor || '');
     const data = applyLocalOtifOverrides(transformGerencial(rows, filters) as typeof mockData);
     return Response.json({ ...data, filterOptions });
