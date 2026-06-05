@@ -19,7 +19,7 @@ type OrderedResumenMensual = ResumenMensual & { _ord: number };
 type OrderedVentaPorZona = VentaPorZona & { _ord: number };
 
 const EQUIPOS_VALIDOS = new Set(['Porcicultura', 'Avicultura', 'Plantas ABA']);
-const SOCIEDADES_PERMITIDAS = new Set(['Alura', 'Alura Inc']); // Solo estas sociedades
+const SOCIEDADES_PERMITIDAS = new Set(['Alura SAS', 'Alura Business']); // Solo estas sociedades
 
 function n(v: unknown): number {
   const x = Number(v);
@@ -219,12 +219,13 @@ export function transformComercial(
   const clientesMesAnterior    = new Map<string, { zona: string; venta: number }>();
   let mesCur = '';
   const consultorMap    = new Map<string, { venta: number; ppto: number; clientes: Set<string> }>();
-  const prodMap         = new Map<string, { venta: number; ppto: number; material: string; segmento: string }>();
-  const clienteVentaMap = new Map<string, { zona: string; venta: number }>();
+  const prodMap         = new Map<string, { venta: number; ppto: number; ub: number; material: string; segmento: string }>();
+  const clienteVentaMap = new Map<string, { zona: string; venta: number; ub: number }>();
 
   for (const r of erp2) {
     const period  = n(r['Periodo']);
     const venta   = money(r['Venta']);
+    const ub      = money(r['UB'] || 0);
     const cliente = String(r['Cliente']);
     const mes     = String(r['Mes'] ?? '').toLowerCase();
 
@@ -242,15 +243,17 @@ export function transformComercial(
       const prod = String(r['Producto Único'] || 'Otros');
       const seg  = String(r['Segmento_prod'] || '').trim();
       if (!prodMap.has(prod)) {
-        prodMap.set(prod, { venta: 0, ppto: 0, material: String(r['Material'] || ''), segmento: seg });
+        prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: seg });
       } else if (seg && !prodMap.get(prod)!.segmento) {
         prodMap.get(prod)!.segmento = seg;
       }
       prodMap.get(prod)!.venta += venta;
+      prodMap.get(prod)!.ub += ub;
 
       if (venta > 0) {
-        if (!clienteVentaMap.has(cliente)) clienteVentaMap.set(cliente, { zona: String(r['Consultor_Cliente'] || '-'), venta: 0 });
+        if (!clienteVentaMap.has(cliente)) clienteVentaMap.set(cliente, { zona: String(r['Consultor_Cliente'] || '-'), venta: 0, ub: 0 });
         clienteVentaMap.get(cliente)!.venta += venta;
+        clienteVentaMap.get(cliente)!.ub += ub;
       }
     };
 
@@ -275,23 +278,23 @@ export function transformComercial(
   }
 
   // ── Pass 3: ppto ─────────────────────────────────────────────────────────
+  // Aplicar los mismos filtros que en erp2 para garantizar consistencia
+  const ppto2: RawRow[] = (fSociedad || fConsultor || fCliente || fProductos.length > 0 || fDivision) ? pptoFiltered.filter(r => {
+    if (fSociedad              && String(r['Sociedad']          ?? '').trim() !== fSociedad)                    return false;
+    if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   return false;
+    if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     return false;
+    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               return false;
+    if (fDivision              && String(r['Division']          ?? '').trim() !== fDivision)                    return false;
+    return true;
+  }) : pptoFiltered;
+
   let pptoCur = 0, pptoPrev = 0;
   const mesPptoMap = new Map<string, number>();
 
-  for (const r of pptoFiltered) {
+  for (const r of ppto2) {
     const year = n(r['Año']);
     const ppto = money(r['Ppto']);
     const mes  = String(r['Mes']).toLowerCase();
-    const soc  = String(r['Sociedad'] ?? '').trim();
-
-    // Excluir AFA y otras sociedades no permitidas
-    if (soc && soc !== '-' && !SOCIEDADES_PERMITIDAS.has(soc)) continue;
-
-    if (fSociedad              && String(r['Sociedad']          ?? '').trim() !== fSociedad)                    continue;
-    if (fConsultor             && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor)                   continue;
-    if (fCliente               && String(r['Cliente']           ?? '').trim() !== fCliente)                     continue;
-    if (fProductos.length > 0  && !fProductos.includes(String(r['Producto Único'] ?? '').trim()))               continue;
-    if (fDivision              && String(r['Division']          ?? '').trim() !== fDivision)                    continue;
 
     const yearMatches = isAllYear ? year === allYear : year === curYear;
     if (yearMatches) {
@@ -306,7 +309,7 @@ export function transformComercial(
         consultorMap.get(consultor)!.ppto += ppto;
 
         const prod = String(r['Producto Único'] || 'Otros');
-        if (!prodMap.has(prod)) prodMap.set(prod, { venta: 0, ppto: 0, material: String(r['Material'] || ''), segmento: '' });
+        if (!prodMap.has(prod)) prodMap.set(prod, { venta: 0, ppto: 0, ub: 0, material: String(r['Material'] || ''), segmento: '' });
         prodMap.get(prod)!.ppto += ppto;
       }
     } else if (year === prevYear && mes === mesCur) {
@@ -373,13 +376,14 @@ export function transformComercial(
   const ventasPorProducto: VentaPorProducto[] = [...prodMap.entries()]
     .map(([producto, p]) => {
       const cumplimiento = p.ppto > 0 ? (p.venta / p.ppto) * 100 : 0;
+      const margen = p.venta > 0 ? (p.ub / p.venta) * 100 : 0;
       return {
         producto,
         presentacion: p.material,
         venta: p.venta,
         presupuesto: p.ppto,
         cumplimiento,
-        margen: 0,
+        margen,
         categoria: toCategoria(p.segmento, cumplimiento),
       };
     })
@@ -392,6 +396,7 @@ export function transformComercial(
       zona: c.zona,
       venta: c.venta,
       porcentaje: ventaCur > 0 ? (c.venta / ventaCur) * 100 : 0,
+      margen: c.venta > 0 ? (c.ub / c.venta) * 100 : 0,
       diasSinCompra: 0,
     }))
     .sort((a, b) => b.venta - a.venta)
@@ -465,7 +470,7 @@ export function transformComercial(
 
   // ── KPIs ──────────────────────────────────────────────────────────────────
   const kpis: DashboardData['kpis'] = {
-    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 isAllYear ? pptoCur : ventaPrev, 'currency'),
+    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 pptoCur, 'currency'),
     utilidadBruta:         kpi('Utilidad bruta',                                       0,                        0,                'currency'),
     margenBruto:           kpi('Cumplimiento Ppto',                                    cumplimientoCur,          cumplimientoPrev, 'percentage'),
     otif:                  kpi('OTIF',                                                 82,                       80,               'percentage'),

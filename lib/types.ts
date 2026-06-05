@@ -71,6 +71,7 @@ export interface ClientePareto {
   zona: string;
   venta: number;
   porcentaje: number;
+  margen: number;
   diasSinCompra: number;
 }
 

@@ -35,14 +35,14 @@ export const mockData: DashboardData = {
     { producto: 'Antibiótico Terapéutico', presentacion: 'Frasco 100 ml', venta: 650000000, presupuesto: 700000000, cumplimiento: 92.9, margen: 18.2, categoria: 'D' },
   ],
   clientesPareto: [
-    { nombre: 'Integrador Medellín', zona: 'Medellín', venta: 1250000000, porcentaje: 6.78, diasSinCompra: 0 },
-    { nombre: 'Granja Santander', zona: 'Bucaramanga', venta: 980000000, porcentaje: 5.31, diasSinCompra: 0 },
-    { nombre: 'Distribuidor Bogotá', zona: 'Bogotá', venta: 850000000, porcentaje: 4.61, diasSinCompra: 0 },
-    { nombre: ' Agroindustrias Valle', zona: 'Cali', venta: 720000000, porcentaje: 3.90, diasSinCompra: 0 },
-    { nombre: 'Fincas Norte', zona: 'Norte de Antioquia', venta: 680000000, porcentaje: 3.69, diasSinCompra: 0 },
-    { nombre: 'Cooperativa Eje Cafetero', zona: 'Armenia', venta: 550000000, porcentaje: 2.98, diasSinCompra: 0 },
-    { nombre: 'Ganadería Costa', zona: 'Barranquilla', venta: 480000000, porcentaje: 2.60, diasSinCompra: 0 },
-    { nombre: 'Hacienda Andina', zona: 'Manizales', venta: 420000000, porcentaje: 2.28, diasSinCompra: 0 },
+    { nombre: 'Integrador Medellín', zona: 'Medellín', venta: 1250000000, porcentaje: 6.78, margen: 29.5, diasSinCompra: 0 },
+    { nombre: 'Granja Santander', zona: 'Bucaramanga', venta: 980000000, porcentaje: 5.31, margen: 28.2, diasSinCompra: 0 },
+    { nombre: 'Distribuidor Bogotá', zona: 'Bogotá', venta: 850000000, porcentaje: 4.61, margen: 27.8, diasSinCompra: 0 },
+    { nombre: ' Agroindustrias Valle', zona: 'Cali', venta: 720000000, porcentaje: 3.90, margen: 29.1, diasSinCompra: 0 },
+    { nombre: 'Fincas Norte', zona: 'Norte de Antioquia', venta: 680000000, porcentaje: 3.69, margen: 30.2, diasSinCompra: 0 },
+    { nombre: 'Cooperativa Eje Cafetero', zona: 'Armenia', venta: 550000000, porcentaje: 2.98, margen: 28.5, diasSinCompra: 0 },
+    { nombre: 'Ganadería Costa', zona: 'Barranquilla', venta: 480000000, porcentaje: 2.60, margen: 26.9, diasSinCompra: 0 },
+    { nombre: 'Hacienda Andina', zona: 'Manizales', venta: 420000000, porcentaje: 2.28, margen: 31.1, diasSinCompra: 0 },
   ],
   clientesSinMovimiento: [
     { id: '1', nombre: 'Finca La Esperanza', zona: 'Norte de Antioquia', diasSinCompra: 45, ultimaCompra: '2026-03-28', potencial: 85000000 },
@@ -125,6 +125,6 @@ export const zonas = ['Todas', 'Avicultura', 'Oficina Aliados', 'Oficina Allius'
 
 export const productos = ['Todos', 'Accuremax', 'Amoxin', 'Avinova', 'Bimmu', 'Celmanax', 'Clortetraciclina', 'Dinamix', 'Exolution', 'Halquinox', 'Roflox', 'Tilvasyn'];
 
-export const presentaciones = ['Todas', 'AFA Functionals', 'Functionals', 'Health', 'New Health', 'Otros'];
+export const presentaciones = ['Todas', 'Functionals', 'Health', 'New Health', 'Otros'];
 
 export const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
