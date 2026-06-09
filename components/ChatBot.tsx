@@ -395,18 +395,39 @@ export default function ChatBot({ data, view = 'gerencial' }: ChatBotProps) {
       return;
     }
 
-    const response = generateResponse(content, data, view);
     const ctrl = new AbortController();
     abortRef.current = ctrl;
 
-    await simulateStream(
-      response,
-      (chunk) =>
-        setMessages(prev =>
-          prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m)
-        ),
-      ctrl.signal,
-    );
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: content, context: data }),
+        signal: ctrl.signal,
+      });
+
+      const json = await res.json();
+      const response = json.answer ?? json.error ?? 'No pude generar una respuesta.';
+
+      await simulateStream(
+        response,
+        (chunk) =>
+          setMessages(prev =>
+            prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m)
+          ),
+        ctrl.signal,
+      );
+    } catch {
+      const fallback = generateResponse(content, data, view);
+      await simulateStream(
+        fallback,
+        (chunk) =>
+          setMessages(prev =>
+            prev.map(m => m.id === placeholderId ? { ...m, content: m.content + chunk } : m)
+          ),
+        ctrl.signal,
+      );
+    }
 
     if (!ctrl.signal.aborted) {
       setMessages(prev =>
