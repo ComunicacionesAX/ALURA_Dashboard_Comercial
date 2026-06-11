@@ -16,37 +16,40 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Pregunta requerida.' }, { status: 400 });
     }
 
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    console.log('[api/chat] Checking ANTHROPIC_API_KEY:', apiKey ? `✓ presente (${apiKey.substring(0, 20)}...)` : '✗ no configurada');
+
     if (!apiKey) {
-      return Response.json({ error: 'GROQ_API_KEY no configurada.' }, { status: 503 });
+      return Response.json({ error: 'ANTHROPIC_API_KEY no configurada.' }, { status: 503 });
     }
 
     const systemPrompt = buildSystemPrompt(context, view);
 
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 400,
+        system: systemPrompt,
         messages: [
-          { role: 'system', content: systemPrompt },
           { role: 'user', content: question },
         ],
-        max_tokens: 400,
         temperature: 0.3,
       }),
     });
 
     if (!res.ok) {
-      console.error('[api/chat] Groq error:', await res.text());
+      console.error('[api/chat] Claude error:', await res.text());
       return Response.json({ error: 'Error al consultar el asistente.' }, { status: 502 });
     }
 
     const json = await res.json();
-    const answer = json.choices?.[0]?.message?.content ?? 'No pude generar una respuesta.';
+    const answer = json.content?.[0]?.text ?? 'No pude generar una respuesta.';
     return Response.json({ answer });
   } catch (err) {
     console.error('[api/chat] error:', err);

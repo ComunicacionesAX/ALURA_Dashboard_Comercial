@@ -27,7 +27,16 @@
       "Bash(npx -y typescript --noEmit --skipLibCheck)",
       "PowerShell(taskkill *)",
       "Bash(curl -s 'http://localhost:3000/api/data/comercial')",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(1)",
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(Get-Content \"C:\\\\Users\\\\ADESAR~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-adesarrollo1-Desktop-proyecto-5-ALURA-Dashboard-Comercial\\\\d9611758-2cc6-46d2-9d81-643424ea4186\\\\tasks\\\\bypuzuzmj.output\")",
+      "Bash(where chromium *)",
+      "Bash(where google-chrome *)",
+      "Bash(where msedge *)",
+      "Bash(powershell -Command \"\\(Get-Command msedge -ErrorAction SilentlyContinue\\).Source; \\(Get-Command chrome -ErrorAction SilentlyContinue\\).Source\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\adesarrollo1\\\\Desktop\\\\proyecto_5\\\\ALURA_Dashboard_Comercial\\\\app\" -Recurse -Name)",
+      "Bash(Select-Object -First 30)"
     ]
   }
 }
