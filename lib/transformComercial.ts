@@ -19,7 +19,6 @@ type OrderedResumenMensual = ResumenMensual & { _ord: number };
 type OrderedVentaPorZona = VentaPorZona & { _ord: number };
 
 const EQUIPOS_VALIDOS = new Set(['Porcicultura', 'Avicultura', 'Plantas ABA']);
-const SOCIEDADES_PERMITIDAS = new Set(['Alura SAS', 'Alura Business']); // Solo estas sociedades
 
 function n(v: unknown): number {
   const x = Number(v);
@@ -42,13 +41,9 @@ function isComercial(r: RawRow): boolean {
   const consultor = String(r['Consultor_Cliente'] ?? '').trim();
   const producto  = String(r['Producto Único']    ?? '').trim();
   const equipo    = String(r['Equipo_Actual']      ?? '').trim();
-  const sociedad  = String(r['Sociedad']           ?? '').trim();
 
-  // Excluir explícitamente AFA y otras sociedades no permitidas
-  if (sociedad && sociedad !== '-' && !SOCIEDADES_PERMITIDAS.has(sociedad)) {
-    return false;
-  }
-
+  // Vista comercial: consultores directos, Accuremax y equipos especializados
+  // No filtra por sociedad — el usuario controla eso desde el dropdown
   const tieneConsultor = consultor !== '' && consultor !== 'ALIADOS' && consultor !== '-';
   return tieneConsultor || producto === 'Accuremax' || EQUIPOS_VALIDOS.has(equipo);
 }
@@ -81,8 +76,7 @@ export function buildComercialFilterOptions(rows: RawRow[], consultorFilter = ''
     const mes  = String(r['Mes']                ?? '').toLowerCase().trim();
     const year = n(r['Año']);
 
-    // Solo incluir sociedades permitidas (Alura SAS y Alura Business)
-    if (soc  && soc  !== '-' && SOCIEDADES_PERMITIDAS.has(soc)) sociedades.add(soc);
+    if (soc  && soc  !== '-') sociedades.add(soc);
     if (con  && con  !== '-' && con !== 'ALIADOS') consultores.add(con);
     if (div  && div  !== '-') divisiones.add(div);
     if (year > 2000 && mes) periodos.add(`${year}-${mes}`);
@@ -139,10 +133,6 @@ export function transformComercial(
 
   for (const r of rows) {
     const y = n(r['Año']);
-    const soc = String(r['Sociedad'] ?? '').trim();
-
-    // Excluir AFA y otras sociedades no permitidas
-    if (soc && soc !== '-' && !SOCIEDADES_PERMITIDAS.has(soc)) continue;
 
     if (r['Es_Ppto'] === 'Es ERP') {
       if (!isComercial(r)) continue;
@@ -339,6 +329,27 @@ export function transformComercial(
     })
     .sort((a, b) => a.nombre.localeCompare(b.nombre));
 
+  // ── Lookback 12m para período específico (clientes nuevos) ──────────────
+  // Cuando el usuario selecciona un mes concreto, el loop principal solo acumula
+  // ese mes y clientesUltimos12Meses queda vacío. Pre-pasamos el dataset completo
+  // para detectar quiénes ya compraron en los 12 meses anteriores al período.
+  if (periodoFilter && ultimoPeriodo > 0 && clientesUltimos12Meses.size === 0) {
+    const cutoff12mPre = ultimoPeriodo - 365;
+    for (const r of rows) {
+      if (r['Es_Ppto'] !== 'Es ERP') continue;
+      if (!isComercial(r)) continue;
+      const period = n(r['Periodo']);
+      const venta  = money(r['Venta']);
+      if (period <= cutoff12mPre || period >= ultimoPeriodo || venta <= 0) continue;
+      if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  continue;
+      if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
+      if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
+      if (fProductos.length > 0 && !fProductos.includes(String(r['Producto Único'] ?? '').trim())) continue;
+      if (fDivision  && String(r['Division']          ?? '').trim() !== fDivision)  continue;
+      clientesUltimos12Meses.add(String(r['Cliente']));
+    }
+  }
+
   // ── Clientes nuevos ───────────────────────────────────────────────────────
   const nuevos = [...clientesUltimoMes].filter(c => !clientesUltimos12Meses.has(c));
 
@@ -463,21 +474,21 @@ export function transformComercial(
       tipo: 'cliente',
       nivel: sinMovimientoList.length >= 5 ? 'alta' : 'media',
       titulo: 'Clientes sin movimiento',
-      descripcion: `${sinMovimientoList.length} cliente(s) sin compra en el período actual.`,
+      descripcion: `${sinMovimientoList.length} cliente(s) sin compra en el periodo actual.`,
       fecha: alertasFecha,
     });
   }
 
-  // ── KPIs ──────────────────────────────────────────────────────────────────
+  // -- KPIs
   const kpis: DashboardData['kpis'] = {
-    ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 pptoCur, 'currency'),
+    ventaMes:              kpi(isAllYear ? 'Venta anio' : 'Venta del mes',            ventaCur,                 pptoCur,          'currency'),
     utilidadBruta:         kpi('Utilidad bruta',                                       0,                        0,                'currency'),
     margenBruto:           kpi('Cumplimiento Ppto',                                    cumplimientoCur,          cumplimientoPrev, 'percentage'),
     otif:                  kpi('OTIF',                                                 82,                       80,               'percentage'),
-    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)',                   sinMovimientoList.length, 0,                'number'),
+    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 dias)',                   sinMovimientoList.length, 0,                'number'),
     clientesNuevos:        kpi('Clientes nuevos',                                      nuevos.length,            0,                'number'),
     quejas:                kpi('Quejas',                                               0,                        0,                'number'),
-    notasCredito:          kpi('Notas crédito',                                        0,                        0,                'currency'),
+    notasCredito:          kpi('Notas credito',                                        0,                        0,                'currency'),
     alertasInventario:     kpi('Alertas activas',                                      alertas.length,           0,                'number'),
   };
 

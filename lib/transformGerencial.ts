@@ -316,12 +316,13 @@ export function transformGerencial(
   for (const r of pptoRows) {
     const year   = n(r['Año']);
     const ppto   = money(r['Ppto']);
-    const ubPpto = money(r['UB PPTO']);
+    const ubPpto = money(r['Ppto UB']);
     const mes    = String(r['Mes']).toLowerCase();
 
-    // Apply same non-period filters to ppto rows
+    // Apply same non-period filters to ppto rows (incluye División)
     if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  continue;
     if (fSbu       && String(r['UEN']               ?? '').trim() !== fSbu)       continue;
+    if (fDivision  && String(r['Division']          ?? '').trim() !== fDivision)  continue;
     if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
     if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
 
@@ -365,6 +366,23 @@ export function transformGerencial(
       };
     })
     .sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+  // ── Lookback 12m para período específico (clientes nuevos) ──────────────
+  if (periodoFilter && ultimoPeriodo > 0 && clientesUltimos12Meses.size === 0) {
+    const cutoff12mPre = ultimoPeriodo - 365;
+    for (const r of rows) {
+      if (r['Es_Ppto'] !== 'Es ERP') continue;
+      const period = n(r['Periodo']);
+      const venta  = money(r['Venta']);
+      if (period <= cutoff12mPre || period >= ultimoPeriodo || venta <= 0) continue;
+      if (fSociedad  && String(r['Sociedad']          ?? '').trim() !== fSociedad)  continue;
+      if (fSbu       && String(r['UEN']               ?? '').trim() !== fSbu)       continue;
+      if (fDivision  && String(r['Division']          ?? '').trim() !== fDivision)  continue;
+      if (fConsultor && String(r['Consultor_Cliente'] ?? '').trim() !== fConsultor) continue;
+      if (fCliente   && String(r['Cliente']           ?? '').trim() !== fCliente)   continue;
+      clientesUltimos12Meses.add(String(r['Cliente']));
+    }
+  }
 
   // ── Clientes nuevos ───────────────────────────────────────────────────────
   const nuevos = [...clientesUltimoMes].filter(c => !clientesUltimos12Meses.has(c));
@@ -506,12 +524,12 @@ export function transformGerencial(
     ventaMes:              kpi(isAllYear ? 'Venta año' : 'Venta del mes',             ventaCur,                 isAllYear ? pptoCurTotal : ventaPrev, 'currency'),
     utilidadBruta:         kpi(isAllYear ? 'Utilidad bruta año' : 'Utilidad bruta',   ubCur,                    ubPptoCur,       'currency'),
     margenBruto:           kpi('Margen bruto',                                         margenCur,                margenPrev,      'percentage'),
-    otif:                  kpi('OTIF',                                                 82,                       80,              'percentage'),
-    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 días)',                   sinMovimientoList.length, 0,               'number'),
-    clientesNuevos:        kpi('Clientes nuevos',                                      nuevos.length,            0,               'number'),
-    quejas:                kpi('Quejas',                                               0,                        0,               'number'),
-    notasCredito:          kpi('Notas crédito',                                        0,                        0,               'currency'),
-    alertasInventario:     kpi('Alertas activas',                                      alertas.length,           0,               'number'),
+    otif:                  kpi('OTIF',                                                 82,                       80,               'percentage'),
+    clientesSinMovimiento: kpi('Clientes sin movimiento (+30 dias)',                   sinMovimientoList.length, 0,                'number'),
+    clientesNuevos:        kpi('Clientes nuevos',                                      nuevos.length,            0,                'number'),
+    quejas:                kpi('Quejas',                                               0,                        0,                'number'),
+    notasCredito:          kpi('Notas credito',                                        0,                        0,                'currency'),
+    alertasInventario:     kpi('Alertas activas',                                      alertas.length,           0,                'number'),
   };
 
   return {
